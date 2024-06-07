@@ -21,7 +21,7 @@ module.exports = {
     tailwindPreset // OM/UI Tailwind Preset here
   ],
   content: [
-    "./node_modules/@operatiemobilisatie/ui/src/**/*.{js,jsx,ts,tsx}" // Define as content like so
+    "./node_modules/@operatiemobilisatie/ui/dist/src/**/*.{js,jsx,ts,tsx}" // Define as content like so
   ],
   theme: {
     extend: {},
