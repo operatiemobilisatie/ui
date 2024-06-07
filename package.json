@@ -14,6 +14,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.11",
     "@types/react": "^18.3.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-preserve-directives": "^0.4.0",
@@ -48,7 +49,7 @@
     "./*": "./dist/src/components/*.js",
     "./lib/*": "./src/lib/*.ts",
     "./tailwindcss": "./dist/tailwind.config.js",
-    "./css": "./src/globals.css"
+    "./css": "./dist/css/style.css"
   },
   "files": [
     "dist"

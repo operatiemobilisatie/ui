@@ -3,6 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import preserveDirectives from 'rollup-plugin-preserve-directives';
+import postcss from 'rollup-plugin-postcss';
 
 export default [
     {
@@ -19,7 +20,10 @@ export default [
             peerDepsExternal(),
             resolve(),
             commonjs(),
-            typescript({ tsconfig: "tsconfig.json" })
+            typescript({ tsconfig: "tsconfig.json" }),
+            postcss({
+              extract: "css/style.css"
+            })
         ]
     },
     {
