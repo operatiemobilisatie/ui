@@ -4,7 +4,7 @@ A collection of [React](https://react.dev/) components for OM websites and appli
 ## Usage
 Make sure you've imported the OM/UI styles into your `globals.css` or `main.css`:
 ```css
-// app/globals.css
+/* app/globals.css */
 
 @import "@operatiemobilisatie/ui/css";
 ```
