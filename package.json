@@ -1,6 +1,6 @@
 {
   "name": "@operatiemobilisatie/ui",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A collection of React components for OM websites and applications.",
   "author": "@douwepausma",
   "license": "MIT",
@@ -49,5 +49,8 @@
     "./lib/*": "./src/lib/*.ts",
     "./tailwindcss": "./dist/tailwind.config.js",
     "./css": "./src/globals.css"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/operatiemobilisatie"
   }
 }
