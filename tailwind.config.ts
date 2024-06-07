@@ -1,15 +1,14 @@
 import type { Config } from "tailwindcss"
-
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+  corePlugins: {
+    color: false
+  },
   prefix: "",
   theme: {
     container: {
@@ -162,6 +161,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config & {corePlugins: {color: boolean}}
 
 export default config

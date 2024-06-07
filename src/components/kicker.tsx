@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import './Kicker.scss';
 
 export interface Kicker {
   className: String,

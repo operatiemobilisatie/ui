@@ -1,10 +1,25 @@
 {
   "name": "@operatiemobilisatie/ui",
   "version": "1.0.0",
-  "description": "",
+  "description": "A collection of React components for OM websites and applications.",
   "author": "@douwepausma",
   "license": "MIT",
-  "dependencies": {
+  "scripts": {
+    "rollup": "npx rollup -c",
+    "rollup-watch": "npx rollup -cw"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.12.11",
+    "@types/react": "^18.3.1",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-preserve-directives": "^0.4.0",
+    "tailwindcss": "^3.4.3"
+  },
+  "peerDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -22,21 +37,17 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "next": "^14.2.3",
+    "react": "^18.0",
     "react-select": "^5.8.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
+  "types": "./dist/src/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/components/*.tsx",
+    "./*": "./dist/src/components/*.js",
     "./lib/*": "./src/lib/*.ts",
-    "./tailwindcss": "./tailwind.config.ts",
+    "./tailwindcss": "./dist/tailwind.config.js",
     "./css": "./src/globals.css"
-  },
-  "devDependencies": {
-    "@types/node": "^20.12.11",
-    "@types/react": "^18.3.1",
-    "tailwindcss": "^3.4.3"
   }
 }
