@@ -9,11 +9,11 @@
   
       // Added
       "jsx": "react", 
-      "module": "Node16",  
+      "module": "ESNext",  
       "declaration": true,
       "sourceMap": true,
       "outDir": "dist",
-      "moduleResolution": "Node16",
+      "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
       "allowImportingTsExtensions": true,
       "emitDeclarationOnly": true,
