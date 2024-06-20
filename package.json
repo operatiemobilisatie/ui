@@ -43,17 +43,24 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
-  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "exports": {
-    "./*": "./dist/src/components/*.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./*": {
+      "types": "./dist/src/components/*.d.ts",
+      "default": "./dist/src/components/*.js"
+    },
     "./lib/*": "./dist/src/lib/*.js",
     "./tailwindcss": "./dist/tailwind.config.js",
     "./css": "./dist/css/style.css"
   },
-  "files": [
-    "dist"
-  ],
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/operatiemobilisatie"
   }
