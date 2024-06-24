@@ -13,6 +13,7 @@ import * as Skeleton from "./components/skeleton";
 import * as Switch from "./components/switch";
 import * as Toast from "./components/toast";
 import * as Toaster from "./components/toaster";
+import * as Tabs from "./components/tabs";
 import "./globals.css";
 
-export default {Accordion, AlertDialog, Avatar, Badge, Button, Card, Input, Kicker, Label, Progress, Select, Skeleton, Switch, Toast, Toaster}
+export default {Accordion, AlertDialog, Avatar, Badge, Button, Card, Input, Kicker, Label, Progress, Select, Skeleton, Switch, Tabs, Toast, Toaster}
