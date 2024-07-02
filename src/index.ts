@@ -11,9 +11,11 @@ import * as Progress from "./components/progress";
 import * as Select from "./components/select";
 import * as Skeleton from "./components/skeleton";
 import * as Switch from "./components/switch";
+import * as Textarea from "./components/textarea";
 import * as Toast from "./components/toast";
 import * as Toaster from "./components/toaster";
 import * as Tabs from "./components/tabs";
+import * as Tooltip from "./components/tooltip";
 import "./globals.css";
 
-export default {Accordion, AlertDialog, Avatar, Badge, Button, Card, Input, Kicker, Label, Progress, Select, Skeleton, Switch, Tabs, Toast, Toaster}
+export default { Accordion, AlertDialog, Avatar, Badge, Button, Card, Input, Kicker, Label, Progress, Select, Skeleton, Switch, Textarea, Tabs, Toast, Toaster, Tooltip }
