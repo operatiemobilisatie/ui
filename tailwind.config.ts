@@ -141,12 +141,14 @@ const config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          "0%": { height: "0", clipPath: "inset(0)" },
+          "99%": {clipPath: "inset(0)"},
+          "100%": { height: "var(--radix-accordion-content-height)", clipPath: "inset(-100vh -100vw)"},
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          "0%": { height: "var(--radix-accordion-content-height)", clipPath: "inset(-100vh -100vw)" },
+          "99%": {clipPath: "inset(0)"},
+          "100%": { height: "0", clipPath: "inset(0)" },
         },
       },
       animation: {
