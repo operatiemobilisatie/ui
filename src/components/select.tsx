@@ -6,16 +6,20 @@ import type { GroupBase } from 'react-select';
 import { cva, type VariantProps } from "class-variance-authority";
 import { badgeVariants } from './badge';
 
-export interface SelectField extends GroupBase<unknown> {
-  className?: object | string,
-  children?: ReactNode,
-  placeholder?: string,
-  name?: string,
-  onChange?: (value: any) => void,
-  size?: 'sm' | 'default' | 'lg',
+interface SelectProps<
+  Option = { label: string; value: string; },
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> {
+    displaySize?: 'sm' | 'default' | 'lg',
+    className?: string,
+    options: Option[],
+    name: string,
+    value?: Option | Option[],
+    onChange?: (value: any) => void,
 }
 
-const selectVariants = (size:SelectField['size'], className:SelectField['className'],) => {
+const selectVariants = (size:SelectProps['displaySize'], className:SelectProps['className'],) => {
   switch (size) {
     case 'sm':
       return {
@@ -53,14 +57,14 @@ const selectVariants = (size:SelectField['size'], className:SelectField['classNa
   }
 };
 
-const SelectField = ({className, size = 'default', ...props}:SelectField) => {  
+const SelectField = ({className, displaySize = 'default', ...props}:SelectProps) => {  
   return (
     <Select      
       classNamePrefix="om-select"
       unstyled
       className="ring-prim"
       instanceId={useId()}
-      classNames={selectVariants(size, className)}
+      classNames={selectVariants(displaySize, className)}
       {...props}
     />
   )
