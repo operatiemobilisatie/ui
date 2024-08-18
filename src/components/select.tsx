@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { badgeVariants } from './badge';
 
 interface SelectProps<
-  Option = { label: string; value: string; },
+  Option = { label: string; value: string | number | boolean; },
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 > {
@@ -15,6 +15,7 @@ interface SelectProps<
     className?: string,
     options: Option[],
     name: string,
+    id?: string,
     value?: Option | Option[],
     onChange?: (value: any) => void,
 }
