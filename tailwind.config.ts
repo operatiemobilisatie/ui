@@ -6,9 +6,6 @@ const config = {
   content: [
     './src/**/*.{ts,tsx}',
   ],
-  corePlugins: {
-    color: false
-  },
   prefix: "",
   theme: {
     container: {
