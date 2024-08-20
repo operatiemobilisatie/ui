@@ -5,6 +5,7 @@ import Select from 'react-select';
 import type { GroupBase } from 'react-select';
 import { cva, type VariantProps } from "class-variance-authority";
 import { badgeVariants } from './badge';
+import { containerCSS } from "react-select/dist/declarations/src/components/containers";
 
 interface SelectProps<
   Option = { label: string; value: string | number | boolean; },
@@ -31,7 +32,8 @@ const selectVariants = (size:SelectProps['displaySize'], className:SelectProps['
         dropdownIndicator: () => 'text-primary',
         menu: () => 'bg-white rounded-2xl my-2 border border-gray-200 overflow-clip',
         multiValue: () => badgeVariants({ variant: 'default', className: 'text-xs pr-1'}),
-        valueContainer: () => "flex flex-wrap gap-1"
+        valueContainer: () => "flex flex-wrap gap-1",
+        container: () => 'w-full'
       }
     case 'lg':
       return {
@@ -42,7 +44,8 @@ const selectVariants = (size:SelectProps['displaySize'], className:SelectProps['
         dropdownIndicator: () => 'text-primary',
         menu: () => 'bg-white rounded-2xl my-2 border border-gray-200 overflow-clip',
         multiValue: () => badgeVariants({ variant: 'default', className: 'text-xs pr-1'}),
-        valueContainer: () => "flex flex-wrap gap-1"
+        valueContainer: () => "flex flex-wrap gap-1",
+        container: () => 'w-full'
       }
     default:
       return {
@@ -53,7 +56,8 @@ const selectVariants = (size:SelectProps['displaySize'], className:SelectProps['
         dropdownIndicator: () => 'text-primary',
         menu: () => 'bg-white rounded-2xl my-2 border border-gray-200 overflow-clip',
         multiValue: () => badgeVariants({ variant: 'default', className: 'text-xs pr-1'}),
-        valueContainer: () => "flex flex-wrap gap-1"
+        valueContainer: () => "flex flex-wrap gap-1",
+        container: () => 'w-full'
       }  
   }
 };
