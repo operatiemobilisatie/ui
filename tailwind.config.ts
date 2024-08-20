@@ -160,6 +160,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config & {corePlugins: {color: boolean}}
+} satisfies Config
 
 export default config
