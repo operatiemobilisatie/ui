@@ -69,6 +69,7 @@ const SelectField = ({className, displaySize = 'default', ...props}:SelectProps)
       classNamePrefix="om-select"
       unstyled
       className="ring-prim"
+      placeholder="Selecteer..."
       instanceId={useId()}
       classNames={selectVariants(displaySize, className)}
       {...props}
