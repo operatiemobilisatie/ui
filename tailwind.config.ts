@@ -52,7 +52,7 @@ const config = {
           DEFAULT: "hsl(200, 77%, 88%)",
           foreground: "hsl(200, 77%, 46%)",
         },
-        succes: {
+        success: {
           DEFAULT: "hsl(98, 49%, 87%)",
           foreground: "hsl(98, 49%, 51%)",
         },
