@@ -17,6 +17,7 @@ interface SelectProps<
     options: Option[],
     name: string,
     id?: string,
+    isDisabled?: boolean,
     value?: Option | Option[],
     onChange?: (value: any) => void,
 }
