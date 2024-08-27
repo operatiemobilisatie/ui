@@ -5,6 +5,7 @@ import * as Avatar from "./components/avatar";
 import * as Badge from "./components/badge";
 import * as Button from "./components/button";
 import * as Card from "./components/card";
+import * as Checkbox from "./components/checkbox";
 import * as Input from "./components/input";
 import * as Kicker from "./components/kicker";
 import * as Label from "./components/label";
@@ -20,7 +21,6 @@ import * as Textarea from "./components/textarea";
 import * as Toast from "./components/toast";
 import * as Toaster from "./components/toaster";
 import * as Tabs from "./components/tabs";
-import * as Toggle from "./components/toggle";
 import * as ToggleGroup from "./components/toggle-group";
 import * as Tooltip from "./components/tooltip";
 import "./globals.css";
@@ -33,6 +33,7 @@ export default {
     Badge,
     Button,
     Card,
+    Checkbox,
     Input,
     Kicker,
     Label,
