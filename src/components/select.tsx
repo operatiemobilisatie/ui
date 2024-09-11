@@ -77,4 +77,4 @@ const SelectField = ({className, displaySize = 'default', ...props}:SelectProps)
   )
 };
 
-export { SelectField as Select }
+export default SelectField;
