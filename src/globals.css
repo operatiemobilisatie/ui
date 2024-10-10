@@ -96,7 +96,7 @@
 }
 
 .link {
-  @apply duration-150 border-b border-gray-200 hover:border-primary;
+  @apply duration-150 border-b border-gray-300 hover:border-primary;
 }
 
 @layer base {
