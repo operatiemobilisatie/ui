@@ -22,19 +22,25 @@ const checkboxVariants = cva(
   }
 )
 
+const checkVariants = {
+  sm: 10,
+  default: 14,
+  lg: 14
+}
+
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> & {displaySize?: 'sm' | 'lg' | 'default'}
->(({ className, displaySize, ...props }, ref) => (
+>(({ className, displaySize = 'default', ...props }, ref) => (
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(checkboxVariants({size: displaySize, className}))}
     {...props}
   >
     <CheckboxPrimitive.Indicator
-      className={cn("flex items-center justify-center text-white")}
+      className={cn("flex items-center justify-center text-white relative")}
     >
-      <FontAwesomeIcon icon={faCheck} className="h-full" />
+      <FontAwesomeIcon icon={faCheck} className="h-full" height={checkVariants[displaySize]} width={checkVariants[displaySize]} />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ))
