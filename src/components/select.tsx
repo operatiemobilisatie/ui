@@ -17,6 +17,7 @@ interface SelectProps<
     options: Option[],
     name: string,
     id?: string,
+    placeholder?: string,
     isDisabled?: boolean,
     isMulti?: boolean,
     value?: Option | Option[],
