@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useId, ReactNode } from "react";
+import React, {useId, ReactNode, Ref } from "react";
 import Select from 'react-select';
 import type { GroupBase } from 'react-select';
 import { cva, type VariantProps } from "class-variance-authority";
@@ -20,6 +20,7 @@ interface SelectProps<
     placeholder?: string,
     isDisabled?: boolean,
     isMulti?: boolean,
+    ref?: React.Ref<any>,
     value?: Option | Option[],
     onChange?: (value: any) => void,
 }
@@ -65,18 +66,15 @@ const selectVariants = (size:SelectProps['displaySize'], className:SelectProps['
   }
 };
 
-const SelectField = ({className, displaySize = 'default', ...props}:SelectProps) => {  
-  return (
-    <Select      
-      classNamePrefix="om-select"
-      unstyled
-      className="ring-prim"
-      placeholder="Selecteer..."
-      instanceId={useId()}
-      classNames={selectVariants(displaySize, className)}
-      {...props}
-    />
-  )
-};
+const SelectField = React.forwardRef(({className, displaySize = 'default', ...props}:SelectProps, ref:Ref<any>) => (
+  <Select      
+    {...props}
+    classNamePrefix="om-select"
+    ref={ref}
+    unstyled
+    instanceId={useId()}
+    classNames={selectVariants(displaySize, className)}
+  />
+));
 
 export default SelectField;
