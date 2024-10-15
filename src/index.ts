@@ -17,6 +17,7 @@ import * as RadioGroup from "./components/radio-group";
 import * as RadioButton from "./components/radio-button";
 import * as Select from "./components/select";
 import * as Skeleton from "./components/skeleton";
+import * as Slider from "./components/slider";
 import * as Switch from "./components/switch";
 import * as Textarea from "./components/textarea";
 import * as Toast from "./components/toast";
@@ -46,6 +47,7 @@ export default {
     RadioButton,
     Select,
     Skeleton,
+    Slider,
     Switch,
     Textarea,
     Tabs,
