@@ -4,8 +4,7 @@ import { cn } from "@/lib/utils";
 
 export interface Logo {
   className?: String,
-  children?: ReactNode
-  attributes?: Object,
+  children?: ReactNode,
   width: string,
   height: string,
   as?: any,
@@ -13,10 +12,10 @@ export interface Logo {
 
 const Logo = async ({
   className = '',
-  attributes,
   width = '100px',
   height = '100px',
   as = 'figure',
+  ...props
 }: Logo) => {
   const LogoElement:Logo["as"] = as;
 
@@ -24,7 +23,7 @@ const Logo = async ({
     <LogoElement
       className={cn(`shimmer`, className)}
       style={{width, height}}
-      {...attributes}
+      {...props}
     >
       <svg width="100%" height="100%" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="128" cy="128" r="108.8" fill="white"/>
