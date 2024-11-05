@@ -70,6 +70,26 @@ export const Primary: Story = {
   },
 };
 
+export const PrimaryWithIcon: Story = {
+  args: {
+    variant: 'default',
+    size: 'default',
+    children: (
+      <>
+        <FontAwesomeIcon icon={faPlus as IconProp} className="mr-2" />
+        Add Item
+      </>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Button with an icon and text, providing visual context alongside the label.',
+      },
+    },
+  },
+};
+
 export const Secondary: Story = {
   args: {
     variant: "secondary",
@@ -176,25 +196,7 @@ export const Icon: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Icon-only button, perfect for compact UIs or toolbar actions.',
-      },
-    },
-  },
-};
-
-export const WithIcon: Story = {
-  args: {
-    children: (
-      <>
-        <FontAwesomeIcon icon={faPlus as IconProp} className="mr-2" />
-        Add Item
-      </>
-    ),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Button with an icon and text, providing visual context alongside the label.',
+        story: 'Icon-only button, always remains an exact same size circle.',
       },
     },
   },
