@@ -10,15 +10,15 @@ export interface Kicker {
 const Kicker = ({
   children,
   className = '',
-  attributes,
   as = 'span',
+  ...props
 }: Kicker) => {
   const KickerElement:Kicker["as"] = as;
 
   return (
     <KickerElement
       className={`uppercase text-lg tracking-wider ${className}`}
-      {...attributes}
+      {...props}
     >
       {children}
     </KickerElement>

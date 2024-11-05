@@ -6,9 +6,6 @@ const config = {
   content: [
     './src/**/*.{ts,tsx}',
   ],
-  corePlugins: {
-    color: false
-  },
   prefix: "",
   theme: {
     container: {
@@ -55,7 +52,7 @@ const config = {
           DEFAULT: "hsl(200, 77%, 88%)",
           foreground: "hsl(200, 77%, 46%)",
         },
-        succes: {
+        success: {
           DEFAULT: "hsl(98, 49%, 87%)",
           foreground: "hsl(98, 49%, 51%)",
         },
@@ -163,6 +160,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config & {corePlugins: {color: boolean}}
+} satisfies Config
 
 export default config

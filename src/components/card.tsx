@@ -2,20 +2,25 @@ import * as React from "react"
 
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { Slot } from '@radix-ui/react-slot';
 
 const Card = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-2xl border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-))
+  React.HTMLAttributes<HTMLDivElement> & { asChild?: boolean }
+>(({ className, asChild, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'div';
+
+  return (
+    <Comp
+      ref={ref}
+      {...props}
+      className={cn(
+        "rounded-2xl border border-b-4 bg-card text-card-foreground shadow-sm",
+        className
+      )}
+    />
+  )
+})
 Card.displayName = "Card"
 
 const CardLink = ({ className, href, ...props }:{className?: string, href: string, children: React.ReactNode}) => (
