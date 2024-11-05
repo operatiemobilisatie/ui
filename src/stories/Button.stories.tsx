@@ -171,7 +171,7 @@ export const Small: Story = {
 export const Icon: Story = {
   args: {
     size: 'icon',
-    children: <FontAwesomeIcon icon={faPlus as IconProp} className="h-4 w-4" />,
+    children: <FontAwesomeIcon icon={faPlus as IconProp} />,
   },
   parameters: {
     docs: {
@@ -186,7 +186,7 @@ export const WithIcon: Story = {
   args: {
     children: (
       <>
-        <FontAwesomeIcon icon={faPlus as IconProp} className="mr-2 h-4 w-4" />
+        <FontAwesomeIcon icon={faPlus as IconProp} className="mr-2" />
         Add Item
       </>
     ),
@@ -203,7 +203,7 @@ export const WithIcon: Story = {
 export const IconSmall: Story = {
   args: {
     size: 'sm-icon',
-    children: <FontAwesomeIcon icon={faPlus as IconProp} className="h-3 w-3" />,
+    children: <FontAwesomeIcon icon={faPlus as IconProp} />,
   },
   parameters: {
     docs: {
@@ -217,7 +217,7 @@ export const IconSmall: Story = {
 export const IconLarge: Story = {
   args: {
     size: 'lg-icon',
-    children: <FontAwesomeIcon icon={faPlus as IconProp} className="h-5 w-5" />,
+    children: <FontAwesomeIcon icon={faPlus as IconProp} />,
   },
   parameters: {
     docs: {
