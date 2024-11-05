@@ -60,7 +60,7 @@ const config = {
         // OM Colors
         primary: {
           DEFAULT: "hsl(357, 69%, 49%)",
-          foregroud: "hsl(357, 69%, 86%)",
+          foreground: "hsl(357, 69%, 86%)",
           800: "hsl(357, 69%, 49%)",
           700: "hsl(357, 69%, 55%)",
           600: "hsl(357, 69%, 61%)",
