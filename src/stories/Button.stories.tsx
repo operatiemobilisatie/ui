@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const meta = {
-  title: 'Elements/Button',
+  title: 'Form/Button',
   component: Button,
   parameters: {
     layout: 'centered',
