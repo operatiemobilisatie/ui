@@ -33,10 +33,6 @@
     --ring: 357, 69%, 79%;
 
     --radius: 0.5rem;
-
-    /* needed for storybook */
-    --font-lato: 'Lato', sans-serif;
-    --font-roboto-slab: 'Roboto Slab', serif;
   }
 
   .dark {
