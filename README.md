@@ -1,6 +1,9 @@
 # OM/UI
 A collection of [React](https://react.dev/) components for OM websites and applications, most components are build on [Radix/UI](https://radix-ui.com/). It uses [TailwindCSS](https://tailwindcss.com/) and therefore also exports a `tailwind.config.js` preset, configured with all the official OM colors. As most projects are build using [Next.js](https://nextjs.org/) this library will be fully compatible with it. This library also has [TypeScript](https://www.typescriptlang.org/) support.
 
+## Storybook
+You can view the available components in Storybook [here](https://operatiemobilisatie.github.io/ui/).
+
 ## Usage
 Make sure you've imported the OM/UI styles into your `globals.css` or `main.css`:
 ```css
