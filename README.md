@@ -47,5 +47,5 @@ export default function Page() {
 ```
 
 ## To Do
-- [ ] Publish to NPM
+- [x] Publish to NPM
 - [ ] Add documentation
