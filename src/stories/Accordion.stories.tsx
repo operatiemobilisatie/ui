@@ -35,7 +35,7 @@ type Story = StoryObj<typeof Accordion>;
 
 export const Default: Story = {
   render: (args) => (
-    <Accordion className="w-[400px]" {...args}>
+    <Accordion className="w-[400px] flex flex-col gap-y-2" {...args}>
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it accessible?</AccordionTrigger>
         <AccordionContent>
@@ -70,7 +70,7 @@ export const Multiple: Story = {
     type: 'multiple',
   },
   render: (args) => (
-    <Accordion className="w-[400px]" {...args}>
+    <Accordion className="w-[400px] flex flex-col gap-y-2" {...args}>
       <AccordionItem value="item-1">
         <AccordionTrigger>First Section</AccordionTrigger>
         <AccordionContent>
