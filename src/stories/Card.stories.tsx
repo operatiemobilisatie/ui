@@ -52,13 +52,15 @@ export const WithImage: Story = {
           <img 
             src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1000" 
             alt="City view" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover absolute"
           />
         }
       >
+      </CardImage>
+      <CardHeader>
         <CardTitle>Featured Location</CardTitle>
         <CardDescription>Discover amazing places</CardDescription>
-      </CardImage>
+      </CardHeader>
       <CardContent>
         <p>Explore the beauty of urban landscapes and architecture.</p>
       </CardContent>
@@ -78,15 +80,17 @@ export const WithImage: Story = {
 
 export const AsLink: Story = {
   render: () => (
-    <CardLink href="/destination" className="w-[350px] block">
-      <CardHeader>
-        <CardTitle>Click Me</CardTitle>
-        <CardDescription>This entire card is clickable</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>Click anywhere on this card to navigate.</p>
-      </CardContent>
-    </CardLink>
+    <Card className="w-[350px] block" asChild>
+      <a href="/destination">
+        <CardHeader>
+          <CardTitle>Click Me</CardTitle>
+          <CardDescription>This entire card is clickable</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Click anywhere on this card to navigate.</p>
+        </CardContent>
+      </a>
+    </Card>
   ),
   parameters: {
     docs: {
@@ -99,28 +103,29 @@ export const AsLink: Story = {
 
 export const FullImageCard: Story = {
   render: () => (
-    <Card className="w-[350px] h-[400px]">
-      <CardImage 
+      <CardImage
+        className="w-[350px] h-[200px]"
         fill
         image={
           <img 
             src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1000" 
             alt="City view" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover absolute"
           />
         }
       >
-        <div className="mt-auto">
+        <CardHeader>
           <CardTitle>Full Coverage</CardTitle>
+        </CardHeader>
+        <CardContent>
           <CardDescription>Image fills the entire card</CardDescription>
-        </div>
+        </CardContent>
       </CardImage>
-    </Card>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'A card with a full-height image and overlay content.',
+        story: 'A card with a full-height image and overlay content. (Experimental)',
       },
     },
   },
