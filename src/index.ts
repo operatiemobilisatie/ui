@@ -6,6 +6,7 @@ import * as Badge from "./components/badge";
 import * as Button from "./components/button";
 import * as Card from "./components/card";
 import * as Checkbox from "./components/checkbox";
+import * as Dialog from "./components/dialog";
 import * as DropdownMenu from "./components/dropdown-menu";
 import * as Input from "./components/input";
 import * as Kicker from "./components/kicker";
@@ -36,6 +37,7 @@ export default {
     Button,
     Card,
     Checkbox,
+    Dialog,
     DropdownMenu,
     Input,
     Kicker,
