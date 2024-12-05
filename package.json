@@ -35,7 +35,10 @@
     "storybook": "^8.4.0",
     "tailwindcss": "^3.4.3"
   },
-  "peerDependencies": {
+  "dependencies": {
+    "react-countup": "^6.5.3",
+    "react-select": ">=5.8.1",
+    "react-visibility-sensor": "^5.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -61,13 +64,12 @@
     "class-variance-authority": ">=0.7.0",
     "classnames": ">=2.5.1",
     "clsx": ">=2.1.1",
-    "next": ">=14.2.3",
-    "react": ">=18.0",
-    "react-select": ">=5.8.1",
     "tailwind-merge": ">=2.3.0",
-    "tailwindcss-animate": ">=1.0.7",
-    "react-countup": "^6.5.3",
-    "react-visibility-sensor": "^5.1.1"
+    "tailwindcss-animate": ">=1.0.7"
+  },
+  "peerDependencies": {
+    "next": ">=14.2.3",
+    "react": ">=18.0"
   },
   "files": [
     "dist"
