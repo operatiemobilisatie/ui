@@ -14,6 +14,7 @@ import * as Label from "./components/label";
 import * as Loading from "./components/loading";
 import * as Logo from "./components/logo";
 import * as Progress from "./components/progress";
+import * as RadioCards from "./components/radio-cards";
 import * as RadioGroup from "./components/radio-group";
 import * as RadioButton from "./components/radio-button";
 import * as Select from "./components/select";
@@ -45,6 +46,7 @@ export default {
     Loading,
     Logo,
     Progress,
+    RadioCards,
     RadioGroup,
     RadioButton,
     Select,
