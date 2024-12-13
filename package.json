@@ -1,6 +1,6 @@
 {
   "name": "@operatiemobilisatie/ui",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "description": "A collection of React components for OM websites and applications.",
   "author": "@douwepausma",
   "license": "MIT",
