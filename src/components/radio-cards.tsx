@@ -52,7 +52,7 @@ const RadioCardsItem = React.forwardRef<
     >
       <>
         {indicator && (
-          <div className={radioVariants({size, className: 'mr-2'})}>
+          <div className={radioVariants({size, className: 'mr-2 group-aria-checked:bg-primary-200'})}>
             <div className={cn(radioIndicatorVariants({size, className: 'bg-white'}))}></div>
             <div className={cn(radioIndicatorVariants({size, className: 'transition-transform bg-primary scale-0 group-aria-checked:scale-100'}))}></div>
           </div>

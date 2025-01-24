@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const radioVariants = cva(
-  "w-5 h-5 aspect-square bg-gray-200 aria-checked:bg-primary-200 group-aria-checked:bg-primary-200 group rounded-full relative flex items-center justify-center duration-300 disabled:cursor-not-allowed disabled:opacity-50",
+  "w-5 h-5 aspect-square bg-gray-200 aria-checked:bg-primary-200 group rounded-full relative flex items-center justify-center duration-300 disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       size: {
