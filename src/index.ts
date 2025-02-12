@@ -6,6 +6,7 @@ import * as Badge from "./components/badge";
 import * as Button from "./components/button";
 import * as Card from "./components/card";
 import * as Checkbox from "./components/checkbox";
+import * as Dialog from "./components/dialog";
 import * as DropdownMenu from "./components/dropdown-menu";
 import * as Input from "./components/input";
 import * as Kicker from "./components/kicker";
@@ -13,6 +14,7 @@ import * as Label from "./components/label";
 import * as Loading from "./components/loading";
 import * as Logo from "./components/logo";
 import * as Progress from "./components/progress";
+import * as RadioCards from "./components/radio-cards";
 import * as RadioGroup from "./components/radio-group";
 import * as RadioButton from "./components/radio-button";
 import * as Select from "./components/select";
@@ -36,6 +38,7 @@ export default {
     Button,
     Card,
     Checkbox,
+    Dialog,
     DropdownMenu,
     Input,
     Kicker,
@@ -43,6 +46,7 @@ export default {
     Loading,
     Logo,
     Progress,
+    RadioCards,
     RadioGroup,
     RadioButton,
     Select,

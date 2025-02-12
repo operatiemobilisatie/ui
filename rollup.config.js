@@ -16,6 +16,12 @@ export default [
             sourcemap: true
           },
         ],
+        onwarn(warning, warn) {
+          if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
+            return;
+          }
+          warn(warning);
+        },
         plugins: [
             preserveDirectives(),
             peerDepsExternal(),
@@ -23,9 +29,10 @@ export default [
             commonjs(),
             typescript({ tsconfig: "tsconfig.json" }),
             postcss({
+              config: false,
               extract: "css/style.css"
             })
-        ]
+        ],
     },
     {
       input: "tailwind.config.ts",
