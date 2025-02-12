@@ -3,9 +3,10 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { RadioCards, RadioCardsItem } from '../components/radio-cards';
 
-const meta = {
+const meta: Meta<typeof RadioCards> = {
   title: 'Form/RadioCards',
   component: RadioCards,
+  subcomponents: { RadioCardsItem: RadioCardsItem as React.ComponentType<any> },
   parameters: {
     layout: 'centered',
     docs: {
@@ -28,7 +29,7 @@ const meta = {
   args: {
     orientation: 'horizontal',
   },
-} satisfies Meta<typeof RadioCards>;
+};
 
 export default meta;
 type Story = StoryObj<typeof RadioCards>;
