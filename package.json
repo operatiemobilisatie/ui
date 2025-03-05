@@ -60,9 +60,9 @@
     "class-variance-authority": ">=0.7.0",
     "classnames": ">=2.5.1",
     "clsx": ">=2.1.1",
+    "motion": "^12.4.10",
     "react-countup": "^6.5.3",
     "react-select": "^5.9.0",
-    "react-visibility-sensor": "^5.1.1",
     "tailwind-merge": ">=2.3.0",
     "tailwindcss-animate": ">=1.0.7"
   },
@@ -78,13 +78,13 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/src/index.js"
+      "default": "./dist/ui/src/index.js"
     },
     "./*": {
       "types": "./dist/src/components/*.d.ts",
-      "default": "./dist/src/components/*.js"
+      "default": "./dist/ui/src/components/*.js"
     },
-    "./lib/*": "./dist/src/lib/*.js",
+    "./lib/*": "./dist/ui/src/lib/*.js",
     "./tailwindcss": "./dist/tailwind.config.js",
     "./css": "./dist/css/style.css"
   },
