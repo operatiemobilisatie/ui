@@ -26,7 +26,7 @@ const radioCardVariants = cva(
 )
 
 const RadioCards = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Root>,
+  React.ComponentRef<typeof RadioGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
 >(({ className, orientation = "horizontal", ...props }, ref) => {
   return (
@@ -41,7 +41,7 @@ const RadioCards = React.forwardRef<
 RadioCards.displayName = 'RadioCards'
 
 const RadioCardsItem = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
+  React.ComponentRef<typeof RadioGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & { size?: 'sm' | 'lg' | 'default', indicator?: boolean }
 >(({ className, size, indicator = false, children, ...props }, ref) => {
   return (

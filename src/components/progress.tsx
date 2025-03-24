@@ -9,7 +9,7 @@ import { useCountUp } from "react-countup"
 import { useInView } from "motion/react"
 
 const Progress = React.forwardRef<
-  React.ElementRef<typeof ProgressPrimitive.Root>,
+  React.ComponentRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
 >(({ className, value, ...props }, ref) => {
   const [progress, setProgress] = React.useState(0);

@@ -29,7 +29,7 @@ const checkVariants = {
 }
 
 const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  React.ComponentRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> & {displaySize?: 'sm' | 'lg' | 'default'}
 >(({ className, displaySize = 'default', ...props }, ref) => (
   <CheckboxPrimitive.Root
