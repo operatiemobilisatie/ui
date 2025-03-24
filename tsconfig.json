@@ -13,6 +13,7 @@
       "declaration": true,
       "sourceMap": true,
       "outDir": "dist",
+      "declarationDir": "dist",
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
       "allowImportingTsExtensions": true,

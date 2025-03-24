@@ -11,8 +11,9 @@ export default [
         input: ["src/index.ts"],
         output: [
           {
-            dir: './dist',
+            dir: "dist",
             preserveModules: true,
+            preserveModulesRoot: ".",
             sourcemap: true
           },
         ],
@@ -30,7 +31,7 @@ export default [
             typescript({ tsconfig: "tsconfig.json" }),
             postcss({
               config: false,
-              extract: "css/style.css"
+              extract: "src/css/style.css"
             })
         ],
     },
@@ -45,7 +46,12 @@ export default [
     },
     {
       input: "dist/src/index.d.ts",
-      output: [{ file: "dist/index.d.ts", format: "esm" }],
+      output: [
+        {
+          file: "dist/index.d.ts",
+          format: "esm",
+        }
+      ],
       plugins: [dts()],
       external: [/\.css$/]
     },
