@@ -2,7 +2,7 @@
 
 import React, {useId, Ref } from "react";
 import Select from 'react-select';
-import type { GroupBase } from 'react-select';
+import type { GroupBase, OnChangeValue, ActionMeta } from 'react-select';
 import { badgeVariants } from './badge';
 import type {} from 'react-select/base';
 import { Props } from "react-select";
@@ -58,11 +58,11 @@ const selectVariants = (size:Props['displaySize'], className:Props['className'],
   }
 };
 
-const SelectField = React.forwardRef(<
+const CustomSelect = React.forwardRef(<
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
->({displaySize, className, ...props}: Props<Option, IsMulti, Group>, ref:Ref<any>) => {
+>({ displaySize, className, ...props }: Props<Option, IsMulti, Group> & { displaySize?: 'sm' | 'default' | 'lg'; className?: string }, ref:Ref<any>) => {
   return (
     <Select
       {...props}
@@ -73,6 +73,6 @@ const SelectField = React.forwardRef(<
       classNames={selectVariants(displaySize, className)}
     />
   );
-});
+}) as <Option, IsMulti extends boolean = false, Group extends GroupBase<Option> = GroupBase<Option>>(props: Props<Option, IsMulti, Group> & { displaySize?: 'sm' | 'default' | 'lg'; className?: string }) => React.ReactElement;
 
-export default SelectField;
+export default CustomSelect;
