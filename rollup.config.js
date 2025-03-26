@@ -23,7 +23,7 @@ export default [
           }
           warn(warning);
         },
-        external: (id) => id.includes("node_modules"),
+        external: (id) => id === "tslib" || id.includes("node_modules"),
         plugins: [
             preserveDirectives(),
             peerDepsExternal(),
