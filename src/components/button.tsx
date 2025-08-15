@@ -13,10 +13,13 @@ const buttonVariants = cva(
         secondary: "bg-gray-200 text-secondary-foreground shimmer-invert",
         outline: "border border-primary bg-background text-primary hover:bg-primary hover:text-white",
         "outline-secondary": "border border-input bg-background hover:bg-input hover:text-accent-foreground",
-
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        green: "bg-green text-white border border-green shimmer",
+        blue: "bg-blue text-white border border-blue shimmer",
+        orange: "bg-orange text-white border border-orange shimmer",
+        aqua: "bg-aqua text-white border border-aqua shimmer",
         ghost: "hover:bg-primary-100 hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
+        destructive: "bg-destructive-background text-destructive-foreground border-destructive-background hover:bg-primary-300 hover:border-primary-300",
       },
       size: {
         default: "h-10 px-5 text-base",
