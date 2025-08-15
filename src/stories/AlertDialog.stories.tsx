@@ -12,7 +12,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
 } from '../components/alert-dialog';
-import { Button } from '../components/button';
+import { Button, buttonVariants } from '../components/button';
 
 const meta = {
   title: 'Feedback/AlertDialog',
@@ -46,8 +46,8 @@ export const Default: Story = {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Delete Account</AlertDialogAction>
+          <AlertDialogCancel className={buttonVariants({ variant: "outline-secondary", size: "sm" })}>Cancel</AlertDialogCancel>
+          <AlertDialogAction className={buttonVariants({ variant: "destructive", size: "sm" })}>Delete Account</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -75,9 +75,11 @@ export const WithCustomButtons: Story = {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Don't Save</AlertDialogCancel>
-          <AlertDialogAction className="bg-green-600 border-green-600 hover:bg-green-700">
-            Save Changes
+          <AlertDialogCancel asChild>
+            <Button variant="outline-secondary" size="sm">Don't Save</Button>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button variant="green" size="sm">Save Changes</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -129,8 +131,8 @@ export const WithLongContent: Story = {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Decline</AlertDialogCancel>
-          <AlertDialogAction>Accept</AlertDialogAction>
+          <AlertDialogCancel className={buttonVariants({ variant: "outline-secondary", size: "sm" })}>Decline</AlertDialogCancel>
+          <AlertDialogAction className={buttonVariants({ size: "sm" })}>Accept</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

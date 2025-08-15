@@ -20,7 +20,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'secondary', 'outline-solid', 'outline-secondary', 'destructive', 'ghost', 'link'],
+      options: ['default', 'secondary', 'outline', 'outline-secondary', 'green', 'blue', 'orange', 'aqua', 'destructive', 'ghost', 'link'],
       description: 'The visual style of the button',
       table: {
         defaultValue: { summary: 'default' },
@@ -106,7 +106,7 @@ export const Secondary: Story = {
 
 export const Outline: Story  = {
   args: {
-    variant: "outline-solid",
+    variant: "outline",
     children: 'Click me',
   },
   parameters: {

@@ -21,7 +21,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'destructive', 'success'],
+      options: ['default', 'destructive', 'success', 'info', 'warning'],
       description: 'The visual style of the alert',
       table: {
         defaultValue: { summary: 'default' },
