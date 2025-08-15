@@ -4,15 +4,15 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const alertVariants = cva(
-  "relative w-full rounded-xl border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-xl p-4 [&>svg~*]:pl-7 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-[17px] [&>svg]:text-foreground",
   {
     variants: {
       variant: {
-        default: "bg-background text-foreground",
-        destructive: "border-destructive/50 bg-destructive text-destructive-foreground dark:border-destructive [&>svg]:text-destructive-foreground",
-        success: "border-success/50 bg-success text-success-foreground dark:border-success [&>svg]:text-success-foreground",
-        info: "border-info/50 bg-info text-info-foreground dark:border-info [&>svg]:text-info-foreground",
-        warning: "border-warning/50 bg-warning text-warning-foreground dark:border-warning [&>svg]:text-warning-foreground"
+        default: "bg-background text-foreground border border-input bg-white",
+        destructive: "bg-destructive-background text-destructive-foreground [&>svg]:text-destructive-foreground",
+        success: "bg-success-background text-success-foreground [&>svg]:text-success-foreground",
+        info: "bg-info-background text-info-foreground [&>svg]:text-info-foreground",
+        warning: "bg-warning-background text-warning-foreground [&>svg]:text-warning-foreground"
       },
     },
     defaultVariants: {
@@ -40,7 +40,7 @@ const AlertTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h5
     ref={ref}
-    className={cn("mb-1 font-semibold text-lg leading-none tracking-normal", className)}
+    className={cn("mb-1 tracking-wide font-medium font-roboto text-lg leading-none", className)}
     {...props}
   />
 ))
