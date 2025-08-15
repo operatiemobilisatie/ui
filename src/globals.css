@@ -1,6 +1,167 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-border: var(--color-gray-200);
+  --color-input: hsl(210, 1%, 93%);
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-destructive: hsl(357, 69%, 86%);
+  --color-destructive-foreground: hsl(357, 69%, 49%);
+
+  --color-warning: hsl(37, 100%, 89%);
+  --color-warning-foreground: hsl(37, 100%, 47%);
+
+  --color-info: hsl(200, 77%, 88%);
+  --color-info-foreground: hsl(200, 77%, 46%);
+
+  --color-success: hsl(98, 49%, 87%);
+  --color-success-foreground: hsl(98, 49%, 51%);
+
+  --color-primary-100: hsl(357, 69%, 93%);
+  --color-primary-200: hsl(357, 69%, 86%);
+  --color-primary-300: hsl(357, 69%, 80%);
+  --color-primary-400: hsl(357, 69%, 73%);
+  --color-primary-500: hsl(357, 69%, 67%);
+  --color-primary-600: hsl(357, 69%, 61%);
+  --color-primary-700: hsl(357, 69%, 55%);
+  --color-primary-800: hsl(357, 69%, 49%);
+  --color-primary: hsl(357, 69%, 49%);
+  --color-primary-foreground: hsl(357, 69%, 86%);
+
+  --color-gray-100: rgb(248, 248, 248);
+  --color-gray-200: rgb(240, 241, 241);
+  --color-gray-300: rgb(226, 227, 227);
+  --color-gray-400: rgb(212, 212, 213);
+  --color-gray-500: rgb(198, 198, 199);
+  --color-gray-600: rgb(169, 170, 171);
+  --color-gray-700: rgb(141, 141, 143);
+  --color-gray-800: hsl(210, 1%, 44%);
+  --color-gray: hsl(210, 1%, 44%);
+  --color-gray-foreground: rgb(240, 241, 241);
+
+  --color-blue-100: hsl(200, 77%, 95%);
+  --color-blue-200: hsl(200, 77%, 88%);
+  --color-blue-300: hsl(200, 77%, 81%);
+  --color-blue-400: hsl(200, 77%, 74%);
+  --color-blue-500: hsl(200, 77%, 67%);
+  --color-blue-600: hsl(200, 77%, 60%);
+  --color-blue-700: hsl(200, 77%, 53%);
+  --color-blue-800: hsl(200, 77%, 46%);
+  --color-blue: hsl(200, 77%, 46%);
+  --color-blue-foreground: hsl(200, 77%, 88%);
+
+  --color-aqua-100: hsl(178, 44%, 96%);
+  --color-aqua-200: hsl(178, 44%, 91%);
+  --color-aqua-300: hsl(178, 44%, 87%);
+  --color-aqua-400: hsl(178, 44%, 82%);
+  --color-aqua-500: hsl(178, 44%, 78%);
+  --color-aqua-600: hsl(178, 44%, 73%);
+  --color-aqua-700: hsl(178, 44%, 69%);
+  --color-aqua-800: hsl(178, 44%, 65%);
+  --color-aqua: hsl(178, 44%, 65%);
+  --color-aqua-foreground: hsl(178, 44%, 91%);
+
+  --color-green-100: hsl(98, 49%, 93%);
+  --color-green-200: hsl(98, 49%, 87%);
+  --color-green-300: hsl(98, 49%, 81%);
+  --color-green-400: hsl(98, 49%, 75%);
+  --color-green-500: hsl(98, 49%, 69%);
+  --color-green-600: hsl(98, 49%, 63%);
+  --color-green-700: hsl(98, 49%, 57%);
+  --color-green-800: hsl(98, 49%, 51%);
+  --color-green: hsl(98, 49%, 51%);
+  --color-green-foreground: hsl(98, 49%, 87%);
+
+  --color-orange-100: hsl(37, 100%, 95%);
+  --color-orange-200: hsl(37, 100%, 89%);
+  --color-orange-300: hsl(37, 100%, 82%);
+  --color-orange-400: hsl(37, 100%, 75%);
+  --color-orange-500: hsl(37, 100%, 68%);
+  --color-orange-600: hsl(37, 100%, 61%);
+  --color-orange-700: hsl(37, 100%, 54%);
+  --color-orange-800: hsl(37, 100%, 47%);
+  --color-orange: hsl(37, 100%, 47%);
+  --color-orange-foreground: hsl(37, 100%, 89%);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --font-sans:
+    var(--font-lato), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-lato: var(--font-lato);
+  --font-roboto: var(--font-roboto-slab);
+
+  @keyframes accordion-down {
+    0% {
+      height: 0;
+      clip-path: inset(0);
+    }
+    99% {
+      clip-path: inset(0);
+    }
+    100% {
+      height: var(--radix-accordion-content-height);
+      clip-path: inset(-100vh -100vw);
+    }
+  }
+  @keyframes accordion-up {
+    0% {
+      height: var(--radix-accordion-content-height);
+      clip-path: inset(-100vh -100vw);
+    }
+    99% {
+      clip-path: inset(0);
+    }
+    100% {
+      height: 0;
+      clip-path: inset(0);
+    }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer base {
   :root {
@@ -66,37 +227,56 @@
   }
 }
 
-.shimmer,
-.shimmer-invert {
-  position: relative;
-  overflow: hidden;
-}
+@layer utilities {
+  .shimmer,
+  .shimmer-invert {
+    position: relative;
+    overflow: hidden;
+  }
 
-.shimmer:after,
-.shimmer-invert:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0px;
-  opacity: 0.2;
-  background-image: linear-gradient(-45deg, transparent 0%, transparent 53%, #fff 53%, #fff 60%, transparent 60%, transparent 100%);
-  background-size: 300%;
-  background-position-x: 100%;
-  -webkit-transition: all 1s cubic-bezier(.19, 1, .22, 1);
-  transition: all 1s cubic-bezier(.19, 1, .22, 1);
-}
-.shimmer:hover:after, .shimmer-invert:hover:after {
-  background-position-x: -15%;
-}
+  .shimmer:after,
+  .shimmer-invert:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0px;
+    opacity: 0.2;
+    background-image: linear-gradient(
+      -45deg,
+      transparent 0%,
+      transparent 53%,
+      #fff 53%,
+      #fff 60%,
+      transparent 60%,
+      transparent 100%
+    );
+    background-size: 300%;
+    background-position-x: 100%;
+    -webkit-transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .shimmer:hover:after,
+  .shimmer-invert:hover:after {
+    background-position-x: -15%;
+  }
 
-.shimmer-invert:after {
-  background-image: linear-gradient(-45deg, transparent 0%, transparent 53%, #000 53%, #000 60%, transparent 60%, transparent 100%);
-  opacity: .05;
-}
+  .shimmer-invert:after {
+    background-image: linear-gradient(
+      -45deg,
+      transparent 0%,
+      transparent 53%,
+      #000 53%,
+      #000 60%,
+      transparent 60%,
+      transparent 100%
+    );
+    opacity: 0.05;
+  }
 
-.link {
-  @apply duration-150 border-b border-gray-300 hover:border-primary;
+  .link {
+    @apply duration-150 border-b border-gray-300 hover:border-primary;
+  }
 }
 
 @layer base {

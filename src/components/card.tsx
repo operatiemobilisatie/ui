@@ -15,7 +15,7 @@ const Card = React.forwardRef<
       ref={ref}
       {...props}
       className={cn(
-        "rounded-2xl border border-b-4 bg-card text-card-foreground shadow-sm relative",
+        "rounded-2xl border border-b-4 bg-card text-card-foreground shadow-xs relative",
         className
       )}
     />
@@ -27,7 +27,7 @@ const CardLink = ({ className, href, ...props }:{className?: string, href: strin
   <Link
     href={href}
     className={cn(
-      "rounded-2xl border bg-card text-card-foreground shadow-sm",
+      "rounded-2xl border bg-card text-card-foreground shadow-xs",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ const CardImage = React.forwardRef<
   <div
     className={cn(`overflow-clip relative ${!fill ? 'aspect-video rounded-t-2xl' : 'rounded-2xl'}`, className)}>
     {image}
-    {children && <div className={`absolute inset-0 ${!fill ? 'bg-gradient-to-t from-black/20 to-transparent' : 'bg-black/30'}`}></div>}
+    {children && <div className={`absolute inset-0 ${!fill ? 'bg-linear-to-t from-black/20 to-transparent' : 'bg-black/30'}`}></div>}
     <div className={`relative text-white h-full group flex flex-col ${!fill ? 'px-8 py-6' : 'image-fill'}`}>
       {children}
     </div>

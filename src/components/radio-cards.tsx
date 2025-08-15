@@ -6,7 +6,7 @@ import { radioVariants, radioIndicatorVariants } from "./radio-group"
 import { cn } from "@/lib/utils"
 
 const radioCardVariants = cva(
-  "border border-input hover:border-gray-400 aria-checked:border-primary aria-checked:ring-2 aria-checked:ring-ring group rounded-2xl relative flex flex-grow items-center duration-300 disabled:cursor-not-allowed disabled:opacity-50",
+  "border border-input hover:border-gray-400 aria-checked:border-primary aria-checked:ring-2 aria-checked:ring-ring group rounded-2xl relative flex grow items-center duration-150 disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       size: {

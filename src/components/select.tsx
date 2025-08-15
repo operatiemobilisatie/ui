@@ -21,7 +21,7 @@ const selectVariants = (size:Props['displaySize'], className:Props['className'],
   switch (size) {
     case 'sm':
       return {
-        control: ({isFocused}:{isFocused:boolean}) => `!min-h-[34px] py-1 px-3 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? 'border-primary hover:border-primary ring-ring ring-2' : ''}`,
+        control: ({isFocused}:{isFocused:boolean}) => `min-h-[34px]! py-1 px-3 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? 'border-primary hover:border-primary ring-ring ring-2' : ''}`,
         option: () => 'py-2 px-5 hover:bg-gray-100',
         indicatorSeparator: () => 'bg-gray-300 mx-1 my-0.5',
         indicatorsContainer: () => '-mr-1',
@@ -33,7 +33,7 @@ const selectVariants = (size:Props['displaySize'], className:Props['className'],
       }
     case 'lg':
       return {
-        control: ({isFocused}:{isFocused:boolean}) => `!min-h-11 py-2 px-4 rounded-2xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? 'border-primary hover:border-primary ring-ring ring-2' : ''}`,
+        control: ({isFocused}:{isFocused:boolean}) => `min-h-11! py-2 px-4 rounded-2xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? 'border-primary hover:border-primary ring-ring ring-2' : ''}`,
         option: () => 'py-2 px-5 hover:bg-gray-100',
         indicatorSeparator: () => 'bg-gray-300 mx-1 my-0.5',
         indicatorsContainer: () => '-mr-2',
@@ -45,7 +45,7 @@ const selectVariants = (size:Props['displaySize'], className:Props['className'],
       }
     default:
       return {
-        control: ({isFocused}:{isFocused:boolean}) => `!min-h-10 py-1.5 px-3.5 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? 'border-primary hover:border-primary ring-ring ring-2' : ''}`,
+        control: ({isFocused}:{isFocused:boolean}) => `min-h-10! py-1.5 px-3.5 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? 'border-primary hover:border-primary ring-ring ring-2' : ''}`,
         option: () => 'py-2 px-5 hover:bg-gray-100',
         indicatorSeparator: () => 'bg-gray-300 mx-1 my-0.5',
         indicatorsContainer: () => '-mr-1',
