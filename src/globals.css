@@ -3,6 +3,93 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* OM Colors */
+  --color-primary-100: hsl(357, 69%, 93%);
+  --color-primary-200: hsl(357, 69%, 86%);
+  --color-primary-300: hsl(357, 69%, 80%);
+  --color-primary-400: hsl(357, 69%, 73%);
+  --color-primary-500: hsl(357, 69%, 67%);
+  --color-primary-600: hsl(357, 69%, 61%);
+  --color-primary-700: hsl(357, 69%, 55%);
+  --color-primary-800: hsl(357, 69%, 49%);
+  --color-primary: hsl(357, 69%, 49%);
+  --color-primary-foreground: var(--color-primary-800);
+  --color-primary-background: var(--color-primary-200);
+
+  --color-gray-100: rgb(248, 248, 248);
+  --color-gray-200: rgb(240, 241, 241);
+  --color-gray-300: rgb(226, 227, 227);
+  --color-gray-400: rgb(212, 212, 213);
+  --color-gray-500: rgb(198, 198, 199);
+  --color-gray-600: rgb(169, 170, 171);
+  --color-gray-700: rgb(141, 141, 143);
+  --color-gray-800: hsl(210, 1%, 44%);
+  --color-gray: hsl(210, 1%, 44%);
+  --color-gray-foreground: var(--color-gray);
+  --color-gray-background: var(--color-gray-200);
+
+  --color-blue-100: hsl(200, 77%, 95%);
+  --color-blue-200: hsl(200, 77%, 88%);
+  --color-blue-300: hsl(200, 77%, 81%);
+  --color-blue-400: hsl(200, 77%, 74%);
+  --color-blue-500: hsl(200, 77%, 67%);
+  --color-blue-600: hsl(200, 77%, 60%);
+  --color-blue-700: hsl(200, 77%, 53%);
+  --color-blue-800: hsl(200, 77%, 46%);
+  --color-blue: hsl(200, 77%, 46%);
+  --color-blue-foreground: var(--color-blue-800);
+  --color-blue-background: var(--color-blue-200);
+
+  --color-aqua-100: hsl(178, 44%, 96%);
+  --color-aqua-200: hsl(178, 44%, 91%);
+  --color-aqua-300: hsl(178, 44%, 87%);
+  --color-aqua-400: hsl(178, 44%, 82%);
+  --color-aqua-500: hsl(178, 44%, 78%);
+  --color-aqua-600: hsl(178, 44%, 73%);
+  --color-aqua-700: hsl(178, 44%, 69%);
+  --color-aqua-800: hsl(178, 44%, 65%);
+  --color-aqua: hsl(178, 44%, 65%);
+  --color-aqua-foreground: var(--color-aqua-800);
+  --color-aqua-background: var(--color-aqua-200);
+
+  --color-green-100: hsl(98, 49%, 93%);
+  --color-green-200: hsl(98, 49%, 87%);
+  --color-green-300: hsl(98, 49%, 81%);
+  --color-green-400: hsl(98, 49%, 75%);
+  --color-green-500: hsl(98, 49%, 69%);
+  --color-green-600: hsl(98, 49%, 63%);
+  --color-green-700: hsl(98, 49%, 57%);
+  --color-green-800: hsl(98, 49%, 51%);
+  --color-green: hsl(98, 49%, 51%);
+  --color-green-foreground: var(--color-green-800);
+  --color-green-background: var(--color-green-200);
+
+  --color-orange-100: hsl(37, 100%, 95%);
+  --color-orange-200: hsl(37, 100%, 89%);
+  --color-orange-300: hsl(37, 100%, 82%);
+  --color-orange-400: hsl(37, 100%, 75%);
+  --color-orange-500: hsl(37, 100%, 68%);
+  --color-orange-600: hsl(37, 100%, 61%);
+  --color-orange-700: hsl(37, 100%, 54%);
+  --color-orange-800: hsl(37, 100%, 47%);
+  --color-orange: hsl(37, 100%, 47%);
+  --color-orange-foreground: var(--color-orange-800);
+  --color-orange-background: var(--color-orange-200);
+
+  /* Status Colors */
+  --color-destructive-foreground: var(--color-primary-foreground);
+  --color-destructive-background: var(--color-primary-background);
+
+  --color-warning-foreground: var(--color-orange-foreground);
+  --color-warning-background: var(--color-orange-background);
+
+  --color-info-foreground: var(--color-blue-foreground);
+  --color-info-background: var(--color-blue-background);
+
+  --color-success-foreground: var(--color-green-foreground);
+  --color-success-background: var(--color-green-background);
+
+  /* Utility Colors */
   --color-border: var(--color-gray-200);
   --color-input: hsl(210, 1%, 93%);
   --color-ring: hsl(var(--ring));
@@ -20,84 +107,6 @@
 
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-
-  --color-destructive: hsl(357, 69%, 86%);
-  --color-destructive-foreground: hsl(357, 69%, 49%);
-
-  --color-warning: hsl(37, 100%, 89%);
-  --color-warning-foreground: hsl(37, 100%, 47%);
-
-  --color-info: hsl(200, 77%, 88%);
-  --color-info-foreground: hsl(200, 77%, 46%);
-
-  --color-success: hsl(98, 49%, 87%);
-  --color-success-foreground: hsl(98, 49%, 51%);
-
-  --color-primary-100: hsl(357, 69%, 93%);
-  --color-primary-200: hsl(357, 69%, 86%);
-  --color-primary-300: hsl(357, 69%, 80%);
-  --color-primary-400: hsl(357, 69%, 73%);
-  --color-primary-500: hsl(357, 69%, 67%);
-  --color-primary-600: hsl(357, 69%, 61%);
-  --color-primary-700: hsl(357, 69%, 55%);
-  --color-primary-800: hsl(357, 69%, 49%);
-  --color-primary: hsl(357, 69%, 49%);
-  --color-primary-foreground: hsl(357, 69%, 86%);
-
-  --color-gray-100: rgb(248, 248, 248);
-  --color-gray-200: rgb(240, 241, 241);
-  --color-gray-300: rgb(226, 227, 227);
-  --color-gray-400: rgb(212, 212, 213);
-  --color-gray-500: rgb(198, 198, 199);
-  --color-gray-600: rgb(169, 170, 171);
-  --color-gray-700: rgb(141, 141, 143);
-  --color-gray-800: hsl(210, 1%, 44%);
-  --color-gray: hsl(210, 1%, 44%);
-  --color-gray-foreground: rgb(240, 241, 241);
-
-  --color-blue-100: hsl(200, 77%, 95%);
-  --color-blue-200: hsl(200, 77%, 88%);
-  --color-blue-300: hsl(200, 77%, 81%);
-  --color-blue-400: hsl(200, 77%, 74%);
-  --color-blue-500: hsl(200, 77%, 67%);
-  --color-blue-600: hsl(200, 77%, 60%);
-  --color-blue-700: hsl(200, 77%, 53%);
-  --color-blue-800: hsl(200, 77%, 46%);
-  --color-blue: hsl(200, 77%, 46%);
-  --color-blue-foreground: hsl(200, 77%, 88%);
-
-  --color-aqua-100: hsl(178, 44%, 96%);
-  --color-aqua-200: hsl(178, 44%, 91%);
-  --color-aqua-300: hsl(178, 44%, 87%);
-  --color-aqua-400: hsl(178, 44%, 82%);
-  --color-aqua-500: hsl(178, 44%, 78%);
-  --color-aqua-600: hsl(178, 44%, 73%);
-  --color-aqua-700: hsl(178, 44%, 69%);
-  --color-aqua-800: hsl(178, 44%, 65%);
-  --color-aqua: hsl(178, 44%, 65%);
-  --color-aqua-foreground: hsl(178, 44%, 91%);
-
-  --color-green-100: hsl(98, 49%, 93%);
-  --color-green-200: hsl(98, 49%, 87%);
-  --color-green-300: hsl(98, 49%, 81%);
-  --color-green-400: hsl(98, 49%, 75%);
-  --color-green-500: hsl(98, 49%, 69%);
-  --color-green-600: hsl(98, 49%, 63%);
-  --color-green-700: hsl(98, 49%, 57%);
-  --color-green-800: hsl(98, 49%, 51%);
-  --color-green: hsl(98, 49%, 51%);
-  --color-green-foreground: hsl(98, 49%, 87%);
-
-  --color-orange-100: hsl(37, 100%, 95%);
-  --color-orange-200: hsl(37, 100%, 89%);
-  --color-orange-300: hsl(37, 100%, 82%);
-  --color-orange-400: hsl(37, 100%, 75%);
-  --color-orange-500: hsl(37, 100%, 68%);
-  --color-orange-600: hsl(37, 100%, 61%);
-  --color-orange-700: hsl(37, 100%, 54%);
-  --color-orange-800: hsl(37, 100%, 47%);
-  --color-orange: hsl(37, 100%, 47%);
-  --color-orange-foreground: hsl(37, 100%, 89%);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
