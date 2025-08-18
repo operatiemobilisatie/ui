@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Slider } from '../components/slider';
 
