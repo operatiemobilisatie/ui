@@ -124,27 +124,17 @@
   @keyframes accordion-down {
     0% {
       height: 0;
-      clip-path: inset(0);
-    }
-    99% {
-      clip-path: inset(0);
     }
     100% {
       height: var(--radix-accordion-content-height);
-      clip-path: inset(-100vh -100vw);
     }
   }
   @keyframes accordion-up {
     0% {
       height: var(--radix-accordion-content-height);
-      clip-path: inset(-100vh -100vw);
-    }
-    99% {
-      clip-path: inset(0);
     }
     100% {
       height: 0;
-      clip-path: inset(0);
     }
   }
 }
