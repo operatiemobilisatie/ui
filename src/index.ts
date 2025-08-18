@@ -25,7 +25,6 @@ import * as Textarea from "./components/textarea";
 import * as Toast from "./components/toast";
 import * as Toaster from "./components/toaster";
 import * as Tabs from "./components/tabs";
-import * as ToggleGroup from "./components/toggle-group";
 import * as Tooltip from "./components/tooltip";
 import "./globals.css";
 
@@ -57,6 +56,5 @@ export default {
     Tabs,
     Toast,
     Toaster,
-    ToggleGroup,
     Tooltip
 };
