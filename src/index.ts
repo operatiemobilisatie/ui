@@ -11,12 +11,12 @@ import * as DropdownMenu from "./components/dropdown-menu";
 import * as Input from "./components/input";
 import * as Kicker from "./components/kicker";
 import * as Label from "./components/label";
-import * as Loading from "./components/loading";
 import * as Logo from "./components/logo";
 import * as Progress from "./components/progress";
 import * as RadioCards from "./components/radio-cards";
 import * as RadioGroup from "./components/radio-group";
 import * as RadioButton from "./components/radio-button";
+import * as Spinner from "./components/spinner";
 import * as Select from "./components/select";
 import * as Skeleton from "./components/skeleton";
 import * as Slider from "./components/slider";
@@ -42,7 +42,7 @@ export default {
     Input,
     Kicker,
     Label,
-    Loading,
+    Spinner,
     Logo,
     Progress,
     RadioCards,
