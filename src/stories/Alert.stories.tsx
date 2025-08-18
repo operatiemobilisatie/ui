@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Alert, AlertTitle, AlertDescription } from '../components/alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faCircleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
