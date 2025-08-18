@@ -10,16 +10,16 @@ const Slider = React.forwardRef<
   <SliderPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex w-full touch-none select-none items-center pb-6 pt-2",
+      "relative flex w-full touch-none select-none items-center pb-6 pt-2 group",
       className
     )}
     {...props}
   >
     <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
-      <SliderPrimitive.Range className="absolute h-full bg-primary" />
+      <SliderPrimitive.Range className="absolute h-full bg-primary group-[&[aria-disabled=true]]:bg-gray-600" />
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb asChild>
-      <div className="flex justify-center h-5 w-5 cursor-grab rounded-full border-[5px] border-primary-200 bg-primary ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+      <div className="flex justify-center h-5 w-5 cursor-grab rounded-full border-[5px] border-primary-200 bg-primary group-[&[aria-disabled=true]]:bg-gray-600 group-[&[aria-disabled=true]]:border-gray-300  ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 disabled:bg-green">
         <div className="text-center translate-y-5 text-sm font-semibold self-center w-min">{props.defaultValue}</div>
       </div>
     </SliderPrimitive.Thumb>
