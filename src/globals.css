@@ -1,5 +1,3 @@
-@import 'tailwindcss';
-
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -111,7 +109,7 @@
     var(--font-lato), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-lato: var(--font-lato);
-  --font-roboto: var(--font-roboto-slab);
+  --font-roboto-slab: var(--font-roboto-slab);
 
   --ring: 357, 69%, 80%;
 
@@ -220,3 +218,5 @@
     @apply bg-background text-foreground selection:bg-primary/70;
   }
 }
+
+@source "../components/**/*.{js,jsx,ts,tsx}";
