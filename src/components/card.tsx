@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Slot } from '@radix-ui/react-slot';
 
@@ -15,25 +14,13 @@ const Card = React.forwardRef<
       ref={ref}
       {...props}
       className={cn(
-        "rounded-2xl border border-b-4 bg-card text-card-foreground shadow-xs relative",
+        "rounded-2xl border border-b-4 bg-card text-black shadow-xs relative",
         className
       )}
     />
   )
 })
 Card.displayName = "Card"
-
-const CardLink = ({ className, href, ...props }:{className?: string, href: string, children: React.ReactNode}) => (
-  <Link
-    href={href}
-    className={cn(
-      "rounded-2xl border bg-card text-card-foreground shadow-xs",
-      className
-    )}
-    {...props}
-  />
-)
-CardLink.displayName = "CardLink"
 
 const CardImage = React.forwardRef<
   HTMLDivElement,
@@ -109,4 +96,4 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
-export { Card, CardLink, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardImage }
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardImage }

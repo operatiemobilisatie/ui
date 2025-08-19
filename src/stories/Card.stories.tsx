@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardImage, CardLink } from '../components/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardImage } from '../components/card';
 import { Button } from '../components/button';
 
 const meta = {
