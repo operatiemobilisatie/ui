@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Alert, AlertTitle, AlertDescription } from '../components/alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faCircleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
@@ -21,7 +21,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'destructive', 'success'],
+      options: ['default', 'destructive', 'success', 'info', 'warning'],
       description: 'The visual style of the alert',
       table: {
         defaultValue: { summary: 'default' },

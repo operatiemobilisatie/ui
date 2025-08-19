@@ -13,7 +13,7 @@ const radioVariants = cva(
       variant: {
         default: "bg-transparent",
         outline:
-          "border border-input bg-white hover:border-gray-300 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "border border-input bg-white hover:border-gray-300 has-checked:border-primary has-checked:ring-2 has-checked:ring-ring focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
       },
       size: {
         default: "h-10 px-3.5 py-2 rounded-xl",

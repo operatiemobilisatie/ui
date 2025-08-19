@@ -13,7 +13,7 @@ export default [
           {
             dir: "dist",
             preserveModules: true,
-            preserveModulesRoot: ".",
+            preserveModulesRoot: "./src",
             sourcemap: true
           },
         ],
@@ -32,21 +32,12 @@ export default [
             typescript({ tsconfig: "tsconfig.json" }),
             postcss({
               config: false,
-              extract: "src/css/style.css"
+              extract: "css/style.css",
             })
         ],
     },
     {
-      input: "tailwind.config.ts",
-      output: [{file: "dist/tailwind.config.js", format: "esm"}],
-      plugins: [
-        resolve(),
-        commonjs(),
-        typescript(),
-      ]
-    },
-    {
-      input: "dist/src/index.d.ts",
+      input: "dist/index.d.ts",
       output: [
         {
           file: "dist/index.d.ts",

@@ -8,7 +8,7 @@ export interface InputProps
   }
 
 const inputVariants = cva(
-  "peer flex w-full border border-input bg-background file:mr-4 file:hover:border-primary-400 file:cursor-pointer file:border-border file:border file:border-solid file:bg-transparent file:rounded-2xl file:h-[34px] file:px-4 file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed focus:border-primary disabled:opacity-50 hover:border-gray-300",
+  "peer flex w-full border border-input bg-background file:mr-4 duration-150 file:hover:border-primary-400 file:cursor-pointer file:border-border file:border file:border-solid file:bg-transparent file:rounded-2xl file:h-[34px] file:px-4 file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed focus:border-primary disabled:opacity-50 hover:border-gray-300",
   {
     variants: {
       size: {

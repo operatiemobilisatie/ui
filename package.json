@@ -1,6 +1,6 @@
 {
   "name": "@operatiemobilisatie/ui",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "A collection of React components for OM websites and applications.",
   "author": "@douwepausma",
   "license": "MIT",
@@ -14,15 +14,13 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@storybook/addon-essentials": "^8.4.0",
-    "@storybook/addon-interactions": "^8.4.0",
+    "@storybook/addon-docs": "^9.1.2",
     "@storybook/addon-postcss": "^2.0.0",
-    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
-    "@storybook/blocks": "^8.4.0",
-    "@storybook/nextjs": "^8.4.0",
-    "@storybook/react": "^8.4.0",
-    "@storybook/react-webpack5": "^8.4.0",
-    "@storybook/test": "^8.4.0",
+    "@storybook/addon-webpack5-compiler-swc": "^3.0.0",
+    "@storybook/nextjs": "^9.1.2",
+    "@storybook/react-webpack5": "^9.1.2",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/minimatch": "^5.1.2",
     "@types/node": "^20",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19",
@@ -33,8 +31,8 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-preserve-directives": "^0.4.0",
-    "storybook": "^8.4.0",
-    "tailwindcss": "^3.4.3"
+    "storybook": "^9.1.2",
+    "tailwindcss": "^4.1.12"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -82,12 +80,11 @@
       "default": "./dist/src/index.js"
     },
     "./*": {
-      "types": "./dist/src/components/*.d.ts",
-      "default": "./dist/src/components/*.js"
+      "types": "./dist/components/*.d.ts",
+      "default": "./dist/components/*.js"
     },
-    "./lib/*": "./dist/src/lib/*.js",
-    "./tailwindcss": "./dist/tailwind.config.js",
-    "./css": "./dist/src/css/style.css"
+    "./lib/*": "./dist/lib/*.js",
+    "./css": "./dist/css/style.css"
   },
   "types": "./dist/index.d.ts",
   "publishConfig": {

@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Slot } from '@radix-ui/react-slot';
 
@@ -15,25 +14,13 @@ const Card = React.forwardRef<
       ref={ref}
       {...props}
       className={cn(
-        "rounded-2xl border border-b-4 bg-card text-card-foreground shadow-sm relative",
+        "rounded-2xl border border-b-4 bg-card text-black shadow-xs relative",
         className
       )}
     />
   )
 })
 Card.displayName = "Card"
-
-const CardLink = ({ className, href, ...props }:{className?: string, href: string, children: React.ReactNode}) => (
-  <Link
-    href={href}
-    className={cn(
-      "rounded-2xl border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-)
-CardLink.displayName = "CardLink"
 
 const CardImage = React.forwardRef<
   HTMLDivElement,
@@ -42,7 +29,7 @@ const CardImage = React.forwardRef<
   <div
     className={cn(`overflow-clip relative ${!fill ? 'aspect-video rounded-t-2xl' : 'rounded-2xl'}`, className)}>
     {image}
-    {children && <div className={`absolute inset-0 ${!fill ? 'bg-gradient-to-t from-black/20 to-transparent' : 'bg-black/30'}`}></div>}
+    {children && <div className={`absolute inset-0 ${!fill ? 'bg-linear-to-t from-black/20 to-transparent' : 'bg-black/30'}`}></div>}
     <div className={`relative text-white h-full group flex flex-col ${!fill ? 'px-8 py-6' : 'image-fill'}`}>
       {children}
     </div>
@@ -69,7 +56,7 @@ const CardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      "text-2xl font-extrabold leading-none tracking-wide font-lato",
+      "text-2xl font-roboto-slab group-[.image-fill]:font-semibold font-medium leading-none tracking-wide group-[.image-fill]:tracking-wider",
       className
     )}
     {...props}
@@ -109,4 +96,4 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
-export { Card, CardLink, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardImage }
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardImage }

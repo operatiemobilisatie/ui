@@ -1,102 +1,212 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@custom-variant dark (&:is(.dark *));
 
+@theme {
+  /* OM Colors */
+  --color-primary-100: hsl(357, 69%, 93%);
+  --color-primary-200: hsl(357, 69%, 86%);
+  --color-primary-300: hsl(357, 69%, 80%);
+  --color-primary-400: hsl(357, 69%, 73%);
+  --color-primary-500: hsl(357, 69%, 67%);
+  --color-primary-600: hsl(357, 69%, 61%);
+  --color-primary-700: hsl(357, 69%, 55%);
+  --color-primary-800: hsl(357, 69%, 49%);
+  --color-primary: hsl(357, 69%, 49%);
+  --color-primary-foreground: var(--color-primary-800);
+  --color-primary-background: var(--color-primary-200);
+
+  --color-gray-100: rgb(248, 248, 248);
+  --color-gray-200: rgb(240, 241, 241);
+  --color-gray-300: rgb(226, 227, 227);
+  --color-gray-400: rgb(212, 212, 213);
+  --color-gray-500: rgb(198, 198, 199);
+  --color-gray-600: rgb(169, 170, 171);
+  --color-gray-700: rgb(141, 141, 143);
+  --color-gray-800: hsl(210, 1%, 44%);
+  --color-gray: hsl(210, 1%, 44%);
+  --color-gray-foreground: var(--color-gray);
+  --color-gray-background: var(--color-gray-200);
+
+  --color-blue-100: hsl(200, 77%, 95%);
+  --color-blue-200: hsl(200, 77%, 88%);
+  --color-blue-300: hsl(200, 77%, 81%);
+  --color-blue-400: hsl(200, 77%, 74%);
+  --color-blue-500: hsl(200, 77%, 67%);
+  --color-blue-600: hsl(200, 77%, 60%);
+  --color-blue-700: hsl(200, 77%, 53%);
+  --color-blue-800: hsl(200, 77%, 46%);
+  --color-blue: hsl(200, 77%, 46%);
+  --color-blue-foreground: var(--color-blue-800);
+  --color-blue-background: var(--color-blue-200);
+
+  --color-aqua-100: hsl(178, 44%, 96%);
+  --color-aqua-200: hsl(178, 44%, 91%);
+  --color-aqua-300: hsl(178, 44%, 87%);
+  --color-aqua-400: hsl(178, 44%, 82%);
+  --color-aqua-500: hsl(178, 44%, 78%);
+  --color-aqua-600: hsl(178, 44%, 73%);
+  --color-aqua-700: hsl(178, 44%, 69%);
+  --color-aqua-800: hsl(178, 44%, 65%);
+  --color-aqua: hsl(178, 44%, 65%);
+  --color-aqua-foreground: var(--color-aqua-800);
+  --color-aqua-background: var(--color-aqua-200);
+
+  --color-green-100: hsl(98, 49%, 93%);
+  --color-green-200: hsl(98, 49%, 87%);
+  --color-green-300: hsl(98, 49%, 81%);
+  --color-green-400: hsl(98, 49%, 75%);
+  --color-green-500: hsl(98, 49%, 69%);
+  --color-green-600: hsl(98, 49%, 63%);
+  --color-green-700: hsl(98, 49%, 57%);
+  --color-green-800: hsl(98, 49%, 51%);
+  --color-green: hsl(98, 49%, 51%);
+  --color-green-foreground: var(--color-green-800);
+  --color-green-background: var(--color-green-200);
+
+  --color-orange-100: hsl(37, 100%, 95%);
+  --color-orange-200: hsl(37, 100%, 89%);
+  --color-orange-300: hsl(37, 100%, 82%);
+  --color-orange-400: hsl(37, 100%, 75%);
+  --color-orange-500: hsl(37, 100%, 68%);
+  --color-orange-600: hsl(37, 100%, 61%);
+  --color-orange-700: hsl(37, 100%, 54%);
+  --color-orange-800: hsl(37, 100%, 47%);
+  --color-orange: hsl(37, 100%, 47%);
+  --color-orange-foreground: var(--color-orange-800);
+  --color-orange-background: var(--color-orange-200);
+
+  /* Status Colors */
+  --color-destructive-foreground: var(--color-primary-foreground);
+  --color-destructive-background: var(--color-primary-background);
+
+  --color-warning-foreground: var(--color-orange-foreground);
+  --color-warning-background: var(--color-orange-background);
+
+  --color-info-foreground: var(--color-blue-foreground);
+  --color-info-background: var(--color-blue-background);
+
+  --color-success-foreground: var(--color-green-foreground);
+  --color-success-background: var(--color-green-background);
+
+  /* Utility Colors */
+  --color-border: var(--color-gray-200);
+  --color-input: hsl(210, 1%, 93%);
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(0, 0%, 100%);
+  --color-foreground: hsl(222.2, 84%, 4.9%);
+
+  --color-secondary: var(--color-gray-200);
+  --color-secondary-foreground: var(--color-gray-900);
+
+  --radius: 0.5rem;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --font-sans:
+    var(--font-lato), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-lato: var(--font-lato);
+  --font-roboto-slab: var(--font-roboto-slab);
+
+  --ring: 357, 69%, 80%;
+
+
+  @keyframes accordion-down {
+    0% {
+      height: 0;
+    }
+
+    100% {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    0% {
+      height: var(--radix-accordion-content-height);
+    }
+
+    100% {
+      height: 0;
+    }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 357 69% 49%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 357, 69%, 79%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
 
-.shimmer,
-.shimmer-invert {
-  position: relative;
-  overflow: hidden;
-}
+@layer utilities {
 
-.shimmer:after,
-.shimmer-invert:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0px;
-  opacity: 0.2;
-  background-image: linear-gradient(-45deg, transparent 0%, transparent 53%, #fff 53%, #fff 60%, transparent 60%, transparent 100%);
-  background-size: 300%;
-  background-position-x: 100%;
-  -webkit-transition: all 1s cubic-bezier(.19, 1, .22, 1);
-  transition: all 1s cubic-bezier(.19, 1, .22, 1);
-}
-.shimmer:hover:after, .shimmer-invert:hover:after {
-  background-position-x: -15%;
-}
+  .shimmer,
+  .shimmer-invert {
+    position: relative;
+    overflow: hidden;
+  }
 
-.shimmer-invert:after {
-  background-image: linear-gradient(-45deg, transparent 0%, transparent 53%, #000 53%, #000 60%, transparent 60%, transparent 100%);
-  opacity: .05;
-}
+  .shimmer:after,
+  .shimmer-invert:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0px;
+    opacity: 0.2;
+    background-image: linear-gradient(-45deg,
+        transparent 0%,
+        transparent 53%,
+        #fff 53%,
+        #fff 60%,
+        transparent 60%,
+        transparent 100%);
+    background-size: 300%;
+    background-position-x: 100%;
+    -webkit-transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
 
-.link {
-  @apply duration-150 border-b border-gray-300 hover:border-primary;
+  .shimmer:hover:after,
+  .shimmer-invert:hover:after {
+    background-position-x: -15%;
+  }
+
+  .shimmer-invert:after {
+    background-image: linear-gradient(-45deg,
+        transparent 0%,
+        transparent 53%,
+        #000 53%,
+        #000 60%,
+        transparent 60%,
+        transparent 100%);
+    opacity: 0.05;
+  }
+
+  .link {
+    @apply duration-150 border-b border-gray-300 hover:border-primary;
+  }
 }
 
 @layer base {
@@ -108,3 +218,5 @@
     @apply bg-background text-foreground selection:bg-primary/70;
   }
 }
+
+@source "../components/**/*.{js,jsx,ts,tsx}";

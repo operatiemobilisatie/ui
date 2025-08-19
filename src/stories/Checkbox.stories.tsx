@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Checkbox } from '../components/checkbox';
 import { Label } from '../components/label';
 
@@ -16,18 +16,13 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    checked: {
-      control: 'boolean',
-      description: 'Whether the checkbox is checked',
-    },
     disabled: {
       control: 'boolean',
       description: 'Whether the checkbox is disabled',
     },
   },
   args: {
-    checked: false,
-    disabled: false,
+    disabled: false
   },
 } satisfies Meta<typeof Checkbox>;
 
@@ -41,9 +36,6 @@ export const Default: Story = {
         <Label htmlFor="example-checkbox">I accept the terms and conditions</Label>
       </div>
   ),
-  args: {
-    checked: false,
-  },
   parameters: {
     docs: {
       description: {

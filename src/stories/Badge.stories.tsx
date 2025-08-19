@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Badge } from '../components/badge';
 
 const meta = {
@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'secondary', 'destructive', 'success', 'warning', 'info', 'outline'],
+      options: ['default', 'secondary', 'destructive', 'success', 'warning', 'info', 'outline-solid'],
       description: 'The visual style of the badge',
       table: {
         defaultValue: { summary: 'default' },
@@ -131,13 +131,13 @@ export const Info: Story  = {
 
 export const Outline: Story  = {
   args: {
-    variant: "outline",
+    variant: "outline-solid",
     children: 'Disabled',
   },
   parameters: {
     docs: {
       description: {
-        story: 'An outline badge, used for less important information.',
+        story: 'An outline-solid badge, used for less important information.',
       },
     },
   },

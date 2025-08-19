@@ -1,5 +1,5 @@
 import * as React from "react"
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Button } from '../components/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +20,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'secondary', 'outline', 'outline-secondary', 'destructive', 'ghost', 'link'],
+      options: ['default', 'secondary', 'outline', 'outline-secondary', 'green', 'blue', 'orange', 'aqua', 'destructive', 'ghost', 'link'],
       description: 'The visual style of the button',
       table: {
         defaultValue: { summary: 'default' },
@@ -112,7 +112,7 @@ export const Outline: Story  = {
   parameters: {
     docs: {
       description: {
-        story: 'An outline button, used for less important actions.',
+        story: 'An outline-solid button, used for less important actions.',
       },
     },
   },
