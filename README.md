@@ -4,32 +4,23 @@ A collection of [React](https://react.dev/) components for OM websites and appli
 ## Storybook
 You can view the available components in Storybook [here](https://operatiemobilisatie.github.io/ui/).
 
+## Versions
+Major versions are not backwards compatible and are for now reserverd for Tailwindcss upgrades.
+- **Tailwind v3**
+  ```bash
+  npm i @operatiemobilisatie/ui@1.x.x 
+  ```
+- **Tailwind v4**
+  ```bash
+  npm i @operatiemobilisatie/ui@latest
+  ```
+
 ## Usage
 Make sure you've imported the OM/UI styles into your `globals.css` or `main.css`:
 ```css
 /* app/globals.css */
-
+@import "tailwindcss";
 @import "@operatiemobilisatie/ui/css";
-```
-
-Add the OM/UI Tailwind preset to your `tailwind.config.js` and include the library as content:
-```js
-// tailwind.config.js
-
-import tailwindPreset from "@operatiemobilisatie/ui/tailwindcss";
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  presets: [
-    tailwindPreset // OM/UI Tailwind Preset here
-  ],
-  content: [
-    "./node_modules/@operatiemobilisatie/ui/dist/src/**/*.{js,jsx,ts,tsx}" // Define as content like so
-  ],
-  theme: {
-    extend: {},
-  }
-}
 ```
 
 Only thing now is to simply import the component and use it!
@@ -45,7 +36,3 @@ export default function Page() {
 }
 
 ```
-
-## To Do
-- [x] Publish to NPM
-- [ ] Add documentation
