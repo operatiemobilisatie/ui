@@ -2,7 +2,7 @@
 
 import React, {useId, Ref } from "react";
 import Select from 'react-select';
-import type { GroupBase, OnChangeValue, ActionMeta } from 'react-select';
+import type { GroupBase } from 'react-select';
 import { badgeVariants } from './badge';
 import type {} from 'react-select/base';
 import { Props } from "react-select";
