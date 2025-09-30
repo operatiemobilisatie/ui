@@ -26,10 +26,12 @@ import * as Toast from "./components/toast";
 import * as Toaster from "./components/toaster";
 import * as Tabs from "./components/tabs";
 import * as Tooltip from "./components/tooltip";
+import * as AGGrid from "./lib/ag-grid";
 import "./globals.css";
 
 export default {
     Accordion,
+    AGGrid,
     Alert,
     AlertDialog,
     Avatar,
