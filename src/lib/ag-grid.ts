@@ -1,4 +1,3 @@
-
 /**
  * AG Grid theme configuration using CSS variables for consistent styling.
  * @example
