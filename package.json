@@ -13,7 +13,9 @@
     "vr": "npm run build-storybook && playwright test",
     "vr:update": "npm run build-storybook && playwright test --update-snapshots",
     "vr:docker": "docker run --rm --ipc=host -v \"$PWD\":/w -w /w -e HOME=/w/.dockerhome -u $(id -u):$(id -g) mcr.microsoft.com/playwright:v1.62.1-noble npm run vr",
-    "vr:docker:update": "docker run --rm --ipc=host -v \"$PWD\":/w -w /w -e HOME=/w/.dockerhome -u $(id -u):$(id -g) mcr.microsoft.com/playwright:v1.62.1-noble npm run vr:update"
+    "vr:docker:update": "docker run --rm --ipc=host -v \"$PWD\":/w -w /w -e HOME=/w/.dockerhome -u $(id -u):$(id -g) mcr.microsoft.com/playwright:v1.62.1-noble npm run vr:update",
+    "test:behaviour": "npm run build-storybook && playwright test -c playwright.behaviour.config.ts",
+    "test:behaviour:docker": "docker run --rm --ipc=host -v \"$PWD\":/w -w /w -e HOME=/w/.dockerhome -u $(id -u):$(id -g) mcr.microsoft.com/playwright:v1.62.1-noble npm run test:behaviour"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

@@ -6,6 +6,7 @@ dist
 
 .dockerhome
 playwright-report
+playwright-report-behaviour
 test-results
 core.*
 *.tgz
