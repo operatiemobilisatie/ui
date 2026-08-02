@@ -22,6 +22,20 @@ export const TOOLTIP_POPUP = `${PORTAL} > div[data-side] > div[data-side]`;
 export const MENU_POPUP = '[role="menu"]';
 export const MENU_ITEM = '[role="menuitem"]';
 
+/*
+ * A submenu reuses the Menu.Popup part, so `[role="menu"]` matches both popups
+ * once one is open. Base UI marks the nested Positioner *and* the nested Popup
+ * with `data-nested` -- the same deliberate duplication as the tooltip's
+ * data-side -- which is the only thing that tells the two apart, since they are
+ * otherwise the same element with the same role and the same classes.
+ *
+ * The trigger is a menuitem with aria-haspopup, which is contract rather than
+ * markup detail: it is what a screen reader uses to announce the submenu.
+ */
+export const SUBMENU_POPUP = '[role="menu"][data-nested]';
+export const MENU_ROOT_POPUP = '[role="menu"]:not([data-nested])';
+export const SUBMENU_TRIGGER = '[role="menuitem"][aria-haspopup="menu"]';
+
 export const DIALOG_POPUP = '[role="dialog"]:not([aria-modal="false"])';
 export const DIALOG_BACKDROP = `${PORTAL} > [role="presentation"][class*="bg-black/80"]`;
 export const ALERT_DIALOG_POPUP = '[role="alertdialog"]';

@@ -3,10 +3,13 @@ import { expect, test, type Page } from '@playwright/test';
 import { gotoStory } from './helpers';
 import {
   DIALOG_POPUP,
+  MENU_ROOT_POPUP,
   SLIDER_CONTROL,
   SLIDER_INPUT,
   SLIDER_THUMB,
   SLIDER_TRACK,
+  SUBMENU_POPUP,
+  SUBMENU_TRIGGER,
   TOAST,
 } from './selectors';
 
@@ -88,6 +91,144 @@ test.describe('toast swipe to dismiss', () => {
     expect(after.transform).toBe(settledTransform);
     expect(after.movementX).toBe('0px');
     expect(after.movementY).toBe('0px');
+  });
+});
+
+test.describe('dropdown submenu pointer', () => {
+  /*
+   * Characterised rather than assumed, because Base UI's SubmenuTrigger wires
+   * up both interactions and then disables one: `openOnHover` defaults to true,
+   * and `useClick` is registered with `ignoreMouse: openOnHover`. So a mouse
+   * press on the trigger does nothing at all and the hover is what opens it,
+   * after a 100ms rest delay -- which is also why the story's play() opens it
+   * from the keyboard instead.
+   */
+  const SUBMENU_STORY = 'data-display-dropdownmenu--with-submenu';
+
+  /** Reset to "parent menu open, submenu closed, pointer parked away". */
+  async function parentMenuOnly(page: Page) {
+    await gotoStory(page, SUBMENU_STORY);
+    await page.keyboard.press('Escape');
+    await page.keyboard.press('Escape');
+    await expect(page.locator(MENU_ROOT_POPUP)).toHaveCount(0);
+    await page.getByRole('button', { name: 'Open menu' }).click();
+    await expect(page.locator(MENU_ROOT_POPUP)).toHaveCount(1);
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+  }
+
+  /**
+   * Rest the pointer on the submenu trigger. The first move is over the parent
+   * popup and is not padding: Base UI gates a submenu's hover-open on the parent
+   * menu having seen a real mousemove (`allowMouseEnter`), so arriving on the
+   * trigger from outside the popup never opens it.
+   */
+  async function hoverTrigger(page: Page) {
+    const box = await page.locator(SUBMENU_TRIGGER).boundingBox();
+    if (!box) throw new Error('no submenu trigger box');
+    await page.mouse.move(box.x + box.width / 2, box.y - 20, { steps: 5 });
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 5 });
+  }
+
+  test('hovering the trigger opens the submenu, and leaving closes it', async ({ page }) => {
+    await parentMenuOnly(page);
+    await hoverTrigger(page);
+
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+    await expect(page.locator(SUBMENU_TRIGGER)).toHaveAttribute('data-popup-open', '');
+    // Opened by pointer, the trigger is highlighted as well -- unlike the
+    // keyboard path, where the parent's active index moves off it.
+    await expect(page.locator(SUBMENU_TRIGGER)).toHaveAttribute('data-highlighted', '');
+
+    // Leaving the popup entirely closes the submenu but not the parent menu.
+    await page.mouse.move(5, 5, { steps: 10 });
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+    await expect(page.locator(MENU_ROOT_POPUP)).toHaveCount(1);
+  });
+
+  test('a mouse press on the trigger is not what opens it', async ({ page }) => {
+    /*
+     * `ignoreMouse: openOnHover` makes the click interaction inert for a mouse,
+     * so a submenu that appears "on click" actually appeared because the pointer
+     * came to rest there. Proved in-page from three timestamps rather than from
+     * a sampled state: when the pointer arrived on the trigger, when the press
+     * was delivered, and when the popup entered the DOM.
+     *
+     * Both margins are one-sided rather than tuned. `arrived -> appeared` is
+     * bounded below by the 100ms rest delay in real time, so no machine can make
+     * it smaller; a slow one only makes it larger. And the press is delivered in
+     * the first few milliseconds of that window, so `press < appeared` is a
+     * direct demonstration that the press had already happened and had not
+     * opened anything -- React flushes a discrete mousedown synchronously, so a
+     * click-driven open would be in the DOM before the following mouseup.
+     * Measured on this container: arrived->press 8-15ms, arrived->appeared 104ms.
+     */
+    await parentMenuOnly(page);
+
+    const box = await page.locator(SUBMENU_TRIGGER).boundingBox();
+    if (!box) throw new Error('no submenu trigger box');
+    const cx = box.x + box.width / 2;
+    const cy = box.y + box.height / 2;
+
+    // Prime allowMouseEnter over the popup but above the trigger, so the move
+    // below is the pointer's first arrival on the trigger itself.
+    await page.mouse.move(cx, box.y - 20, { steps: 4 });
+
+    await page.evaluate(
+      ({ popupSelector, triggerSelector }) => {
+        const w = window as unknown as {
+          __probe: { arrived: number | null; press: number | null; appeared: number | null };
+        };
+        w.__probe = { arrived: null, press: null, appeared: null };
+        document.querySelector(triggerSelector)?.addEventListener('mousemove', () => {
+          w.__probe.arrived = performance.now();
+        });
+        document.addEventListener(
+          'mouseup',
+          () => {
+            w.__probe.press = performance.now();
+          },
+          true
+        );
+        new MutationObserver(() => {
+          if (w.__probe.appeared === null && document.querySelector(popupSelector)) {
+            w.__probe.appeared = performance.now();
+          }
+        }).observe(document.body, { childList: true, subtree: true });
+      },
+      { popupSelector: SUBMENU_POPUP, triggerSelector: SUBMENU_TRIGGER }
+    );
+
+    await page.mouse.move(cx, cy);
+    await page.mouse.down();
+    await page.mouse.up();
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+
+    const probe = await page.evaluate(
+      () =>
+        (window as unknown as { __probe: { arrived: number; press: number; appeared: number } })
+          .__probe
+    );
+    expect(probe.arrived).not.toBeNull();
+    expect(probe.press).not.toBeNull();
+    expect(probe.appeared).not.toBeNull();
+
+    // The press landed while the submenu was still closed...
+    expect(probe.press).toBeLessThan(probe.appeared);
+    // ...and the submenu opened on the hover rest delay instead.
+    expect(probe.appeared - probe.arrived).toBeGreaterThan(80);
+  });
+
+  test('pressing the trigger while the submenu is open does not toggle it shut', async ({
+    page,
+  }) => {
+    // `toggle: !openOnHover` -- false here, so the press has nothing to toggle.
+    await parentMenuOnly(page);
+    await hoverTrigger(page);
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+
+    await page.locator(SUBMENU_TRIGGER).click();
+    await page.waitForTimeout(400);
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
   });
 });
 

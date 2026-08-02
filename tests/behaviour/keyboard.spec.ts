@@ -6,7 +6,10 @@ import {
   DIALOG_POPUP,
   MENU_ITEM,
   MENU_POPUP,
+  MENU_ROOT_POPUP,
   SLIDER_INPUT,
+  SUBMENU_POPUP,
+  SUBMENU_TRIGGER,
   TOAST,
   TOAST_VIEWPORT,
 } from './selectors';
@@ -107,6 +110,120 @@ test.describe('dropdown menu keyboard model', () => {
       return { outlineStyle: cs.outlineStyle, outlineWidth: cs.outlineWidth };
     });
     expect(ring.outlineStyle).toBe('none');
+  });
+});
+
+test.describe('dropdown submenu keyboard model', () => {
+  /*
+   * The submenu story leaves both popups open, because that is what its
+   * screenshot needs. Every test here closes the submenu first and drives the
+   * open itself, so the assertion is about the interaction rather than about
+   * whatever play() happened to leave behind.
+   */
+  const SUBMENU_STORY = 'data-display-dropdownmenu--with-submenu';
+
+  /** Text of the item carrying data-highlighted inside one popup, or null. */
+  const highlightedIn = (page: Page, popup: string) =>
+    page.evaluate(
+      ({ popupSelector, itemSelector }) =>
+        document.querySelector(`${popupSelector} ${itemSelector}[data-highlighted]`)?.textContent ??
+        null,
+      { popupSelector: popup, itemSelector: MENU_ITEM }
+    );
+
+  test('ArrowRight opens the submenu and ArrowLeft closes it again', async ({ page }) => {
+    await gotoStory(page, SUBMENU_STORY);
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+    // ArrowLeft closes only the submenu -- the parent menu stays up.
+    await expect(page.locator(MENU_ROOT_POPUP)).toHaveCount(1);
+
+    // Focus and the highlight both land back on the trigger that was left.
+    expect(await activeDescription(page)).toMatchObject({ role: 'menuitem', text: 'Invite people' });
+    expect(await highlightedIn(page, MENU_ROOT_POPUP)).toBe('Invite people');
+
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+  });
+
+  test('opening from the keyboard highlights and focuses the first submenu item', async ({
+    page,
+  }) => {
+    /*
+     * This is where a submenu diverges from the parent menu, and it is worth
+     * pinning down because the two are the same component. A click-opened parent
+     * menu leaves DOM focus on the popup with nothing highlighted (asserted
+     * above); ArrowRight into a submenu skips that state entirely and arrives
+     * with the first item already active, because the key that opened it is also
+     * a navigation key.
+     */
+    await gotoStory(page, SUBMENU_STORY);
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+
+    expect(await highlightedIn(page, SUBMENU_POPUP)).toBe('Email invite');
+    expect(await activeDescription(page)).toMatchObject({ role: 'menuitem', text: 'Email invite' });
+
+    // And the arrows keep working inside the submenu.
+    await page.keyboard.press('ArrowDown');
+    expect(await highlightedIn(page, SUBMENU_POPUP)).toBe('Copy link');
+  });
+
+  test('the trigger carries data-popup-open, and loses data-highlighted, while open', async ({
+    page,
+  }) => {
+    /*
+     * Both halves matter. `data-popup-open` is the trigger-specific attribute
+     * (Base UI runs a trigger through triggerOpenStateMapping, so `data-open:`
+     * on one is valid Tailwind that never matches) -- and it is not redundant
+     * with `data-highlighted`, because a keyboard-opened submenu moves the
+     * parent's active index *off* the trigger. Without the
+     * `data-popup-open:bg-accent` rule in dropdown-menu.tsx the trigger would go
+     * unstyled the instant its submenu opened.
+     *
+     * The attributes rather than the computed background: `--color-accent` is
+     * one of the six @theme tokens this library still does not define, so
+     * `bg-accent` currently emits nothing. When that is fixed the rule starts
+     * painting, and this test already guarantees it will paint at the right time.
+     */
+    await gotoStory(page, SUBMENU_STORY);
+    const trigger = page.locator(SUBMENU_TRIGGER);
+
+    await expect(trigger).toHaveAttribute('data-popup-open', '');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(trigger).not.toHaveAttribute('data-highlighted', /.*/);
+
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+
+    await expect(trigger).not.toHaveAttribute('data-popup-open', /.*/);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(trigger).toHaveAttribute('data-highlighted', '');
+  });
+
+  test('Escape closes the submenu only, and a second Escape closes the menu', async ({ page }) => {
+    /*
+     * SubmenuRoot defaults `closeParentOnEsc` to false, so Escape is scoped to
+     * the innermost menu. Radix's Sub had no such prop and behaved the same way,
+     * but it is now a defaulted prop a consumer can flip, which makes the
+     * default worth a test.
+     */
+    await gotoStory(page, SUBMENU_STORY);
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+    await expect(page.locator(MENU_ROOT_POPUP)).toHaveCount(1);
+    expect(await activeDescription(page)).toMatchObject({ role: 'menuitem', text: 'Invite people' });
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator(MENU_POPUP)).toHaveCount(0);
+    expect(await activeDescription(page)).toMatchObject({ tag: 'BUTTON', text: 'Open menu' });
   });
 });
 

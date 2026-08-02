@@ -15,6 +15,7 @@ import {
   DIALOG_BACKDROP,
   DIALOG_POPUP,
   MENU_POPUP,
+  SUBMENU_POPUP,
   TOAST,
   TOOLTIP_POPUP,
   accordionChevron,
@@ -132,6 +133,90 @@ test.describe('dropdown menu', () => {
     const ending = samples(await readFrames(page), 'popup').filter((f) => f.ending);
     expect(ending.length).toBeGreaterThan(0);
     expect(ending[0].opacity).toBe('1');
+  });
+});
+
+test.describe('dropdown submenu', () => {
+  /*
+   * The submenu popup is the *same* Menu.Popup part as the parent, so nothing
+   * here is a foregone conclusion: it is styled by the same wrapper but it is a
+   * separate Positioner, in a separate Portal, driven by a separate Menu root,
+   * and it mounts while another popup is already on screen.
+   *
+   * Both directions are driven from the keyboard rather than the pointer. Hover
+   * is what a real user does, but it opens on a 100ms rest delay that would land
+   * inside the recording window and make the frame counts a function of how
+   * quickly the mouse settled.
+   */
+  const SUBMENU_STORY = 'data-display-dropdownmenu--with-submenu';
+
+  test('the submenu popup enters with a painted starting style', async ({ page }) => {
+    await gotoStory(page, SUBMENU_STORY);
+    // play() leaves the submenu open; ArrowLeft closes it and leaves focus on
+    // the trigger, so ArrowRight below is the *enter* being recorded.
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+
+    await startTransitionLog(page, { sub: SUBMENU_POPUP });
+    await startFrameRecorder(page, { sub: SUBMENU_POPUP });
+
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+    await page.waitForTimeout(SETTLE);
+
+    const properties = propertiesFor(await readTransitionLog(page), 'sub');
+    expect(properties).toContain('opacity');
+    expect(properties).toContain('scale');
+
+    const frames = samples(await readFrames(page), 'sub');
+    /*
+     * Unlike the toast -- which clears transitionStatus 'starting' from a layout
+     * effect and therefore never paints one -- a submenu goes through the normal
+     * requestAnimationFrame path, so the starting style does reach a frame. It
+     * reaches exactly one, so this is a >0 assertion and not a >1 one.
+     */
+    const starting = frames.filter((f) => f.starting);
+    expect(starting.length, 'submenu painted no starting frame').toBeGreaterThan(0);
+    expect(starting[0].opacity).toBe('0');
+    expect(starting[0].scale).toBe('0.95');
+
+    // And it interpolates rather than stepping, on both properties.
+    expect(new Set(frames.map((f) => f.opacity)).size).toBeGreaterThan(3);
+    expect(new Set(frames.map((f) => f.scale)).size).toBeGreaterThan(3);
+    expect(frames[frames.length - 1].opacity).toBe('1');
+
+    // Transitions only -- no resurrected @keyframes from the dead
+    // tailwindcss-animate classes the migration deleted.
+    expect(animationsSeen(await readFrames(page), 'sub').sort()).toEqual(['opacity', 'scale']);
+  });
+
+  test('the submenu popup exits with a painted ending style before it unmounts', async ({
+    page,
+  }) => {
+    await gotoStory(page, SUBMENU_STORY);
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(1);
+
+    await startTransitionLog(page, { sub: SUBMENU_POPUP });
+    await startFrameRecorder(page, { sub: SUBMENU_POPUP });
+
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator(SUBMENU_POPUP)).toHaveCount(0);
+    await page.waitForTimeout(SETTLE);
+
+    expect(propertiesFor(await readTransitionLog(page), 'sub')).toContain('opacity');
+
+    const frames = samples(await readFrames(page), 'sub');
+    const ending = frames.filter((f) => f.ending);
+    expect(ending.length, 'submenu painted no ending frame').toBeGreaterThan(0);
+    /*
+     * No assertion that ending[0].opacity is exactly '1', which is what the
+     * parent-menu exit test can afford. The recorder is running before the key
+     * is pressed, and on a submenu the first frame carrying data-ending-style is
+     * already a frame or so into the fade. Asserting it monotonically descends
+     * to nothing is the same guarantee without pinning a sampling instant.
+     */
+    expect(Number(ending[0].opacity)).toBeGreaterThan(0.5);
+    expect(Number(ending[ending.length - 1].opacity)).toBeLessThan(0.1);
   });
 });
 
