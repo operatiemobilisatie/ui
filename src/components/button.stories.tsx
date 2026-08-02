@@ -1,9 +1,7 @@
 import * as React from "react"
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from './button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { PlusIcon } from '../story-icons';
 
 const meta = {
   title: 'Form/Button',
@@ -76,7 +74,7 @@ export const PrimaryWithIcon: Story = {
     size: 'default',
     children: (
       <>
-        <FontAwesomeIcon icon={faPlus as IconProp} className="mr-2" />
+        <PlusIcon className="mr-2" />
         Add Item
       </>
     ),
@@ -191,7 +189,7 @@ export const Small: Story = {
 export const Icon: Story = {
   args: {
     size: 'icon',
-    children: <FontAwesomeIcon icon={faPlus as IconProp} />,
+    children: <PlusIcon />,
   },
   parameters: {
     docs: {
@@ -205,7 +203,7 @@ export const Icon: Story = {
 export const IconSmall: Story = {
   args: {
     size: 'sm-icon',
-    children: <FontAwesomeIcon icon={faPlus as IconProp} />,
+    children: <PlusIcon />,
   },
   parameters: {
     docs: {
@@ -219,7 +217,7 @@ export const IconSmall: Story = {
 export const IconLarge: Story = {
   args: {
     size: 'lg-icon',
-    children: <FontAwesomeIcon icon={faPlus as IconProp} />,
+    children: <PlusIcon />,
   },
   parameters: {
     docs: {

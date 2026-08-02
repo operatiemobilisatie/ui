@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
+import { CopyIcon } from '../story-icons';
 import {
   Dialog,
   DialogTrigger,
@@ -15,8 +16,6 @@ import {
 import { Button } from './button';
 import { Input } from './input';
 import { Label } from './label';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const meta = {
   title: 'Data Display/Dialog',
@@ -62,7 +61,7 @@ export const Default: Story = {
           </div>
           <Button type="submit" size="sm-icon" className="px-3">
             <span className="sr-only">Copy</span>
-            <FontAwesomeIcon icon={faCopy} />
+            <CopyIcon />
           </Button>
         </div>
       </DialogContent>

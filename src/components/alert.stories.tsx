@@ -2,9 +2,7 @@ import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert, AlertTitle, AlertDescription } from './alert';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faCircleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { InfoIcon, AlertCircleIcon, CheckCircleIcon } from '../story-icons';
 
 const meta = {
   title: 'Feedback/Alert',
@@ -54,7 +52,7 @@ export const Default: Story = {
 export const DefaultWithIcon: Story = {
   render: (args) => (
     <Alert variant={args.variant} className="w-[400px]">
-      <FontAwesomeIcon icon={faCircleInfo as IconProp} />
+      <InfoIcon />
       <AlertTitle>Information</AlertTitle>
       <AlertDescription>
         This is a default alert message providing neutral information to the user.

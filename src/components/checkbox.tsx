@@ -1,7 +1,6 @@
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { faCheck } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { CheckIcon } from "./icons"
 
 import { cn } from "../lib/utils"
 import { cva } from "class-variance-authority"
@@ -40,7 +39,7 @@ const Checkbox = React.forwardRef<
     <CheckboxPrimitive.Indicator
       className={cn("flex items-center justify-center text-white relative")}
     >
-      <FontAwesomeIcon icon={faCheck} className="h-full" height={checkVariants[displaySize]} width={checkVariants[displaySize]} />
+      <CheckIcon className="h-full" height={checkVariants[displaySize]} width={checkVariants[displaySize]} />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ))

@@ -29,6 +29,7 @@ export * from './components/card';
 export * from './components/checkbox';
 export * from './components/dialog';
 export * from './components/dropdown-menu';
+export * from './components/icons';
 export * from './components/input';
 export * from './components/kicker';
 export * from './components/label';
@@ -49,5 +50,6 @@ export * from './components/toaster';
 export * from './components/tooltip';
 
 export * from './lib/utils';
+export * from './lib/hooks';
 export * from './lib/use-toast';
 export * from './lib/ag-grid';

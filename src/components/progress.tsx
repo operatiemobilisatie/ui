@@ -1,12 +1,10 @@
 "use client"
 
 import * as React from "react"
-import ReactDOM from "react"
 import * as ProgressPrimitive from "@radix-ui/react-progress"
 
 import { cn } from "../lib/utils"
-import { useCountUp } from "react-countup"
-import { useInView } from "motion/react"
+import { useCountUp, useInView } from "../lib/hooks"
 
 const Progress = React.forwardRef<
   React.ComponentRef<typeof ProgressPrimitive.Root>,
@@ -17,10 +15,7 @@ const Progress = React.forwardRef<
   const isInView = useInView(counterRef);
 
   const {start, reset} = useCountUp({
-    // react-countup types `ref` as RefObject<HTMLElement> with a non-nullable
-    // `current`, which React 19 no longer produces. Phase 4 replaces
-    // react-countup with a local hook and this cast goes with it.
-    ref: counterRef as React.RefObject<HTMLElement>,
+    ref: counterRef,
     start: 0,
     end: value || 0,
     duration: 2,
