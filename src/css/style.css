@@ -102,9 +102,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
-
   /*
    * These name the families only -- they do not load them. Get the actual files
    * from either:
@@ -121,26 +118,14 @@
 
   --ring: 357, 69%, 80%;
 
-
-  @keyframes accordion-down {
-    0% {
-      height: 0;
-    }
-
-    100% {
-      height: var(--radix-accordion-content-height);
-    }
-  }
-
-  @keyframes accordion-up {
-    0% {
-      height: var(--radix-accordion-content-height);
-    }
-
-    100% {
-      height: 0;
-    }
-  }
+  /*
+   * The `accordion-down` / `accordion-up` keyframes and their `--animate-*`
+   * entries lived here. They interpolated `--radix-accordion-content-height`,
+   * a variable only Radix ever set, and accordion.tsx was their only consumer.
+   * Base UI publishes `--accordion-panel-height` on the panel itself, so the
+   * transition is now three utility classes on the component and needs nothing
+   * from the theme.
+   */
 }
 
 @utility container {

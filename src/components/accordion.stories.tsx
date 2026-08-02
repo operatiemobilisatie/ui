@@ -1,60 +1,66 @@
 import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';
+import * as Accordion from './accordion';
 
 const meta = {
   title: 'Data Display/Accordion',
-  component: Accordion,
+  component: Accordion.Root,
   parameters: {
     layout: 'centered',
     docs: {
       description: {
-        component: 'An expandable accordion component that can contain multiple items with headers and content.',
+        component:
+          'An expandable accordion component that can contain multiple items with headers and content. Radix\'s type="single" | "multiple" is Base UI\'s `multiple` boolean, `value` and `defaultValue` are arrays in both modes, and Content is now Panel.',
       },
     },
   },
   tags: ['autodocs'],
   argTypes: {
-    type: {
-      control: 'select',
-      options: ['single', 'multiple'],
-      description: 'Whether the accordion allows single or multiple items to be open',
+    multiple: {
+      control: 'boolean',
+      description: 'Whether multiple items can be open at the same time',
       table: {
-        defaultValue: { summary: 'single' },
+        defaultValue: { summary: 'false' },
       },
     },
   },
   args: {
-    type: 'single',
+    multiple: false,
   },
-} satisfies Meta<typeof Accordion>;
+} satisfies Meta<typeof Accordion.Root>;
 
 export default meta;
-type Story = StoryObj<typeof Accordion>;
+type Story = StoryObj<typeof Accordion.Root>;
 
 export const Default: Story = {
   render: (args) => (
-    <Accordion className="w-[400px] flex flex-col gap-y-2" {...args}>
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
+    <Accordion.Root className="w-[400px] flex flex-col gap-y-2" {...args}>
+      <Accordion.Item value="item-1">
+        <Accordion.Header>
+          <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
+        </Accordion.Header>
+        <Accordion.Panel>
           Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Is it styled?</AccordionTrigger>
-        <AccordionContent>
+        </Accordion.Panel>
+      </Accordion.Item>
+      <Accordion.Item value="item-2">
+        <Accordion.Header>
+          <Accordion.Trigger>Is it styled?</Accordion.Trigger>
+        </Accordion.Header>
+        <Accordion.Panel>
           Yes. It comes with default styles that match your theme.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Is it animated?</AccordionTrigger>
-        <AccordionContent>
+        </Accordion.Panel>
+      </Accordion.Item>
+      <Accordion.Item value="item-3">
+        <Accordion.Header>
+          <Accordion.Trigger>Is it animated?</Accordion.Trigger>
+        </Accordion.Header>
+        <Accordion.Panel>
           Yes. It's animated by default, but you can disable it if you prefer.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+        </Accordion.Panel>
+      </Accordion.Item>
+    </Accordion.Root>
   ),
   parameters: {
     docs: {
@@ -67,23 +73,27 @@ export const Default: Story = {
 
 export const Multiple: Story = {
   args: {
-    type: 'multiple',
+    multiple: true,
   },
   render: (args) => (
-    <Accordion className="w-[400px] flex flex-col gap-y-2" {...args}>
-      <AccordionItem value="item-1">
-        <AccordionTrigger>First Section</AccordionTrigger>
-        <AccordionContent>
+    <Accordion.Root className="w-[400px] flex flex-col gap-y-2" {...args}>
+      <Accordion.Item value="item-1">
+        <Accordion.Header>
+          <Accordion.Trigger>First Section</Accordion.Trigger>
+        </Accordion.Header>
+        <Accordion.Panel>
           This is the first section's content.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Second Section</AccordionTrigger>
-        <AccordionContent>
+        </Accordion.Panel>
+      </Accordion.Item>
+      <Accordion.Item value="item-2">
+        <Accordion.Header>
+          <Accordion.Trigger>Second Section</Accordion.Trigger>
+        </Accordion.Header>
+        <Accordion.Panel>
           This is the second section's content.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+        </Accordion.Panel>
+      </Accordion.Item>
+    </Accordion.Root>
   ),
   parameters: {
     docs: {
@@ -96,14 +106,16 @@ export const Multiple: Story = {
 
 export const WithoutChevron: Story = {
   render: (args) => (
-    <Accordion className="w-[400px]" {...args}>
-      <AccordionItem value="item-1">
-        <AccordionTrigger hideChevron>No Chevron Item</AccordionTrigger>
-        <AccordionContent>
+    <Accordion.Root className="w-[400px]" {...args}>
+      <Accordion.Item value="item-1">
+        <Accordion.Header>
+          <Accordion.Trigger hideChevron>No Chevron Item</Accordion.Trigger>
+        </Accordion.Header>
+        <Accordion.Panel>
           This accordion trigger has no chevron icon.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+        </Accordion.Panel>
+      </Accordion.Item>
+    </Accordion.Root>
   ),
   parameters: {
     docs: {
@@ -112,13 +124,18 @@ export const WithoutChevron: Story = {
       },
     },
   },
-}; 
+};
 /*
  * All three stories above start collapsed, so the panel -- and the open/close
  * animation the accordion is built around -- was never screenshotted.
  */
 export const Expanded: Story = {
-  args: { type: 'single', collapsible: true, defaultValue: 'item-1' },
+  /*
+   * `defaultValue` is an array now even though this is a single accordion, and
+   * `collapsible` is gone: Base UI's single mode always allows closing the open
+   * item, so there is nothing left to opt into.
+   */
+  args: { multiple: false, defaultValue: ['item-1'] },
   render: Default.render,
   parameters: {
     docs: {

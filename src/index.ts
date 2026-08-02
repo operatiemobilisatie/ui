@@ -19,7 +19,7 @@
  * pulling in a "use client" boundary it does not need.
  */
 
-export * from './components/accordion';
+export * as Accordion from './components/accordion';
 export * as Alert from './components/alert';
 export * as AlertDialog from './components/alert-dialog';
 export * as Avatar from './components/avatar';
