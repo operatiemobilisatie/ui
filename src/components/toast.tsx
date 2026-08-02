@@ -105,9 +105,18 @@ const Viewport = React.forwardRef<
  * `data-[swipe=move]:transition-none` have nothing left to do. The equivalent
  * variable is `--toast-swipe-movement-x` (and `-y`), still published on the root
  * and still there if a consumer wants to fade or rotate with the drag.
+ *
+ * `transition-[opacity,transform,translate]` names three properties on purpose.
+ * Tailwind v4 compiles `translate-y-full` / `translate-x-full` to the individual
+ * `translate` property rather than to `transform`, so a list of
+ * `opacity,transform` covers the fade and the swipe-cancel spring-back (Base UI
+ * writes the in-flight drag as an inline `transform`) but silently misses the
+ * slide entirely: the toast would appear where it lands on enter and jump a full
+ * width sideways in one frame on exit. `translate` is what actually animates the
+ * starting and ending styles above.
  */
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-2xl border px-4 py-3 pr-8 shadow-lg transition-[opacity,transform] duration-200 ease-out data-starting-style:opacity-0 data-starting-style:-translate-y-full sm:data-starting-style:translate-y-full data-ending-style:opacity-0 data-ending-style:translate-x-full data-swiping:transition-none",
+  "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-2xl border px-4 py-3 pr-8 shadow-lg transition-[opacity,transform,translate] duration-200 ease-out data-starting-style:opacity-0 data-starting-style:-translate-y-full sm:data-starting-style:translate-y-full data-ending-style:opacity-0 data-ending-style:translate-x-full data-swiping:transition-none",
   {
     variants: {
       variant: {
