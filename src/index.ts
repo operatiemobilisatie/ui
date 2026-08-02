@@ -28,7 +28,7 @@ export * from './components/button';
 export * as Card from './components/card';
 export * from './components/checkbox';
 export * from './components/dialog';
-export * from './components/dropdown-menu';
+export * as DropdownMenu from './components/dropdown-menu';
 export * from './components/icons';
 export * from './components/input';
 export * from './components/kicker';
@@ -47,7 +47,7 @@ export * as Tabs from './components/tabs';
 export * from './components/textarea';
 export * from './components/toast';
 export * from './components/toaster';
-export * from './components/tooltip';
+export * as Tooltip from './components/tooltip';
 
 export * from './lib/utils';
 export * from './lib/hooks';
