@@ -1,32 +1,43 @@
 import * as React from "react"
 
+import { useRender } from "@base-ui/react/use-render"
+
 import { cn } from "../lib/utils"
-import { Slot } from '@radix-ui/react-slot';
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { asChild?: boolean }
->(({ className, asChild, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'div';
+/*
+ * Parts are namespaced, following Base UI:
+ *
+ *   import { Card } from "@operatiemobilisatie/ui";
+ *   <Card.Root render={<Link href="/story" />}>...</Card.Root>
+ *
+ * `asChild` is replaced by `render`.
+ */
 
-  return (
-    <Comp
-      ref={ref}
-      {...props}
-      className={cn(
-        "rounded-2xl border border-b-4 border-gray-200 bg-card text-black shadow-xs relative",
-        className
-      )}
-    />
-  )
-})
-Card.displayName = "Card"
+const Root = React.forwardRef<HTMLDivElement, useRender.ComponentProps<'div'>>(
+  ({ className, render, ...props }, ref) =>
+    useRender({
+      render,
+      ref,
+      defaultTagName: 'div',
+      props: {
+        className: cn(
+          "rounded-2xl border border-b-4 border-gray-200 bg-card text-black shadow-xs relative",
+          className
+        ),
+        ...props,
+      },
+    })
+)
+Root.displayName = "Card.Root"
 
-const CardImage = React.forwardRef<
+const Image = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { image: React.ReactNode, fill?: boolean }
 >(({ className, children, image, fill, ...props }, ref) => (
+  // The ref was previously accepted and then dropped on the floor.
   <div
+    ref={ref}
+    {...props}
     className={cn(`overflow-clip relative ${!fill ? 'aspect-video rounded-t-2xl' : 'rounded-2xl'}`, className)}>
     {image}
     {children && <div className={`absolute inset-0 ${!fill ? 'bg-linear-to-t from-black/20 to-transparent' : 'bg-black/30'}`}></div>}
@@ -35,9 +46,9 @@ const CardImage = React.forwardRef<
     </div>
   </div>
 ))
-CardImage.displayName = "CardImage"
+Image.displayName = "Card.Image"
 
-const CardHeader = React.forwardRef<
+const Header = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -47,9 +58,9 @@ const CardHeader = React.forwardRef<
     {...props}
   />
 ))
-CardHeader.displayName = "CardHeader"
+Header.displayName = "Card.Header"
 
-const CardTitle = React.forwardRef<
+const Title = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
@@ -62,9 +73,9 @@ const CardTitle = React.forwardRef<
     {...props}
   />
 ))
-CardTitle.displayName = "CardTitle"
+Title.displayName = "Card.Title"
 
-const CardDescription = React.forwardRef<
+const Description = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -74,17 +85,17 @@ const CardDescription = React.forwardRef<
     {...props}
   />
 ))
-CardDescription.displayName = "CardDescription"
+Description.displayName = "Card.Description"
 
-const CardContent = React.forwardRef<
+const Content = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
 ))
-CardContent.displayName = "CardContent"
+Content.displayName = "Card.Content"
 
-const CardFooter = React.forwardRef<
+const Footer = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -94,6 +105,6 @@ const CardFooter = React.forwardRef<
     {...props}
   />
 ))
-CardFooter.displayName = "CardFooter"
+Footer.displayName = "Card.Footer"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardImage }
+export { Root, Image, Header, Title, Description, Content, Footer }

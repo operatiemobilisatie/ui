@@ -39,12 +39,10 @@ const meta = {
         defaultValue: { summary: '' },
       },
     },
-    asChild: {
-      control: 'boolean',
-      description: 'If true, the button will render its children directly without a button wrapper',
-      table: {
-        defaultValue: { summary: 'false' },
-      },
+    render: {
+      control: false,
+      description:
+        'A React element to render instead of the default <button>, e.g. render={<a href="/give" />}. Replaces the v2 asChild prop.',
     },
   },
   args: {  },

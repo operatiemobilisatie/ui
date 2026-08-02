@@ -3,6 +3,21 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../lib/utils"
 
+/*
+ * Parts are named Root/Title/Description and consumed through a namespace:
+ *
+ *   import { Alert } from "@operatiemobilisatie/ui";
+ *   // or: import * as Alert from "@operatiemobilisatie/ui/alert";
+ *
+ *   <Alert.Root variant="success">
+ *     <Alert.Title>Saved</Alert.Title>
+ *     <Alert.Description>All twelve records were written.</Alert.Description>
+ *   </Alert.Root>
+ *
+ * This is Base UI's own convention, applied across the library in v3. The flat
+ * names (Alert, AlertTitle, AlertDescription) are gone.
+ */
+
 const alertVariants = cva(
   "relative w-full rounded-xl p-4 [&>svg~*]:pl-7 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-[17px] [&>svg]:text-foreground",
   {
@@ -21,7 +36,7 @@ const alertVariants = cva(
   }
 )
 
-const Alert = React.forwardRef<
+const Root = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
 >(({ className, variant, ...props }, ref) => (
@@ -32,9 +47,9 @@ const Alert = React.forwardRef<
     {...props}
   />
 ))
-Alert.displayName = "Alert"
+Root.displayName = "Alert.Root"
 
-const AlertTitle = React.forwardRef<
+const Title = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
@@ -44,9 +59,9 @@ const AlertTitle = React.forwardRef<
     {...props}
   />
 ))
-AlertTitle.displayName = "AlertTitle"
+Title.displayName = "Alert.Title"
 
-const AlertDescription = React.forwardRef<
+const Description = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -56,6 +71,6 @@ const AlertDescription = React.forwardRef<
     {...props}
   />
 ))
-AlertDescription.displayName = "AlertDescription"
+Description.displayName = "Alert.Description"
 
-export { Alert, AlertTitle, AlertDescription }
+export { Root, Title, Description, alertVariants }

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardImage } from './card';
+import * as Card from './card';
 import { Button } from './button';
 
 const meta = {
   title: 'Data Display/Card',
-  component: Card,
+  component: Card.Root,
   parameters: {
     layout: 'centered',
     docs: {
@@ -15,25 +15,25 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Card>;
+} satisfies Meta<typeof Card.Root>;
 
 export default meta;
-type Story = StoryObj<typeof Card>;
+type Story = StoryObj<typeof Card.Root>;
 
 export const Default: Story = {
   render: () => (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description that explains the content.</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <Card.Root className="w-[350px]">
+      <Card.Header>
+        <Card.Title>Card Title</Card.Title>
+        <Card.Description>Card Description that explains the content.</Card.Description>
+      </Card.Header>
+      <Card.Content>
         <p>This is the main content of the card. It can contain any elements.</p>
-      </CardContent>
-      <CardFooter>
+      </Card.Content>
+      <Card.Footer>
         <Button>Action</Button>
-      </CardFooter>
-    </Card>
+      </Card.Footer>
+    </Card.Root>
   ),
   parameters: {
     docs: {
@@ -46,8 +46,8 @@ export const Default: Story = {
 
 export const WithImage: Story = {
   render: () => (
-    <Card className="w-[350px]">
-      <CardImage 
+    <Card.Root className="w-[350px]">
+      <Card.Image 
         image={
           <img 
             src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1000" 
@@ -56,18 +56,18 @@ export const WithImage: Story = {
           />
         }
       >
-      </CardImage>
-      <CardHeader>
-        <CardTitle>Featured Location</CardTitle>
-        <CardDescription>Discover amazing places</CardDescription>
-      </CardHeader>
-      <CardContent>
+      </Card.Image>
+      <Card.Header>
+        <Card.Title>Featured Location</Card.Title>
+        <Card.Description>Discover amazing places</Card.Description>
+      </Card.Header>
+      <Card.Content>
         <p>Explore the beauty of urban landscapes and architecture.</p>
-      </CardContent>
-      <CardFooter>
+      </Card.Content>
+      <Card.Footer>
         <Button>Learn More</Button>
-      </CardFooter>
-    </Card>
+      </Card.Footer>
+    </Card.Root>
   ),
   parameters: {
     docs: {
@@ -80,22 +80,20 @@ export const WithImage: Story = {
 
 export const AsLink: Story = {
   render: () => (
-    <Card className="w-[350px] block" asChild>
-      <a href="/destination">
-        <CardHeader>
-          <CardTitle>Click Me</CardTitle>
-          <CardDescription>This entire card is clickable</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Click anywhere on this card to navigate.</p>
-        </CardContent>
-      </a>
-    </Card>
+    <Card.Root className="w-[350px] block" render={<a href="/destination" />}>
+      <Card.Header>
+        <Card.Title>Click Me</Card.Title>
+        <Card.Description>This entire card is clickable</Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <p>Click anywhere on this card to navigate.</p>
+      </Card.Content>
+    </Card.Root>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'A card that functions as a link, making the entire card clickable.',
+        story: 'A card rendered as an anchor via the render prop, making the whole card clickable. This replaces the v2 asChild API.',
       },
     },
   },
@@ -103,7 +101,7 @@ export const AsLink: Story = {
 
 export const FullImageCard: Story = {
   render: () => (
-      <CardImage
+      <Card.Image
         className="w-[350px] h-[200px]"
         fill
         image={
@@ -114,13 +112,13 @@ export const FullImageCard: Story = {
           />
         }
       >
-        <CardHeader>
-          <CardTitle>Full Coverage</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription>Image fills the entire card</CardDescription>
-        </CardContent>
-      </CardImage>
+        <Card.Header>
+          <Card.Title>Full Coverage</Card.Title>
+        </Card.Header>
+        <Card.Content>
+          <Card.Description>Image fills the entire card</Card.Description>
+        </Card.Content>
+      </Card.Image>
   ),
   parameters: {
     docs: {

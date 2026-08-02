@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
+import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../lib/utils"
@@ -37,24 +37,31 @@ const buttonVariants = cva(
   }
 )
 
+/**
+ * `asChild` is gone. Base UI composes through a `render` prop instead of a Slot:
+ *
+ *   <Button render={<a href="/give" />}>Give</Button>
+ *
+ * `render` also accepts a function receiving the merged props, for the cases
+ * where you need to place them on the element yourself.
+ */
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-}
+  extends useRender.ComponentProps<"button">,
+    VariantProps<typeof buttonVariants> {}
 
+// forwardRef rather than a React 19 ref-as-prop, because peerDependencies
+// still allow React 18.
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
+  ({ className, variant, size, render, ...props }, ref) =>
+    useRender({
+      render,
+      ref,
+      defaultTagName: "button",
+      props: {
+        className: cn(buttonVariants({ variant, size, className })),
+        ...props,
+      },
+    })
 )
 Button.displayName = "Button"
 

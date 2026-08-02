@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Alert, AlertTitle, AlertDescription } from './alert';
+import * as Alert from './alert';
 import { InfoIcon, AlertCircleIcon, CheckCircleIcon } from '../story-icons';
 
 const meta = {
   title: 'Feedback/Alert',
-  component: Alert,
+  component: Alert.Root,
   parameters: {
     layout: 'centered',
     docs: {
@@ -26,19 +26,19 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof Alert>;
+} satisfies Meta<typeof Alert.Root>;
 
 export default meta;
-type Story = StoryObj<typeof Alert>;
+type Story = StoryObj<typeof Alert.Root>;
 
 export const Default: Story = {
   render: (args) => (
-    <Alert variant={args.variant} className="w-[400px]">
-      <AlertTitle>Information</AlertTitle>
-      <AlertDescription>
+    <Alert.Root variant={args.variant} className="w-[400px]">
+      <Alert.Title>Information</Alert.Title>
+      <Alert.Description>
         This is a default alert message providing neutral information to the user.
-      </AlertDescription>
-    </Alert>
+      </Alert.Description>
+    </Alert.Root>
   ),
   parameters: {
     docs: {
@@ -51,13 +51,13 @@ export const Default: Story = {
 
 export const DefaultWithIcon: Story = {
   render: (args) => (
-    <Alert variant={args.variant} className="w-[400px]">
+    <Alert.Root variant={args.variant} className="w-[400px]">
       <InfoIcon />
-      <AlertTitle>Information</AlertTitle>
-      <AlertDescription>
+      <Alert.Title>Information</Alert.Title>
+      <Alert.Description>
         This is a default alert message providing neutral information to the user.
-      </AlertDescription>
-    </Alert>
+      </Alert.Description>
+    </Alert.Root>
   ),
   parameters: {
     docs: {
@@ -70,12 +70,12 @@ export const DefaultWithIcon: Story = {
 
 export const Destructive: Story = {
   render: () => (
-    <Alert variant="destructive" className="w-[400px]">
-      <AlertTitle>Error</AlertTitle>
-      <AlertDescription>
+    <Alert.Root variant="destructive" className="w-[400px]">
+      <Alert.Title>Error</Alert.Title>
+      <Alert.Description>
         Something went wrong! Please try again later.
-      </AlertDescription>
-    </Alert>
+      </Alert.Description>
+    </Alert.Root>
   ),
   parameters: {
     docs: {
@@ -88,12 +88,12 @@ export const Destructive: Story = {
 
 export const Success: Story = {
   render: () => (
-    <Alert variant="success" className="w-[400px]">
-      <AlertTitle>Success</AlertTitle>
-      <AlertDescription>
+    <Alert.Root variant="success" className="w-[400px]">
+      <Alert.Title>Success</Alert.Title>
+      <Alert.Description>
         Your changes have been saved successfully!
-      </AlertDescription>
-    </Alert>
+      </Alert.Description>
+    </Alert.Root>
   ),
   parameters: {
     docs: {
@@ -106,11 +106,11 @@ export const Success: Story = {
 
 export const WithoutTitle: Story = {
   render: () => (
-    <Alert className="w-[400px]">
-      <AlertDescription>
+    <Alert.Root className="w-[400px]">
+      <Alert.Description>
         A simple alert message without a title.
-      </AlertDescription>
-    </Alert>
+      </Alert.Description>
+    </Alert.Root>
   ),
   parameters: {
     docs: {
