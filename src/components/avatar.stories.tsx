@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Avatar, AvatarImage, AvatarFallback } from './avatar';
+import * as Avatar from './avatar';
 
 const meta = {
   title: 'Data Display/Avatar',
-  component: Avatar,
+  component: Avatar.Root,
   parameters: {
     layout: 'centered',
     docs: {
@@ -25,17 +25,17 @@ const meta = {
   args: {
     className: '',
   },
-} satisfies Meta<typeof Avatar>;
+} satisfies Meta<typeof Avatar.Root>;
 
 export default meta;
-type Story = StoryObj<typeof Avatar>;
+type Story = StoryObj<typeof Avatar.Root>;
 
 export const Default: Story = {
   render: (args) => (
-    <Avatar className={args.className}>
-      <AvatarImage src="https://github.com/douwepausma.png" alt="@douwepausma" />
-      <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
+    <Avatar.Root className={args.className}>
+      <Avatar.Image src="https://github.com/douwepausma.png" alt="@douwepausma" />
+      <Avatar.Fallback>CN</Avatar.Fallback>
+    </Avatar.Root>
   ),
   parameters: {
     docs: {
@@ -48,10 +48,10 @@ export const Default: Story = {
 
 export const WithFallback: Story = {
   render: () => (
-    <Avatar>
-      <AvatarImage src="/broken-image.jpg" alt="@johndoe" />
-      <AvatarFallback>JD</AvatarFallback>
-    </Avatar>
+    <Avatar.Root>
+      <Avatar.Image src="/broken-image.jpg" alt="@johndoe" />
+      <Avatar.Fallback>JD</Avatar.Fallback>
+    </Avatar.Root>
   ),
   parameters: {
     docs: {
@@ -65,18 +65,18 @@ export const WithFallback: Story = {
 export const CustomSize: Story = {
   render: () => (
     <div className="flex items-center gap-4">
-      <Avatar className="h-8 w-8">
-        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
-      <Avatar className="h-16 w-16">
-        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
-      <Avatar className="h-24 w-24">
-        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+      <Avatar.Root className="h-8 w-8">
+        <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+        <Avatar.Fallback>CN</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root className="h-16 w-16">
+        <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+        <Avatar.Fallback>CN</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root className="h-24 w-24">
+        <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+        <Avatar.Fallback>CN</Avatar.Fallback>
+      </Avatar.Root>
     </div>
   ),
   parameters: {
@@ -91,18 +91,18 @@ export const CustomSize: Story = {
 export const Group: Story = {
   render: () => (
     <div className="flex -space-x-4">
-      <Avatar className="border-2 border-white">
-        <AvatarImage src="https://github.com/bejonwe.png" alt="@bejonwe" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
-      <Avatar className="border-2 border-white">
-        <AvatarImage src="https://github.com/joe.png" alt="@joe" />
-        <AvatarFallback>JD</AvatarFallback>
-      </Avatar>
-      <Avatar className="border-2 border-white">
-        <AvatarImage src="https://github.com/douwepausma.png" alt="@douwepausma" />
-        <AvatarFallback>JA</AvatarFallback>
-      </Avatar>
+      <Avatar.Root className="border-2 border-white">
+        <Avatar.Image src="https://github.com/bejonwe.png" alt="@bejonwe" />
+        <Avatar.Fallback>CN</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root className="border-2 border-white">
+        <Avatar.Image src="https://github.com/joe.png" alt="@joe" />
+        <Avatar.Fallback>JD</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root className="border-2 border-white">
+        <Avatar.Image src="https://github.com/douwepausma.png" alt="@douwepausma" />
+        <Avatar.Fallback>JA</Avatar.Fallback>
+      </Avatar.Root>
     </div>
   ),
   parameters: {

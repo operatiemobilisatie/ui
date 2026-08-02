@@ -1,10 +1,10 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
+import * as Tabs from './tabs';
 
 const meta = {
   title: 'Data Display/Tabs',
-  component: Tabs,
+  component: Tabs.Root,
   parameters: {
     layout: 'centered',
     docs: {
@@ -29,29 +29,29 @@ const meta = {
   args: {
     defaultValue: 'projects',
   },
-} satisfies Meta<typeof Tabs>;
+} satisfies Meta<typeof Tabs.Root>;
 
 export default meta;
-type Story = StoryObj<typeof Tabs>;
+type Story = StoryObj<typeof Tabs.Root>;
 
 export const Default: Story = {
   render: (args) => (
-    <Tabs {...args} className="w-96">
-      <TabsList>
-        <TabsTrigger value="projects">Projects</TabsTrigger>
-        <TabsTrigger value="people">People</TabsTrigger>
-        <TabsTrigger value="reports">Reports</TabsTrigger>
-      </TabsList>
-      <TabsContent value="projects">
+    <Tabs.Root {...args} className="w-96">
+      <Tabs.List>
+        <Tabs.Tab value="projects">Projects</Tabs.Tab>
+        <Tabs.Tab value="people">People</Tabs.Tab>
+        <Tabs.Tab value="reports">Reports</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="projects">
         <p className="text-sm">Twelve projects are running across four regions.</p>
-      </TabsContent>
-      <TabsContent value="people">
+      </Tabs.Panel>
+      <Tabs.Panel value="people">
         <p className="text-sm">Two hundred and forty workers are currently on assignment.</p>
-      </TabsContent>
-      <TabsContent value="reports">
+      </Tabs.Panel>
+      <Tabs.Panel value="reports">
         <p className="text-sm">The last quarterly report was published in March.</p>
-      </TabsContent>
-    </Tabs>
+      </Tabs.Panel>
+    </Tabs.Root>
   ),
   parameters: {
     docs: { description: { story: 'Three tabs with the first one selected.' } },
@@ -72,24 +72,24 @@ export const SecondTabSelected: Story = {
 
 export const WithDisabledTab: Story = {
   render: (args) => (
-    <Tabs {...args} className="w-96">
-      <TabsList>
-        <TabsTrigger value="projects">Projects</TabsTrigger>
-        <TabsTrigger value="people">People</TabsTrigger>
-        <TabsTrigger value="reports" disabled>
+    <Tabs.Root {...args} className="w-96">
+      <Tabs.List>
+        <Tabs.Tab value="projects">Projects</Tabs.Tab>
+        <Tabs.Tab value="people">People</Tabs.Tab>
+        <Tabs.Tab value="reports" disabled>
           Reports
-        </TabsTrigger>
-      </TabsList>
-      <TabsContent value="projects">
+        </Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="projects">
         <p className="text-sm">Twelve projects are running across four regions.</p>
-      </TabsContent>
-      <TabsContent value="people">
+      </Tabs.Panel>
+      <Tabs.Panel value="people">
         <p className="text-sm">Two hundred and forty workers are currently on assignment.</p>
-      </TabsContent>
-      <TabsContent value="reports">
+      </Tabs.Panel>
+      <Tabs.Panel value="reports">
         <p className="text-sm">The last quarterly report was published in March.</p>
-      </TabsContent>
-    </Tabs>
+      </Tabs.Panel>
+    </Tabs.Root>
   ),
   parameters: {
     docs: { description: { story: 'A disabled trigger is skipped by keyboard navigation.' } },

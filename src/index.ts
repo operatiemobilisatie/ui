@@ -22,7 +22,7 @@
 export * from './components/accordion';
 export * as Alert from './components/alert';
 export * from './components/alert-dialog';
-export * from './components/avatar';
+export * as Avatar from './components/avatar';
 export * from './components/badge';
 export * from './components/button';
 export * as Card from './components/card';
@@ -43,7 +43,7 @@ export * from './components/skeleton';
 export * from './components/slider';
 export * from './components/spinner';
 export * from './components/switch';
-export * from './components/tabs';
+export * as Tabs from './components/tabs';
 export * from './components/textarea';
 export * from './components/toast';
 export * from './components/toaster';
