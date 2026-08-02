@@ -105,11 +105,19 @@
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
+  /*
+   * These name the families only -- they do not load them. Get the actual files
+   * from either:
+   *   import "@operatiemobilisatie/ui/fonts";   (self-hosted, ships with this package)
+   * or your own loader, e.g. next/font, which overrides the two custom properties
+   * below at :root. Previously these read `var(--font-lato)`, a self-reference that
+   * resolved to nothing unless the consumer happened to define it.
+   */
   --font-sans:
     var(--font-lato), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-lato: var(--font-lato);
-  --font-roboto-slab: var(--font-roboto-slab);
+  --font-lato: 'Lato', ui-sans-serif, system-ui, sans-serif;
+  --font-roboto-slab: 'Roboto Slab', ui-serif, Georgia, serif;
 
   --ring: 357, 69%, 80%;
 

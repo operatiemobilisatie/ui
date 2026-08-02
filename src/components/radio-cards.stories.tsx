@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { RadioCards, RadioCardsItem } from '../components/radio-cards';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RadioCards, RadioCardsItem } from './radio-cards';
 
 const meta: Meta<typeof RadioCards> = {
   title: 'Form/RadioCards',

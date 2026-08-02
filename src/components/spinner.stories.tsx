@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import Spinner from '../components/spinner';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import Spinner from './spinner';
 
 const meta = {
   title: 'Feedback/Spinner',

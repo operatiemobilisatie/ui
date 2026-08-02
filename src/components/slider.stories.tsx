@@ -1,6 +1,6 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Slider } from '../components/slider';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Slider } from './slider';
 
 const meta = {
   title: 'Form/Slider',

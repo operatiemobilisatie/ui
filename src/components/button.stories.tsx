@@ -1,6 +1,6 @@
 import * as React from "react"
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Button } from '../components/button';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Button } from './button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';

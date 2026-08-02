@@ -1,9 +1,9 @@
 
 // @ts-nocheck
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { RadioGroup, RadioGroupItem } from '../components/radio-group';
-import { Label } from '../components/label';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RadioGroup, RadioGroupItem } from './radio-group';
+import { Label } from './label';
 
 const meta = {
   title: 'Form/RadioGroup',

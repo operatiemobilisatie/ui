@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Skeleton } from '@/components/skeleton';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Skeleton } from './skeleton';
 
 const meta = {
   title: 'Feedback/Skeleton',

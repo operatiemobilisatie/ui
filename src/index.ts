@@ -27,7 +27,7 @@ import * as Toaster from "./components/toaster";
 import * as Tabs from "./components/tabs";
 import * as Tooltip from "./components/tooltip";
 import * as AGGrid from "./lib/ag-grid";
-import "./globals.css";
+import "./css/style.css";
 
 export default {
     Accordion,

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardImage } from '../components/card';
-import { Button } from '../components/button';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardImage } from './card';
+import { Button } from './button';
 
 const meta = {
   title: 'Data Display/Card',

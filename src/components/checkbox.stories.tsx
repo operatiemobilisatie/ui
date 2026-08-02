@@ -1,7 +1,7 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Checkbox } from '../components/checkbox';
-import { Label } from '../components/label';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Checkbox } from './checkbox';
+import { Label } from './label';
 
 const meta = {
   title: 'Form/Checkbox',

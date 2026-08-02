@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/accordion';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';
 
 const meta = {
   title: 'Data Display/Accordion',

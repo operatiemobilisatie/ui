@@ -1,6 +1,6 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import Select from '../components/select';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import Select from './select';
 
 const meta = {
   title: 'Form/Select',

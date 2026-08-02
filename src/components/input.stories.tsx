@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Input } from '../components/input';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Input } from './input';
 
 const meta = {
   title: 'Form/Input',

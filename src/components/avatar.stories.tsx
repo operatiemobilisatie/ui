@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Avatar, AvatarImage, AvatarFallback } from '../components/avatar';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Avatar, AvatarImage, AvatarFallback } from './avatar';
 
 const meta = {
   title: 'Data Display/Avatar',

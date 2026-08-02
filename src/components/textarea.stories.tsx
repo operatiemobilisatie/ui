@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Textarea } from '../components/textarea';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Textarea } from './textarea';
 
 const meta = {
   title: 'Form/Textarea',

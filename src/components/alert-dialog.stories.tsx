@@ -1,76 +1,61 @@
 import * as React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-  DialogDescription,
-  DialogClose
-} from '../components/dialog';
-import { Button } from '../components/button';
-import { Input } from '../components/input';
-import { Label } from '../components/label';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from './alert-dialog';
+import { Button, buttonVariants } from './button';
 
 const meta = {
-  title: 'Data Display/Dialog',
-  component: Dialog,
+  title: 'Feedback/AlertDialog',
+  component: AlertDialog,
   parameters: {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.',
+        component: 'A modal dialog that interrupts the user with important content and expects a response.',
       },
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Dialog>;
+} satisfies Meta<typeof AlertDialog>;
 
 export default meta;
-type Story = StoryObj<typeof Dialog>;
+type Story = StoryObj<typeof AlertDialog>;
 
 export const Default: Story = {
   render: () => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Share</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
-          <DialogDescription>
-            Anyone who has this link will be able to view this.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            <Input
-              id="link"
-              displaySize="sm"
-              defaultValue="https://ui.shadcn.com/docs/installation"
-              readOnly
-            />
-          </div>
-          <Button type="submit" size="sm-icon" className="px-3">
-            <span className="sr-only">Copy</span>
-            <FontAwesomeIcon icon={faCopy} />
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <AlertDialog>
+      <AlertDialogTrigger>
+        <Button variant="destructive">Delete Account</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your account
+            and remove your data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel className={buttonVariants({ variant: "outline-secondary", size: "sm" })}>Cancel</AlertDialogCancel>
+          <AlertDialogAction className={buttonVariants({ variant: "destructive", size: "sm" })}>Delete Account</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'A basic dialog with a form like action.',
+        story: 'A basic alert dialog with a destructive action.',
       },
     },
   },
@@ -78,28 +63,32 @@ export const Default: Story = {
 
 export const WithCustomButtons: Story = {
   render: () => (
-    <Dialog>
-      <DialogTrigger>
+    <AlertDialog>
+      <AlertDialogTrigger>
         <Button>Save Changes</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Save Changes?</DialogTitle>
-          <DialogDescription>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Save Changes?</AlertDialogTitle>
+          <AlertDialogDescription>
             You have unsaved changes. Would you like to save them before leaving?
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button size="sm" variant="outline-secondary">Don't Save</Button>
-          <Button size="sm" variant="default">Save Changes</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel asChild>
+            <Button variant="outline-secondary" size="sm">Don't Save</Button>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button variant="green" size="sm">Save Changes</Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'A dialog with custom styled buttons.',
+        story: 'An alert dialog with custom styled buttons.',
       },
     },
   },
@@ -107,14 +96,14 @@ export const WithCustomButtons: Story = {
 
 export const WithLongContent: Story = {
   render: () => (
-    <Dialog>
-      <DialogTrigger>
+    <AlertDialog>
+      <AlertDialogTrigger>
         <Button variant="outline">Terms & Conditions</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Terms of Service</DialogTitle>
-          <DialogDescription className="max-h-[300px] overflow-y-auto">
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Terms of Service</AlertDialogTitle>
+          <AlertDialogDescription className="max-h-[300px] overflow-y-auto">
             <div className="space-y-4">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
               <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -139,15 +128,19 @@ export const WithLongContent: Story = {
               <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
               <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel className={buttonVariants({ variant: "outline-secondary", size: "sm" })}>Decline</AlertDialogCancel>
+          <AlertDialogAction className={buttonVariants({ size: "sm" })}>Accept</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'A dialog with scrollable content.',
+        story: 'An alert dialog with scrollable content.',
       },
     },
   },
