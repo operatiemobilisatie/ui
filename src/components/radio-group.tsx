@@ -1,11 +1,12 @@
 import * as React from "react"
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
+import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
+import { Radio } from "@base-ui/react/radio"
 import { cva } from "class-variance-authority"
 
 import { cn } from "../lib/utils"
 
 const radioControlVariants = cva(
-  "w-5 h-5 aspect-square bg-gray-200 aria-checked:bg-primary-200 group rounded-full relative flex items-center justify-center duration-300 disabled:cursor-not-allowed disabled:opacity-50",
+  "w-5 h-5 aspect-square bg-gray-200 aria-checked:bg-primary-200 group rounded-full relative flex items-center justify-center duration-300 data-disabled:cursor-not-allowed data-disabled:opacity-50",
   {
     variants: {
       size: {
@@ -36,35 +37,36 @@ const radioIndicatorVariants = cva(
   }
 )
 
-const RadioGroup = React.forwardRef<
-  React.ComponentRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+// Base UI's RadioGroup *is* the root -- there is no RadioGroup.Root.
+const Root = React.forwardRef<
+  React.ComponentRef<typeof RadioGroupPrimitive>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive>
 >(({ className, ...props }, ref) => {
   return (
-    <RadioGroupPrimitive.Root
+    <RadioGroupPrimitive
       className={cn("grid gap-2", className)}
       {...props}
       ref={ref}
     />
   )
 })
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
+Root.displayName = "RadioGroup.Root"
 
-const RadioGroupItem = React.forwardRef<
-  React.ComponentRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & { size?: 'sm' | 'lg' | 'default' }
+const Item = React.forwardRef<
+  React.ComponentRef<typeof Radio.Root>,
+  React.ComponentPropsWithoutRef<typeof Radio.Root> & { size?: 'sm' | 'lg' | 'default' }
 >(({ className, size, ...props }, ref) => {
   return (
-    <RadioGroupPrimitive.Item
+    <Radio.Root
       ref={ref}
       className={cn(radioControlVariants({size, className}))}
       {...props}
     >
         <div className={cn(radioIndicatorVariants({size, className: 'bg-white'}))}></div>
         <div className={cn(radioIndicatorVariants({size, className: 'transition-transform bg-primary scale-0 group-aria-checked:scale-100'}))}></div>
-    </RadioGroupPrimitive.Item>
+    </Radio.Root>
   )
 })
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
+Item.displayName = "RadioGroup.Item"
 
-export { RadioGroup, RadioGroupItem, radioControlVariants, radioIndicatorVariants }
+export { Root, Item, radioControlVariants, radioIndicatorVariants }

@@ -1,16 +1,18 @@
 
-// @ts-nocheck
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { RadioGroup, RadioGroupItem } from './radio-group';
+import * as RadioGroup from './radio-group';
 import { Label } from './label';
+
+/** Root takes no `size`; the stories fan it out to each Item. */
+type StoryArgs = React.ComponentProps<typeof RadioGroup.Root> & {
+  size?: 'sm' | 'default' | 'lg';
+};
 
 const meta = {
   title: 'Form/RadioGroup',
-  component: RadioGroup,
-  subcomponents: {
-    RadioGroupItem
-  },
+  component: RadioGroup.Root,
+  subcomponents: { 'RadioGroup.Item': RadioGroup.Item },
   parameters: {
     layout: 'centered',
     docs: {
@@ -25,40 +27,42 @@ const meta = {
       control: 'boolean',
       description: 'Whether the radio group is disabled',
     },
-    size: { 
+    size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: 'The size of the radio buttons',
+      // 'md' was listed here but is not a size the component accepts, so it
+      // silently fell through to the cva default.
+      options: ['sm', 'default', 'lg'],
+      description: 'The size of the radio buttons. Applied to each Item.',
     },
   },
   args: {
     disabled: false,
-    size: 'md'
+    size: 'default'
   },
-} satisfies Meta<typeof RadioGroup>;
+} satisfies Meta<StoryArgs>;
 
 export default meta;
-type Story = StoryObj<typeof RadioGroup>;
+type Story = StoryObj<StoryArgs>;
 
 export const Default: Story = {
   render: (args) => (
       <div className="flex items-center gap-x-2">
-        <RadioGroup {...args} id="example-checkbox">
+        <RadioGroup.Root {...args} id="example-checkbox">
           <ul className="flex flex-col gap-y-2">
             <li className="flex items-center gap-x-1">
-              <RadioGroupItem size={args.size} value="option1" id="option1" />
+              <RadioGroup.Item size={args.size} value="option1" id="option1" />
               <Label htmlFor="option1">Male</Label>
             </li>
             <li className="flex items-center gap-x-1">
-              <RadioGroupItem size={args.size} value="option2" id="option2" />
+              <RadioGroup.Item size={args.size} value="option2" id="option2" />
               <Label htmlFor="option2">Female</Label>
             </li>
             <li className="flex items-center gap-x-1">
-              <RadioGroupItem size={args.size} value="option3" id="option3" />
+              <RadioGroup.Item size={args.size} value="option3" id="option3" />
               <Label htmlFor="option3">Other</Label>
             </li>
           </ul>
-        </RadioGroup>
+        </RadioGroup.Root>
       </div>
   ),
   parameters: {

@@ -1,12 +1,13 @@
 import * as React from "react"
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
+import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
+import { Radio } from "@base-ui/react/radio"
 import { cva } from "class-variance-authority"
 import { radioControlVariants, radioIndicatorVariants } from "./radio-group"
 
 import { cn } from "../lib/utils"
 
 const radioCardVariants = cva(
-  "border border-input hover:border-gray-400 aria-checked:border-primary aria-checked:ring-2 aria-checked:ring-ring group rounded-2xl relative flex grow items-center duration-150 disabled:cursor-not-allowed disabled:opacity-50",
+  "border border-input hover:border-gray-400 aria-checked:border-primary aria-checked:ring-2 aria-checked:ring-ring group rounded-2xl relative flex grow items-center duration-150 data-disabled:cursor-not-allowed data-disabled:opacity-50",
   {
     variants: {
       size: {
@@ -25,27 +26,28 @@ const radioCardVariants = cva(
   }
 )
 
-const RadioCards = React.forwardRef<
-  React.ComponentRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
->(({ className, orientation = "horizontal", ...props }, ref) => {
+// Base UI's RadioGroup has no `orientation` prop -- direction comes from the
+// flex container, which is what actually laid these out anyway.
+const Root = React.forwardRef<
+  React.ComponentRef<typeof RadioGroupPrimitive>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive>
+>(({ className, ...props }, ref) => {
   return (
-    <RadioGroupPrimitive.Root
+    <RadioGroupPrimitive
       className={cn("flex gap-2", className)}
       {...props}
-      orientation={orientation}
       ref={ref}
     />
   )
 })
-RadioCards.displayName = 'RadioCards'
+Root.displayName = "RadioCards.Root"
 
-const RadioCardsItem = React.forwardRef<
-  React.ComponentRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & { size?: 'sm' | 'lg' | 'default', indicator?: boolean }
+const Item = React.forwardRef<
+  React.ComponentRef<typeof Radio.Root>,
+  React.ComponentPropsWithoutRef<typeof Radio.Root> & { size?: 'sm' | 'lg' | 'default', indicator?: boolean }
 >(({ className, size, indicator = false, children, ...props }, ref) => {
   return (
-    <RadioGroupPrimitive.Item
+    <Radio.Root
       ref={ref}
       className={cn(radioCardVariants({size, indicator, className}))}
       {...props}
@@ -59,9 +61,9 @@ const RadioCardsItem = React.forwardRef<
         )}
         {children}
       </>
-    </RadioGroupPrimitive.Item>
+    </Radio.Root>
   )
 })
-RadioCardsItem.displayName = 'RadioCardsItem'
+Item.displayName = "RadioCards.Item"
 
-export { RadioCards, RadioCardsItem }
+export { Root, Item, radioCardVariants }
