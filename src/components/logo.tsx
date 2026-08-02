@@ -2,11 +2,16 @@ import type { ReactNode } from "react";
 import * as React from "react"
 import { cn } from "../lib/utils";
 
+/*
+ * `width` and `height` default to '100px' in the destructuring below, so
+ * declaring them required made `<Logo />` and `<Logo className="h-10" />` fail
+ * to typecheck for no runtime reason. Same widening as in kicker.tsx.
+ */
 export interface Logo {
   className?: String,
   children?: ReactNode,
-  width: string,
-  height: string,
+  width?: string,
+  height?: string,
   as?: any,
 }
 
