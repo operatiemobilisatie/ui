@@ -1,15 +1,16 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Slider } from './slider';
+import * as Slider from './slider';
 
 const meta = {
   title: 'Form/Slider',
-  component: Slider,
+  component: Slider.Root,
   parameters: {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible Slider component that supports multiple sizes.',
+        component:
+          "A flexible Slider component that supports multiple sizes. Radix's Root split into Root + Control, Range became Indicator, and the value label under the thumb is now Slider.Value, which follows the handle instead of being frozen at the initial value.",
       },
     },
   },
@@ -32,14 +33,23 @@ const meta = {
     disabled: false,
     className: 'w-72'
   },
-} satisfies Meta<typeof Slider>;
+} satisfies Meta<typeof Slider.Root>;
 
 export default meta;
-type Story = StoryObj<typeof Slider>;
+type Story = StoryObj<typeof Slider.Root>;
 
 export const Default: Story = {
     render: (args) => (
-        <Slider defaultValue={[50]} className={args.className} min={args.min} max={args.max} disabled={args.disabled} />
+        <Slider.Root defaultValue={[50]} className={args.className} min={args.min} max={args.max} disabled={args.disabled}>
+            <Slider.Control>
+                <Slider.Track>
+                    <Slider.Indicator />
+                </Slider.Track>
+                <Slider.Thumb>
+                    <Slider.Value />
+                </Slider.Thumb>
+            </Slider.Control>
+        </Slider.Root>
     ),
     parameters: {
         docs: {

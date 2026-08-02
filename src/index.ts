@@ -40,7 +40,7 @@ export * as RadioCards from './components/radio-cards';
 export * as RadioGroup from './components/radio-group';
 export * from './components/select';
 export * from './components/skeleton';
-export * from './components/slider';
+export * as Slider from './components/slider';
 export * from './components/spinner';
 export * from './components/switch';
 export * as Tabs from './components/tabs';
