@@ -28,7 +28,13 @@ const radioVariants = cva(
   }
 )
 
-type RadioButtonProps = {
+/*
+ * All extra props are spread onto the inner <input type="radio">, so the type
+ * has to admit them -- notably `name`, which is what groups radios together,
+ * and `defaultChecked`/`checked`. It previously listed only id/className, so
+ * every real-world usage was a type error.
+ */
+type RadioButtonProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> & {
   hideIndicator?: boolean;
   className?: string;
   children: React.ReactNode;

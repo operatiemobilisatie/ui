@@ -13,11 +13,14 @@ const Progress = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
 >(({ className, value, ...props }, ref) => {
   const [progress, setProgress] = React.useState(0);
-  const counterRef = React.useRef(null);
+  const counterRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(counterRef);
 
   const {start, reset} = useCountUp({
-    ref: counterRef,
+    // react-countup types `ref` as RefObject<HTMLElement> with a non-nullable
+    // `current`, which React 19 no longer produces. Phase 4 replaces
+    // react-countup with a local hook and this cast goes with it.
+    ref: counterRef as React.RefObject<HTMLElement>,
     start: 0,
     end: value || 0,
     duration: 2,

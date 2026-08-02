@@ -112,7 +112,7 @@ export const Outline: Story  = {
   parameters: {
     docs: {
       description: {
-        story: 'An outline-solid button, used for less important actions.',
+        story: 'An outline button, used for less important actions.',
       },
     },
   },

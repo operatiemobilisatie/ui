@@ -25,8 +25,14 @@ test.describe('storybook visual regression', () => {
     test(story.id, async ({ page }) => {
       await page.goto(`/iframe.html?id=${story.id}&viewMode=story`, { waitUntil: 'load' });
 
-      // Set by .storybook/preview.ts on STORY_RENDERED, which fires after play() resolves.
-      await page.waitForSelector('html[data-sb-rendered=true]', { timeout: 15_000 });
+      /*
+       * Set by .storybook/preview.ts on STORY_RENDERED, which fires after play()
+       * resolves. state: 'attached' is required -- the default is 'visible', and
+       * <html> reports as hidden on layout:'fullscreen' stories whose only
+       * content is fixed-position or portalled, so the default silently timed out
+       * on every toast story despite the attribute being present.
+       */
+      await page.waitForSelector('html[data-sb-rendered=true]', { state: 'attached', timeout: 15_000 });
 
       // The Storybook stylesheet declares font-display: block, so this is a real barrier.
       await page.waitForFunction(() => document.fonts.status === 'loaded');

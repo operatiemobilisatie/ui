@@ -10,7 +10,7 @@ export interface Logo {
   as?: any,
 }
 
-const Logo = async ({
+const Logo = ({
   className = '',
   width = '100px',
   height = '100px',

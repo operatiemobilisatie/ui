@@ -1,7 +1,11 @@
 {
     "compilerOptions": {
       // Default
-      "target": "es5", 
+      // TypeScript 6 refuses target: es5 outright. es2022 is also what the
+      // tsdown build will emit -- browsers that need less than that have not
+      // been supported by Tailwind v4 for a while either.
+      "target": "es2022",
+      "lib": ["ES2022", "DOM", "DOM.Iterable"],
       "esModuleInterop": true, 
       "forceConsistentCasingInFileNames": true,
       "strict": true, 

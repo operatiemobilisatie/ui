@@ -47,7 +47,9 @@ export default defineConfig({
     viewport: { width: 1280, height: 800 },
     deviceScaleFactor: 1,
     colorScheme: 'light',
-    reducedMotion: 'reduce',
+    // No reducedMotion here: it is not a declared test option in Playwright 1.62
+    // (only referenced in doc comments), so it was silently ignored. Animation
+    // control comes from expect.toHaveScreenshot.animations: 'disabled' above.
     timezoneId: 'UTC',
     locale: 'en-GB',
   },

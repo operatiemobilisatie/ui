@@ -113,3 +113,18 @@ export const WithoutChevron: Story = {
     },
   },
 }; 
+/*
+ * All three stories above start collapsed, so the panel -- and the open/close
+ * animation the accordion is built around -- was never screenshotted.
+ */
+export const Expanded: Story = {
+  args: { type: 'single', collapsible: true, defaultValue: 'item-1' },
+  render: Default.render,
+  parameters: {
+    docs: {
+      description: {
+        story: 'defaultValue opens the first item on mount, covering the expanded panel.',
+      },
+    },
+  },
+};

@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'secondary', 'destructive', 'success', 'warning', 'info', 'outline-solid'],
+      options: ['default', 'secondary', 'destructive', 'success', 'warning', 'info', 'outline'],
       description: 'The visual style of the badge',
       table: {
         defaultValue: { summary: 'default' },
@@ -131,13 +131,13 @@ export const Info: Story  = {
 
 export const Outline: Story  = {
   args: {
-    variant: "outline-solid",
+    variant: "outline",
     children: 'Disabled',
   },
   parameters: {
     docs: {
       description: {
-        story: 'An outline-solid badge, used for less important information.',
+        story: 'An outline badge, used for less important information.',
       },
     },
   },

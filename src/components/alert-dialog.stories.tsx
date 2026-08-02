@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -34,7 +35,7 @@ type Story = StoryObj<typeof AlertDialog>;
 export const Default: Story = {
   render: () => (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant="destructive">Delete Account</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -64,7 +65,7 @@ export const Default: Story = {
 export const WithCustomButtons: Story = {
   render: () => (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button>Save Changes</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -97,7 +98,7 @@ export const WithCustomButtons: Story = {
 export const WithLongContent: Story = {
   render: () => (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant="outline">Terms & Conditions</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -145,3 +146,45 @@ export const WithLongContent: Story = {
     },
   },
 }; 
+/*
+ * The stories above only screenshot the closed trigger. This one opens the
+ * dialog so the overlay, panel and both footer buttons are covered.
+ */
+export const Opened: Story = {
+  render: () => (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive">Delete Account</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your account and remove your
+            data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel className={buttonVariants({ variant: 'outline-secondary', size: 'sm' })}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction className={buttonVariants({ variant: 'destructive', size: 'sm' })}>
+            Delete Account
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Delete Account' }));
+    await waitFor(() => expect(within(document.body).getByRole('alertdialog')).toBeVisible());
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Opened by the play function. Covers AlertDialogAction and AlertDialogCancel, which the closed stories never render.',
+      },
+    },
+  },
+};

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import {
   Dialog,
   DialogTrigger,
@@ -79,7 +80,7 @@ export const Default: Story = {
 export const WithCustomButtons: Story = {
   render: () => (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button>Save Changes</Button>
       </DialogTrigger>
       <DialogContent>
@@ -108,7 +109,7 @@ export const WithCustomButtons: Story = {
 export const WithLongContent: Story = {
   render: () => (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button variant="outline">Terms & Conditions</Button>
       </DialogTrigger>
       <DialogContent>
@@ -152,3 +153,49 @@ export const WithLongContent: Story = {
     },
   },
 }; 
+/*
+ * The stories above only ever screenshot the closed trigger, so the dialog
+ * itself -- the part with all the layout -- went uncovered. This one opens it.
+ * DialogContent portals to <body>, which is why the visual-regression suite
+ * screenshots fullPage rather than just the story canvas.
+ */
+export const Opened: Story = {
+  render: () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Share</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Share link</DialogTitle>
+          <DialogDescription>Anyone who has this link will be able to view this.</DialogDescription>
+        </DialogHeader>
+        <div className="flex items-center space-x-2">
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="opened-link" className="sr-only">
+              Link
+            </Label>
+            <Input id="opened-link" displaySize="sm" defaultValue="https://om.org/volunteer" readOnly />
+          </div>
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline-secondary">Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Share' }));
+    await waitFor(() => expect(within(document.body).getByRole('dialog')).toBeVisible());
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Opened by the play function, so the overlay, panel and close button are all captured.',
+      },
+    },
+  },
+};
