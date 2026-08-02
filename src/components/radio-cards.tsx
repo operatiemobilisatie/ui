@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 import { cva } from "class-variance-authority"
-import { radioVariants, radioIndicatorVariants } from "./radio-group"
+import { radioControlVariants, radioIndicatorVariants } from "./radio-group"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 
 const radioCardVariants = cva(
   "border border-input hover:border-gray-400 aria-checked:border-primary aria-checked:ring-2 aria-checked:ring-ring group rounded-2xl relative flex grow items-center duration-150 disabled:cursor-not-allowed disabled:opacity-50",
@@ -52,7 +52,7 @@ const RadioCardsItem = React.forwardRef<
     >
       <>
         {indicator && (
-          <div className={radioVariants({size, className: 'mr-2 group-aria-checked:bg-primary-200'})}>
+          <div className={radioControlVariants({size, className: 'mr-2 group-aria-checked:bg-primary-200'})}>
             <div className={cn(radioIndicatorVariants({size, className: 'bg-white'}))}></div>
             <div className={cn(radioIndicatorVariants({size, className: 'transition-transform bg-primary scale-0 group-aria-checked:scale-100'}))}></div>
           </div>

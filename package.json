@@ -5,8 +5,8 @@
   "author": "@douwepausma",
   "license": "MIT",
   "scripts": {
-    "rollup": "npx rollup -c",
-    "rollup-watch": "npx rollup -cw",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --output-dir .storybook/static",
     "typecheck": "tsc --noEmit",
@@ -17,9 +17,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-a11y": "^10.5.5",
     "@storybook/addon-docs": "^10.5.5",
     "@storybook/react-vite": "^10.5.5",
@@ -28,15 +25,11 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19",
     "http-server": "^14.1.1",
-    "postcss": "^8.4.47",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "rollup-plugin-dts": "^6.1.1",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-preserve-directives": "^0.4.0",
     "storybook": "^10.5.5",
     "tailwindcss": "^4.3.3",
+    "tsdown": "^0.22.14",
     "typescript": "^6.0.3",
     "vite": "^8.2.0"
   },
@@ -72,12 +65,8 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "peerDependencies": {
-    "next": "^14 || ^15 || ^16",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "*"
   },
   "files": [
     "dist"
@@ -86,14 +75,21 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/src/index.js"
+      "default": "./dist/index.js"
+    },
+    "./css": "./dist/css/style.css",
+    "./fonts": "./dist/fonts/index.css",
+    "./fonts.css": "./dist/fonts/index.css",
+    "./fonts/*": "./dist/fonts/*",
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "default": "./dist/lib/*.js"
     },
     "./*": {
       "types": "./dist/components/*.d.ts",
       "default": "./dist/components/*.js"
     },
-    "./lib/*": "./dist/lib/*.js",
-    "./css": "./dist/css/style.css"
+    "./package.json": "./package.json"
   },
   "types": "./dist/index.d.ts",
   "publishConfig": {
@@ -105,5 +101,11 @@
   },
   "allowScripts": {
     "esbuild@0.28.1": true
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "engines": {
+    "node": ">=20"
   }
 }

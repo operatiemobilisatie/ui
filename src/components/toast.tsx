@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { faClose } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 
 const ToastProvider = ToastPrimitives.Provider
 

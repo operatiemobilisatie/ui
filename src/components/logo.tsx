@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import * as React from "react"
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 
 export interface Logo {
   className?: String,
@@ -35,4 +35,4 @@ const Logo = ({
   )
 };
 
-export default Logo;
+export { Logo };

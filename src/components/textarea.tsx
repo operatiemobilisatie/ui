@@ -1,14 +1,14 @@
 import * as React from "react"
 
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     displaySize?: 'sm' | 'lg' | 'default'
   }
 
-const inputVariants = cva(
+const textareaVariants = cva(
   "peer flex w-full border border-input bg-background placeholder:text-muted-foreground duration-150 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed focus:border-primary disabled:opacity-50 hover:border-gray-300",
   {
     variants: {
@@ -28,7 +28,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, displaySize, ...props }, ref) => {
     return (
       <textarea
-        className={cn(inputVariants({size: displaySize, className}))}
+        className={cn(textareaVariants({size: displaySize, className}))}
         ref={ref}
         {...props}
       />

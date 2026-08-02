@@ -2,9 +2,9 @@ import * as React from "react"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 import { cva } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 
-const radioVariants = cva(
+const radioControlVariants = cva(
   "w-5 h-5 aspect-square bg-gray-200 aria-checked:bg-primary-200 group rounded-full relative flex items-center justify-center duration-300 disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
@@ -57,7 +57,7 @@ const RadioGroupItem = React.forwardRef<
   return (
     <RadioGroupPrimitive.Item
       ref={ref}
-      className={cn(radioVariants({size, className}))}
+      className={cn(radioControlVariants({size, className}))}
       {...props}
     >
         <div className={cn(radioIndicatorVariants({size, className: 'bg-white'}))}></div>
@@ -67,4 +67,4 @@ const RadioGroupItem = React.forwardRef<
 })
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 
-export { RadioGroup, RadioGroupItem, radioVariants, radioIndicatorVariants }
+export { RadioGroup, RadioGroupItem, radioControlVariants, radioIndicatorVariants }

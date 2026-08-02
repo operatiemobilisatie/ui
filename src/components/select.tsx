@@ -98,4 +98,4 @@ function CustomSelectInner<
 // forwardRef with explicit exported type so ref is preserved
 const CustomSelect = React.forwardRef(CustomSelectInner) as CustomSelectComponent;
 
-export default CustomSelect;
+export { CustomSelect as Select };

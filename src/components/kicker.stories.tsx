@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import Kicker from './kicker';
+import { Kicker } from './kicker';
 
 const meta = {
   title: 'Data Display/Kicker',

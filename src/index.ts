@@ -1,62 +1,53 @@
-import * as Accordion from "./components/accordion";
-import * as Alert from "./components/alert";
-import * as AlertDialog from "./components/alert-dialog";
-import * as Avatar from "./components/avatar";
-import * as Badge from "./components/badge";
-import * as Button from "./components/button";
-import * as Card from "./components/card";
-import * as Checkbox from "./components/checkbox";
-import * as Dialog from "./components/dialog";
-import * as DropdownMenu from "./components/dropdown-menu";
-import * as Input from "./components/input";
-import * as Kicker from "./components/kicker";
-import * as Label from "./components/label";
-import * as Logo from "./components/logo";
-import * as Progress from "./components/progress";
-import * as RadioCards from "./components/radio-cards";
-import * as RadioGroup from "./components/radio-group";
-import * as RadioButton from "./components/radio-button";
-import * as Spinner from "./components/spinner";
-import * as Select from "./components/select";
-import * as Skeleton from "./components/skeleton";
-import * as Slider from "./components/slider";
-import * as Switch from "./components/switch";
-import * as Textarea from "./components/textarea";
-import * as Toast from "./components/toast";
-import * as Toaster from "./components/toaster";
-import * as Tabs from "./components/tabs";
-import * as Tooltip from "./components/tooltip";
-import * as AGGrid from "./lib/ag-grid";
-import "./css/style.css";
+/*
+ * Root barrel.
+ *
+ * Named re-exports rather than a default namespace object: `export *` stays
+ * tree-shakeable, so importing one component does not pull in all twenty-eight.
+ * The previous default export forced consumers to write `UI.Button.Button`,
+ * which is why the README documented the subpath form instead.
+ *
+ * There is deliberately no `import "./css/style.css"` here. A side-effect CSS
+ * import in the JS entry forces every consumer to have a CSS-capable bundler,
+ * which is the single biggest obstacle to using this package outside Next.js.
+ * Stylesheets come in explicitly:
+ *
+ *   import "@operatiemobilisatie/ui/fonts";   // optional, self-hosted webfonts
+ *   @import "@operatiemobilisatie/ui/css";    // tokens and utilities
+ *
+ * Every component is also reachable on its own subpath, e.g.
+ * `@operatiemobilisatie/ui/button`, which is what keeps a server component from
+ * pulling in a "use client" boundary it does not need.
+ */
 
-export default {
-    Accordion,
-    AGGrid,
-    Alert,
-    AlertDialog,
-    Avatar,
-    Badge,
-    Button,
-    Card,
-    Checkbox,
-    Dialog,
-    DropdownMenu,
-    Input,
-    Kicker,
-    Label,
-    Spinner,
-    Logo,
-    Progress,
-    RadioCards,
-    RadioGroup,
-    RadioButton,
-    Select,
-    Skeleton,
-    Slider,
-    Switch,
-    Textarea,
-    Tabs,
-    Toast,
-    Toaster,
-    Tooltip
-};
+export * from './components/accordion';
+export * from './components/alert';
+export * from './components/alert-dialog';
+export * from './components/avatar';
+export * from './components/badge';
+export * from './components/button';
+export * from './components/card';
+export * from './components/checkbox';
+export * from './components/dialog';
+export * from './components/dropdown-menu';
+export * from './components/input';
+export * from './components/kicker';
+export * from './components/label';
+export * from './components/logo';
+export * from './components/progress';
+export * from './components/radio-button';
+export * from './components/radio-cards';
+export * from './components/radio-group';
+export * from './components/select';
+export * from './components/skeleton';
+export * from './components/slider';
+export * from './components/spinner';
+export * from './components/switch';
+export * from './components/tabs';
+export * from './components/textarea';
+export * from './components/toast';
+export * from './components/toaster';
+export * from './components/tooltip';
+
+export * from './lib/utils';
+export * from './lib/use-toast';
+export * from './lib/ag-grid';

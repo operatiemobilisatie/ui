@@ -9,7 +9,7 @@ import {
   ToastTitle,
   ToastViewport,
 } from "./toast"
-import { useToast } from "@/lib/use-toast"
+import { useToast } from "../lib/use-toast"
 
 export function Toaster() {
   const { toasts } = useToast()

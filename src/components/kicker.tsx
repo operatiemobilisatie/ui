@@ -25,4 +25,4 @@ const Kicker = ({
   )
 };
 
-export default Kicker;
+export { Kicker };

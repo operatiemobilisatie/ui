@@ -5,7 +5,7 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 
 const Accordion = AccordionPrimitive.Root
 

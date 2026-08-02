@@ -1,12 +1,12 @@
 import * as React from "react"
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 /*
   Fix focus select
 */
 
-const radioVariants = cva(
+const radioButtonVariants = cva(
   "inline-flex gap-x-2 cursor-pointer font-semibold items-center justify-center ring-offset-background transition-colors disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
@@ -39,11 +39,11 @@ type RadioButtonProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'
   className?: string;
   children: React.ReactNode;
   id?: string;
-} & VariantProps<typeof radioVariants>;
+} & VariantProps<typeof radioButtonVariants>;
 
 const RadioButton = React.forwardRef(({ className, id, variant, size, children, hideIndicator, ...props }:RadioButtonProps, ref:React.ForwardedRef<HTMLInputElement>) => {
   return (
-    <label tabIndex={0} htmlFor={id} className={cn(radioVariants({ variant, size, className }))}>
+    <label tabIndex={0} htmlFor={id} className={cn(radioButtonVariants({ variant, size, className }))}>
       <input type="radio" {...props} ref={ref} id={id} className="absolute invisible peer" />
       {!hideIndicator && <div className="radio-indicator"></div>}
       {children}
@@ -51,4 +51,4 @@ const RadioButton = React.forwardRef(({ className, id, variant, size, children, 
   )
 });
 
-export { RadioButton, radioVariants };
+export { RadioButton, radioButtonVariants };

@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npx publint
+
+  visual:
+    runs-on: ubuntu-latest
+    # Must be the image the baselines were captured in. Font rasterisation and
+    # Skia antialiasing differ between distros, so a mismatched container diffs
+    # on virtually every glyph. Keep this tag in lockstep with the
+    # @playwright/test version in package.json.
+    container: mcr.microsoft.com/playwright:v1.62.1-noble
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run vr
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+  baseline-scope:
+    # A PR may only update baselines for components it actually changed.
+    # Without this, the way to make a red build green is `--update-snapshots`,
+    # which silently accepts every regression in the suite.
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check baseline updates match changed components
+        run: |
+          BASE="origin/${{ github.base_ref }}"
+          CHANGED_PNG=$(git diff --name-only "$BASE"... -- 'tests/visual/__screenshots__/**' \
+            | xargs -r -n1 basename \
+            | sed -E 's/--.*\.png$//' | sort -u)
+          CHANGED_SRC=$(git diff --name-only "$BASE"... -- 'src/**' \
+            | xargs -r -n1 basename \
+            | sed -E 's/\.(tsx|ts|css)$//' | tr -d '-' | tr 'A-Z' 'a-z' | sort -u)
+          [ -z "$CHANGED_PNG" ] && echo "No baseline changes." && exit 0
+          echo "Baselines touched for: $CHANGED_PNG"
+          echo "Source changed for:    $CHANGED_SRC"
+          FAIL=0
+          for p in $CHANGED_PNG; do
+            # story id prefixes are like "form-button" / "data-display-dialog"
+            slug=$(echo "$p" | sed -E 's/^(form|feedback|data-display)-//' | tr -d '-')
+            echo "$CHANGED_SRC" | grep -qx "$slug" || { echo "::error::baseline '$p' updated but no matching component changed"; FAIL=1; }
+          done
+          exit $FAIL
