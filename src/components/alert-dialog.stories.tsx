@@ -2,56 +2,48 @@ import * as React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-} from './alert-dialog';
-import { Button, buttonVariants } from './button';
+import * as AlertDialog from './alert-dialog';
+import { Button } from './button';
 
 const meta = {
   title: 'Feedback/AlertDialog',
-  component: AlertDialog,
+  component: AlertDialog.Root,
   parameters: {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A modal dialog that interrupts the user with important content and expects a response.',
+        component:
+          'A modal dialog that interrupts the user with important content and expects a response. Base UI has no Action or Cancel part: cancel is an AlertDialog.Close rendered as a Button, and the confirming action is an ordinary Button.',
       },
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof AlertDialog>;
+} satisfies Meta<typeof AlertDialog.Root>;
 
 export default meta;
-type Story = StoryObj<typeof AlertDialog>;
+type Story = StoryObj<typeof AlertDialog.Root>;
 
 export const Default: Story = {
   render: () => (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete Account</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className={buttonVariants({ variant: "outline-secondary", size: "sm" })}>Cancel</AlertDialogCancel>
-          <AlertDialogAction className={buttonVariants({ variant: "destructive", size: "sm" })}>Delete Account</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <AlertDialog.Root>
+      <AlertDialog.Trigger render={<Button variant="destructive" />}>Delete Account</AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Header>
+            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+            <AlertDialog.Description>
+              This action cannot be undone. This will permanently delete your account
+              and remove your data from our servers.
+            </AlertDialog.Description>
+          </AlertDialog.Header>
+          <AlertDialog.Footer>
+            <AlertDialog.Close render={<Button variant="outline-secondary" size="sm" />}>Cancel</AlertDialog.Close>
+            <Button variant="destructive" size="sm">Delete Account</Button>
+          </AlertDialog.Footer>
+        </AlertDialog.Popup>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   ),
   parameters: {
     docs: {
@@ -64,27 +56,24 @@ export const Default: Story = {
 
 export const WithCustomButtons: Story = {
   render: () => (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button>Save Changes</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Save Changes?</AlertDialogTitle>
-          <AlertDialogDescription>
-            You have unsaved changes. Would you like to save them before leaving?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel asChild>
-            <Button variant="outline-secondary" size="sm">Don't Save</Button>
-          </AlertDialogCancel>
-          <AlertDialogAction asChild>
+    <AlertDialog.Root>
+      <AlertDialog.Trigger render={<Button />}>Save Changes</AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Header>
+            <AlertDialog.Title>Save Changes?</AlertDialog.Title>
+            <AlertDialog.Description>
+              You have unsaved changes. Would you like to save them before leaving?
+            </AlertDialog.Description>
+          </AlertDialog.Header>
+          <AlertDialog.Footer>
+            <AlertDialog.Close render={<Button variant="outline-secondary" size="sm" />}>Don't Save</AlertDialog.Close>
             <Button variant="green" size="sm">Save Changes</Button>
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </AlertDialog.Footer>
+        </AlertDialog.Popup>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   ),
   parameters: {
     docs: {
@@ -97,46 +86,47 @@ export const WithCustomButtons: Story = {
 
 export const WithLongContent: Story = {
   render: () => (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Terms & Conditions</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Terms of Service</AlertDialogTitle>
-          <AlertDialogDescription className="max-h-[300px] overflow-y-auto">
-            <div className="space-y-4">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-            <div className="space-y-4">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-            <div className="space-y-4">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-            <div className="space-y-4">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className={buttonVariants({ variant: "outline-secondary", size: "sm" })}>Decline</AlertDialogCancel>
-          <AlertDialogAction className={buttonVariants({ size: "sm" })}>Accept</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <AlertDialog.Root>
+      <AlertDialog.Trigger render={<Button variant="outline" />}>Terms & Conditions</AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Header>
+            <AlertDialog.Title>Terms of Service</AlertDialog.Title>
+            <AlertDialog.Description className="max-h-[300px] overflow-y-auto">
+              <div className="space-y-4">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              </div>
+              <div className="space-y-4">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              </div>
+              <div className="space-y-4">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              </div>
+              <div className="space-y-4">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              </div>
+            </AlertDialog.Description>
+          </AlertDialog.Header>
+          <AlertDialog.Footer>
+            <AlertDialog.Close render={<Button variant="outline-secondary" size="sm" />}>Decline</AlertDialog.Close>
+            <Button size="sm">Accept</Button>
+          </AlertDialog.Footer>
+        </AlertDialog.Popup>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   ),
   parameters: {
     docs: {
@@ -145,35 +135,36 @@ export const WithLongContent: Story = {
       },
     },
   },
-}; 
+};
 /*
  * The stories above only screenshot the closed trigger. This one opens the
- * dialog so the overlay, panel and both footer buttons are covered.
+ * dialog so the backdrop, popup and both footer buttons are covered.
  */
 export const Opened: Story = {
   render: () => (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete Account</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your
-            data from our servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className={buttonVariants({ variant: 'outline-secondary', size: 'sm' })}>
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction className={buttonVariants({ variant: 'destructive', size: 'sm' })}>
-            Delete Account
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <AlertDialog.Root>
+      <AlertDialog.Trigger render={<Button variant="destructive" />}>Delete Account</AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Header>
+            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+            <AlertDialog.Description>
+              This action cannot be undone. This will permanently delete your account and remove your
+              data from our servers.
+            </AlertDialog.Description>
+          </AlertDialog.Header>
+          <AlertDialog.Footer>
+            <AlertDialog.Close render={<Button variant="outline-secondary" size="sm" />}>
+              Cancel
+            </AlertDialog.Close>
+            <Button variant="destructive" size="sm">
+              Delete Account
+            </Button>
+          </AlertDialog.Footer>
+        </AlertDialog.Popup>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -183,7 +174,7 @@ export const Opened: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Opened by the play function. Covers AlertDialogAction and AlertDialogCancel, which the closed stories never render.',
+        story: 'Opened by the play function. Covers the Close-as-cancel and the plain action Button, which the closed stories never render.',
       },
     },
   },

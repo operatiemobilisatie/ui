@@ -1,54 +1,67 @@
 'use client'
 
 import * as React from "react"
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
+import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog"
 
 import { cn } from "../lib/utils"
 
-const AlertDialog = AlertDialogPrimitive.Root
+/*
+ * Same rename as the dialog -- `Overlay` -> `Backdrop`, `Content` -> `Popup` --
+ * on top of Base UI's alert-dialog, which is the dialog with `role="alertdialog"`
+ * and no dismissal on outside press or Escape.
+ *
+ * `Action` and `Cancel` are gone. Base UI's alert-dialog re-exports `Close` and
+ * nothing else, so the two roles are now spelled out at the call site:
+ *
+ *   cancel   <AlertDialog.Close render={<Button variant="outline-secondary" />}>
+ *   action   <Button onClick={...}>   -- plus whatever closes the dialog
+ *
+ * That is a real change in behaviour for the action button: Radix's
+ * `AlertDialogAction` closed the dialog for you on click, so an action that now
+ * has to close it needs either a controlled `open` or its own `AlertDialog.Close`
+ * wrapper.
+ */
 
-const AlertDialogTrigger = AlertDialogPrimitive.Trigger
+const Root = AlertDialogPrimitive.Root
+const Trigger = AlertDialogPrimitive.Trigger
+const Portal = AlertDialogPrimitive.Portal
+const Close = AlertDialogPrimitive.Close
 
-const AlertDialogPortal = AlertDialogPrimitive.Portal
-
-const AlertDialogAction = AlertDialogPrimitive.AlertDialogAction
-
-const AlertDialogCancel = AlertDialogPrimitive.AlertDialogCancel
-
-const AlertDialogOverlay = React.forwardRef<
-  React.ComponentRef<typeof AlertDialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
+/*
+ * The `animate-in` / `fade-out-0` / `zoom-in-95` / `slide-in-from-*` classes that
+ * were on the overlay and the content emitted nothing -- tailwindcss-animate was
+ * never registered as a plugin -- so this dialog has never animated. Replaced
+ * with Base UI's starting/ending style hooks over a plain CSS transition.
+ */
+const Backdrop = React.forwardRef<
+  React.ComponentRef<typeof AlertDialogPrimitive.Backdrop>,
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Backdrop>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Overlay
+  <AlertDialogPrimitive.Backdrop
     className={cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/80 transition-opacity duration-200 data-starting-style:opacity-0 data-ending-style:opacity-0",
       className
     )}
     {...props}
     ref={ref}
   />
 ))
-AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 
-const AlertDialogContent = React.forwardRef<
-  React.ComponentRef<typeof AlertDialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
+const Popup = React.forwardRef<
+  React.ComponentRef<typeof AlertDialogPrimitive.Popup>,
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Popup>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPortal>
-    <AlertDialogOverlay />
-    <AlertDialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed sm:rounded-2xl left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-        className
-      )}
-      {...props}
-    />
-  </AlertDialogPortal>
+  <AlertDialogPrimitive.Popup
+    ref={ref}
+    className={cn(
+      "fixed sm:rounded-2xl left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 transition-[opacity,scale] data-starting-style:opacity-0 data-starting-style:scale-95 data-ending-style:opacity-0 data-ending-style:scale-95",
+      className
+    )}
+    {...props}
+  />
 ))
-AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
-const AlertDialogHeader = ({
+const Header = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -60,9 +73,8 @@ const AlertDialogHeader = ({
     {...props}
   />
 )
-AlertDialogHeader.displayName = "AlertDialogHeader"
 
-const AlertDialogFooter = ({
+const Footer = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -74,9 +86,8 @@ const AlertDialogFooter = ({
     {...props}
   />
 )
-AlertDialogFooter.displayName = "AlertDialogFooter"
 
-const AlertDialogTitle = React.forwardRef<
+const Title = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
@@ -86,9 +97,8 @@ const AlertDialogTitle = React.forwardRef<
     {...props}
   />
 ))
-AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
 
-const AlertDialogDescription = React.forwardRef<
+const Description = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
@@ -98,19 +108,23 @@ const AlertDialogDescription = React.forwardRef<
     {...props}
   />
 ))
-AlertDialogDescription.displayName =
-  AlertDialogPrimitive.Description.displayName
+
+Backdrop.displayName = "AlertDialog.Backdrop"
+Popup.displayName = "AlertDialog.Popup"
+Header.displayName = "AlertDialog.Header"
+Footer.displayName = "AlertDialog.Footer"
+Title.displayName = "AlertDialog.Title"
+Description.displayName = "AlertDialog.Description"
 
 export {
-  AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
+  Root,
+  Trigger,
+  Portal,
+  Close,
+  Backdrop,
+  Popup,
+  Header,
+  Footer,
+  Title,
+  Description,
 }

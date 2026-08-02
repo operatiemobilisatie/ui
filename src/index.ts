@@ -21,13 +21,13 @@
 
 export * from './components/accordion';
 export * as Alert from './components/alert';
-export * from './components/alert-dialog';
+export * as AlertDialog from './components/alert-dialog';
 export * as Avatar from './components/avatar';
 export * from './components/badge';
 export * from './components/button';
 export * as Card from './components/card';
 export * from './components/checkbox';
-export * from './components/dialog';
+export * as Dialog from './components/dialog';
 export * as DropdownMenu from './components/dropdown-menu';
 export * from './components/icons';
 export * from './components/input';
