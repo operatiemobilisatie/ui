@@ -45,11 +45,10 @@ export * from './components/spinner';
 export * from './components/switch';
 export * as Tabs from './components/tabs';
 export * from './components/textarea';
-export * from './components/toast';
+export * as Toast from './components/toast';
 export * from './components/toaster';
 export * as Tooltip from './components/tooltip';
 
 export * from './lib/utils';
 export * from './lib/hooks';
-export * from './lib/use-toast';
 export * from './lib/ag-grid';

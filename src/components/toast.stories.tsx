@@ -1,24 +1,16 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import {
-  Toast,
-  ToastAction,
-  ToastClose,
-  ToastDescription,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
-} from './toast';
+import * as Toast from './toast';
 
 const meta = {
   title: 'Feedback/Toast',
-  component: Toast,
+  component: Toast.Root,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'A transient message anchored to the corner of the screen. These are the low-level parts; for the usual case reach for Toaster and the `toast()` helper instead, which manage the queue for you.',
+          'A transient message anchored to the corner of the screen. These are the low-level parts; for the usual case reach for Toaster and `Toast.useToastManager()` instead, which manage the queue for you. Note that a toast has no `open` prop any more -- it exists because something called `add()`, and `Toast.Root` takes the resulting record as its `toast` prop.',
       },
     },
   },
@@ -29,34 +21,72 @@ const meta = {
       options: ['default', 'success', 'info', 'destructive'],
       description: 'The colour treatment.',
     },
-    open: {
-      control: 'boolean',
-      description: 'Whether the toast is shown.',
-    },
   },
   args: {
     variant: 'default',
   },
-} satisfies Meta<typeof Toast>;
+} satisfies Meta<typeof Toast.Root>;
 
 export default meta;
-type Story = StoryObj<typeof Toast>;
+type Story = StoryObj<typeof Toast.Root>;
 
 /*
- * duration={Infinity} is load-bearing for the screenshots: the default duration
- * dismisses the toast after a few seconds, which would race the capture.
+ * Base UI has no literal open toast to render, so the stories seed the queue on
+ * mount instead. Adding with a fixed `id` makes it idempotent -- Base UI updates
+ * a toast in place when the id already exists -- which keeps a double-invoked
+ * effect (StrictMode, or a Storybook remount) from stacking two copies.
+ *
+ * `timeout: 0` is load-bearing for the screenshots, exactly as
+ * `duration={Infinity}` was: the default 5s auto-dismiss would otherwise race
+ * the capture.
  */
-const render = (args: React.ComponentProps<typeof Toast>) => (
-  <ToastProvider duration={Infinity}>
-    <Toast {...args} open>
-      <div className="grid gap-1">
-        <ToastTitle>Registration saved</ToastTitle>
-        <ToastDescription>Twelve new volunteers were added to the roster.</ToastDescription>
-      </div>
-      <ToastClose />
-    </Toast>
-    <ToastViewport />
-  </ToastProvider>
+function Seed({
+  title,
+  description,
+  type,
+}: {
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  type?: string;
+}) {
+  const { add } = Toast.useToastManager();
+  React.useEffect(() => {
+    add({ id: 'story', title, description, type, timeout: 0 });
+  }, [add, title, description, type]);
+  return null;
+}
+
+function List({ withAction }: { withAction?: boolean }) {
+  const { toasts } = Toast.useToastManager();
+  return (
+    <React.Fragment>
+      {toasts.map((toast) => (
+        <Toast.Root key={toast.id} toast={toast} variant={toast.type as Toast.Variant | undefined}>
+          <Toast.Content>
+            <Toast.Title />
+            <Toast.Description />
+          </Toast.Content>
+          {withAction && <Toast.Action>Undo</Toast.Action>}
+          <Toast.Close />
+        </Toast.Root>
+      ))}
+    </React.Fragment>
+  );
+}
+
+const render = (args: React.ComponentProps<typeof Toast.Root>) => (
+  <Toast.Provider>
+    <Seed
+      title="Registration saved"
+      description="Twelve new volunteers were added to the roster."
+      type={args.variant ?? undefined}
+    />
+    <Toast.Portal>
+      <Toast.Viewport>
+        <List />
+      </Toast.Viewport>
+    </Toast.Portal>
+  </Toast.Provider>
 );
 
 export const Default: Story = { render };
@@ -87,23 +117,24 @@ export const Destructive: Story = {
 
 export const WithAction: Story = {
   render: (args) => (
-    <ToastProvider duration={Infinity}>
-      <Toast {...args} open>
-        <div className="grid gap-1">
-          <ToastTitle>Volunteer removed</ToastTitle>
-          <ToastDescription>Anna Visser was removed from the roster.</ToastDescription>
-        </div>
-        <ToastAction altText="Undo removing Anna Visser">Undo</ToastAction>
-        <ToastClose />
-      </Toast>
-      <ToastViewport />
-    </ToastProvider>
+    <Toast.Provider>
+      <Seed
+        title="Volunteer removed"
+        description="Anna Visser was removed from the roster."
+        type={args.variant ?? undefined}
+      />
+      <Toast.Portal>
+        <Toast.Viewport>
+          <List withAction />
+        </Toast.Viewport>
+      </Toast.Portal>
+    </Toast.Provider>
   ),
   parameters: {
     docs: {
       description: {
         story:
-          'ToastAction adds a single button. altText is required: it is what a screen reader announces as the available action.',
+          'Toast.Action adds a single button. Radix required an `altText` here for the screen-reader announcement; Base UI drops it and announces the title and description through the viewport live region instead. Composed by hand the button takes children directly, as below; driven from the queue it comes from `actionProps` in the add() options.',
       },
     },
   },
@@ -111,15 +142,21 @@ export const WithAction: Story = {
 
 export const TitleOnly: Story = {
   render: (args) => (
-    <ToastProvider duration={Infinity}>
-      <Toast {...args} open>
-        <ToastTitle>Changes saved</ToastTitle>
-        <ToastClose />
-      </Toast>
-      <ToastViewport />
-    </ToastProvider>
+    <Toast.Provider>
+      <Seed title="Changes saved" type={args.variant ?? undefined} />
+      <Toast.Portal>
+        <Toast.Viewport>
+          <List />
+        </Toast.Viewport>
+      </Toast.Portal>
+    </Toast.Provider>
   ),
   parameters: {
-    docs: { description: { story: 'The description is optional.' } },
+    docs: {
+      description: {
+        story:
+          'The description is optional. `Toast.Description` renders `null` rather than an empty element when the record has none, so the grid does not gain a row.',
+      },
+    },
   },
 };
