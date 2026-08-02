@@ -7,3 +7,4 @@ dist
 .dockerhome
 playwright-report
 test-results
+core.*

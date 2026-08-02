@@ -11,7 +11,14 @@ export default defineConfig({
   // Deliberately zero. Retrying a flaky pixel diff turns real rendering
   // nondeterminism into a green build that fails randomly later.
   retries: 0,
-  workers: process.env.CI ? 4 : '50%',
+
+  /*
+   * Each worker is a full Chromium taking fullPage screenshots, which is memory
+   * hungry: at 4 workers on a 4 GB box the renderer dies with "Target crashed"
+   * on a random handful of stories every run. Two is comfortable; raise it with
+   * PW_WORKERS on a bigger machine.
+   */
+  workers: Number(process.env.PW_WORKERS) || 2,
   reporter: [['list'], ['html', { outputFolder: 'playwright-report', open: 'never' }]],
 
   expect: {
@@ -20,7 +27,18 @@ export default defineConfig({
       caret: 'hide',
       scale: 'css',
       threshold: 0.15, // per-pixel YIQ tolerance, absorbs subpixel antialiasing
-      maxDiffPixelRatio: 0.002, // ~2000px of a 1280x800 frame
+
+      /*
+       * Absolute, and deliberately tiny. A ratio is the wrong control here:
+       * these stories are small components centred in a 1280x800 fullPage frame,
+       * so maxDiffPixelRatio: 0.002 would have allowed ~2000 differing pixels --
+       * more than an entire button changing width. Measured: a px-5 -> px-6 change
+       * on Button moves only 78-189 pixels, so that budget silently passed it.
+       *
+       * Rendering inside the pinned container is deterministic, so the honest
+       * budget is 0 and anything above it is a real change.
+       */
+      maxDiffPixels: 0,
     },
   },
 
