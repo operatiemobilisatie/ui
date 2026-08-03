@@ -68,7 +68,7 @@ const Progress = React.forwardRef<
         {...props}
       >
         <ProgressPrimitive.Track className="relative h-full w-full overflow-hidden rounded-full bg-gray-200">
-          <div
+          <ProgressPrimitive.Indicator
             className="h-full bg-primary transition-all ease-in-out flex items-center"
             data-slot="progress-indicator"
             style={{
@@ -77,7 +77,7 @@ const Progress = React.forwardRef<
             }}
           >
             <div className={`ml-auto text-sm px-2 transition-all ${((paintedValue ?? 0) < 50) ? 'translate-x-full text-black' : 'text-white translate-x-0'}`} ref={counterRef}></div>
-          </div>
+          </ProgressPrimitive.Indicator>
         </ProgressPrimitive.Track>
       </ProgressPrimitive.Root>
   )

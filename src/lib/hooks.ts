@@ -73,6 +73,7 @@ export function useCountUp({
   decimals?: number;
 }) {
   const frame = React.useRef<number | null>(null);
+  const current = React.useRef(start);
   const format = React.useCallback(
     (v: number) => `${prefix}${v.toFixed(decimals)}${suffix}`,
     [prefix, suffix, decimals],
@@ -90,8 +91,14 @@ export function useCountUp({
     if (!el) return;
     cancel();
 
+    // Resume from the number currently painted. This matters when `end`
+    // changes while an animation is running: restarting from the configured
+    // initial value would make a live progress counter snap back to zero.
+    const from = current.current;
+
     const ms = duration * 1000;
     if (ms <= 0) {
+      current.current = end;
       el.textContent = format(end);
       return;
     }
@@ -100,7 +107,8 @@ export function useCountUp({
     const step = (now: number) => {
       if (t0 === null) t0 = now;
       const progress = Math.min((now - t0) / ms, 1);
-      el.textContent = format(start + (end - start) * easeOutQuad(progress));
+      current.current = from + (end - from) * easeOutQuad(progress);
+      el.textContent = format(current.current);
       if (progress < 1) {
         frame.current = requestAnimationFrame(step);
       } else {
@@ -112,6 +120,7 @@ export function useCountUp({
 
   const reset = React.useCallback(() => {
     cancel();
+    current.current = start;
     if (ref.current) ref.current.textContent = format(start);
   }, [ref, start, format, cancel]);
 

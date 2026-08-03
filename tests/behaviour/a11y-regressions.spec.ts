@@ -76,6 +76,11 @@ test.describe('progress contract', () => {
     const bar = page.locator('[role="progressbar"]');
     const indicator = page.locator('[data-slot="progress-indicator"]');
     await expect(bar).not.toHaveAttribute('aria-valuenow');
-    await expect(indicator).toHaveCSS('width', `${await bar.evaluate((element) => element.clientWidth)}px`);
+    await expect(indicator).toHaveAttribute('data-indeterminate');
+    const widths = await bar.evaluate((element) => ({
+      track: element.getBoundingClientRect().width,
+      indicator: element.querySelector('[data-slot="progress-indicator"]')!.getBoundingClientRect().width,
+    }));
+    expect(Math.abs(widths.track - widths.indicator)).toBeLessThan(0.5);
   });
 });
