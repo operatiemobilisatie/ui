@@ -69,4 +69,13 @@ test.describe('progress contract', () => {
     // The count-up settles at the story's value.
     await expect(page.getByText('60%')).toBeVisible();
   });
+
+  test('preserves the full-width indeterminate presentation for a null value', async ({ page }) => {
+    await gotoStory(page, 'feedback-progress--indeterminate');
+
+    const bar = page.locator('[role="progressbar"]');
+    const indicator = page.locator('[data-slot="progress-indicator"]');
+    await expect(bar).not.toHaveAttribute('aria-valuenow');
+    await expect(indicator).toHaveCSS('width', `${await bar.evaluate((element) => element.clientWidth)}px`);
+  });
 });

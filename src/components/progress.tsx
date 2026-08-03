@@ -26,6 +26,8 @@ import { useCountUp, useInView } from "../lib/hooks"
  *   `paintedValue` -- local state used only for the fill width and label colour.
  *   It starts at 0 and becomes `value` once the bar is in view, so sighted users
  *   retain the scroll-in animation without changing the accessibility tree.
+ *   Null stays null and leaves the fill width unset, preserving Base UI's
+ *   full-width indeterminate presentation.
  *
  * The counter div has no visible label when the bar is out of view and resets
  * to 0 every time it leaves -- that is the `useInView(counterRef, { once: true })`
@@ -36,7 +38,7 @@ const Progress = React.forwardRef<
   React.ComponentRef<typeof ProgressPrimitive.Root>,
   Omit<React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>, "value"> & { value?: number | null }
 >(({ className, value, ...props }, ref) => {
-  const [paintedValue, setPaintedValue] = React.useState(0);
+  const [paintedValue, setPaintedValue] = React.useState<number | null>(value == null ? null : 0);
   const counterRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(counterRef, { once: true });
 
@@ -50,10 +52,10 @@ const Progress = React.forwardRef<
 
   React.useEffect(() => {
     if (isInView) {
-      setPaintedValue(value ?? 0);
+      setPaintedValue(value ?? null);
       start();
     } else {
-      setPaintedValue(0);
+      setPaintedValue(value == null ? null : 0);
       reset();
     }
   }, [isInView, value, start, reset]);
@@ -68,9 +70,13 @@ const Progress = React.forwardRef<
         <ProgressPrimitive.Track className="relative h-full w-full overflow-hidden rounded-full bg-gray-200">
           <div
             className="h-full bg-primary transition-all ease-in-out flex items-center"
-            style={{ width: `${paintedValue}%`, transitionDuration: '1.5s' }}
+            data-slot="progress-indicator"
+            style={{
+              width: paintedValue === null ? undefined : `${paintedValue}%`,
+              transitionDuration: '1.5s',
+            }}
           >
-            <div className={`ml-auto text-sm px-2 transition-all ${(paintedValue < 50) ? 'translate-x-full text-black' : 'text-white translate-x-0'}`} ref={counterRef}></div>
+            <div className={`ml-auto text-sm px-2 transition-all ${((paintedValue ?? 0) < 50) ? 'translate-x-full text-black' : 'text-white translate-x-0'}`} ref={counterRef}></div>
           </div>
         </ProgressPrimitive.Track>
       </ProgressPrimitive.Root>

@@ -74,3 +74,16 @@ export const Complete: Story = {
     docs: { description: { story: 'A finished bar.' } },
   },
 };
+
+export const Indeterminate: Story = {
+  args: { value: null },
+  render: Default.render,
+  tags: ['!vr'],
+  parameters: {
+    docs: {
+      description: {
+        story: 'A progress bar with no known completion value. Covered by the behavior suite rather than a visual baseline.',
+      },
+    },
+  },
+};
