@@ -1,5 +1,7 @@
-'use client'
-
+/*
+ * No "use client" here: nothing in this file calls a hook, so it renders on the
+ * server as-is. See the note on the directive policy in src/index.ts.
+ */
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../lib/utils"

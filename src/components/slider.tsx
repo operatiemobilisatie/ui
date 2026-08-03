@@ -1,5 +1,10 @@
-'use client'
-
+/*
+ * No "use client" here. See the note on the directive policy in src/index.ts:
+ * `export * as Slider` builds its namespace object in this module, and a namespace
+ * object built inside a "use client" module reaches a server component as one
+ * opaque client reference with no keys. Nothing below calls a hook, so nothing
+ * below needs the boundary -- the Base UI parts each carry their own.
+ */
 import * as React from "react"
 import { Slider as SliderPrimitive, type SliderRootProps } from "@base-ui/react/slider"
 

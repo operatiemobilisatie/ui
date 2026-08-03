@@ -1,11 +1,20 @@
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
-import { CloseIcon } from "./icons"
-import { Button } from "./button"
+import { Popup } from "../internal/dialog-popup"
 
 import { cn } from "../lib/utils"
 
 /*
+ * No "use client" here, on purpose. `export * as Dialog` in the root barrel
+ * makes rolldown build the namespace object inside this module, and a namespace
+ * object built inside a "use client" module reaches a server component as a
+ * single opaque client reference -- `Object.keys(UI.Dialog)` comes back empty
+ * and every part is `undefined`. Everything below is either a re-export of a
+ * Base UI part (each of which carries its own directive) or a plain styled
+ * wrapper with no hooks, so this module evaluates fine on the server. The one
+ * part that does call a hook, `Popup`, lives in ../internal/dialog-popup and
+ * crosses the boundary on its own.
+ *
  * Radix's `Overlay` is Base UI's `Backdrop` and its `Content` is `Popup`. There
  * is no Positioner in the dialog family -- a modal is not anchored to anything --
  * so the popup keeps positioning itself with the same `fixed` + 50%/-50% classes
@@ -44,56 +53,6 @@ const Backdrop = React.forwardRef<
     {...props}
   />
 ))
-
-/*
- * Radix's FocusScope focused the first tabbable element in the dialog *and
- * selected its contents* when that element was a text input
- * (`focus(el, { select: true })`). Base UI focuses the same element but never
- * selects, which is a visible difference for the common "here is a link, copy
- * it" dialog. The first focus event to reach the popup after it mounts is the
- * one Base UI moved there itself, so selecting on that one and no other
- * reproduces the old behaviour without hijacking later clicks.
- */
-const isSelectableInput = (
-  element: EventTarget | null
-): element is HTMLInputElement =>
-  element instanceof HTMLInputElement && "select" in element
-
-const Popup = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Popup>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Popup>
->(({ className, children, onFocus, ...props }, ref) => {
-  const pendingInitialFocus = React.useRef(true)
-
-  return (
-    <DialogPrimitive.Popup
-      ref={ref}
-      className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 transition-[opacity,scale] data-starting-style:opacity-0 data-starting-style:scale-95 data-ending-style:opacity-0 data-ending-style:scale-95 sm:rounded-2xl",
-        className
-      )}
-      onFocus={(event) => {
-        if (pendingInitialFocus.current) {
-          pendingInitialFocus.current = false
-          if (isSelectableInput(event.target)) {
-            event.target.select()
-          }
-        }
-        onFocus?.(event)
-      }}
-      {...props}
-    >
-      {children}
-      <Close
-        className="absolute right-3 aspect-square top-3 rounded-full opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
-        render={<Button variant="outline-secondary" size="sm-icon" />}
-      >
-        <CloseIcon className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </Close>
-    </DialogPrimitive.Popup>
-  )
-})
 
 const Header = ({
   className,
@@ -147,7 +106,6 @@ const Description = React.forwardRef<
 ))
 
 Backdrop.displayName = "Dialog.Backdrop"
-Popup.displayName = "Dialog.Popup"
 Header.displayName = "Dialog.Header"
 Footer.displayName = "Dialog.Footer"
 Title.displayName = "Dialog.Title"

@@ -17,6 +17,32 @@
  * Every component is also reachable on its own subpath, e.g.
  * `@operatiemobilisatie/ui/button`, which is what keeps a server component from
  * pulling in a "use client" boundary it does not need.
+ *
+ * ---
+ *
+ * The "use client" policy, which the `export * as X` lines below depend on:
+ *
+ * A module carries the directive only if it *calls a React hook itself*. That
+ * is five files -- components/progress, components/select, components/toaster,
+ * internal/dialog-popup, lib/hooks -- and nothing else.
+ *
+ * The reason is `export * as X`. Under rolldown's unbundle mode the namespace
+ * object for `X` is constructed inside the module it re-exports, so when that
+ * module is a client module the whole object is what crosses the RSC boundary:
+ * a server component sees one opaque client reference, `Object.keys()` returns
+ * `[]`, every part reads back `undefined`, and rendering one fails with
+ * "Element type is invalid ... but got: undefined". Accordion, AlertDialog,
+ * Avatar, Slider and Toast all did exactly that until the directives came off.
+ *
+ * Taking them off is safe because the boundary is already drawn one level down:
+ * every Base UI part file ships its own "use client", and Base UI's own barrels
+ * are directive-free for precisely this reason. A wrapper that only renders
+ * those parts and calls no hook of its own evaluates fine on the server, and
+ * each part it re-exports arrives as its own client reference.
+ *
+ * So: adding a hook to any component file means adding the directive, and if
+ * that file backs an `export * as`, the hook belongs in a separate client
+ * module instead -- which is what `internal/dialog-popup` is.
  */
 
 export * as Accordion from './components/accordion';
