@@ -47,7 +47,7 @@ export const Default: Story = {
 
 export const Checked: Story = {
   args: {
-    checked: true,
+    defaultChecked: true,
   },
   parameters: {
     docs: {
@@ -61,7 +61,6 @@ export const Checked: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
-    checked: false,
   },
   parameters: {
     docs: {
@@ -75,7 +74,7 @@ export const Disabled: Story = {
 export const DisabledChecked: Story = {
   args: {
     disabled: true,
-    checked: true,
+    defaultChecked: true,
   },
   parameters: {
     docs: {

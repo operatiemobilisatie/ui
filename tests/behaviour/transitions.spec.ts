@@ -16,6 +16,8 @@ import {
   DIALOG_POPUP,
   MENU_POPUP,
   SUBMENU_POPUP,
+  TAB,
+  TABS_INDICATOR,
   TOAST,
   TOOLTIP_POPUP,
   accordionChevron,
@@ -342,23 +344,45 @@ test.describe('toast', () => {
 
     expect(frames.filter((f) => f.starting).length).toBe(0);
 
-    // Opacity: starts at 0 on the first frame the toast is painted at all, and
-    // interpolates rather than stepping.
-    expect(Number(frames[0].opacity)).toBeLessThan(0.2);
-    expect(new Set(frames.map((f) => f.opacity)).size).toBeGreaterThan(3);
+    /*
+     * Opacity is fully painted from the first frame, and that is the intended
+     * behaviour rather than a regression. The enter used to fade as well as
+     * slide, from `data-starting-style:opacity-0`; Base UI's toast fades on exit
+     * only, and this component now follows it. In a stack the reason is
+     * concrete: a translucent frontmost toast shows the cards behind it through
+     * its own background on the way in.
+     *
+     * So no opacity transition *runs* on the way in -- there is no change to
+     * interpolate. `opacity` is still named in `transition-property`, and the
+     * exit test below is what proves that end of it still works.
+     */
+    expect(Number(frames[0].opacity)).toBe(1);
     expect(Number(frames[frames.length - 1].opacity)).toBe(1);
-    expect(properties).toContain('opacity');
+    expect(properties).not.toContain('opacity');
 
     /*
-     * The slide. `data-starting-style:-translate-y-full` /
-     * `sm:data-starting-style:translate-y-full` compile to Tailwind v4's
-     * `translate` property, so `translate` -- not `transform` -- is what has to
-     * be in the transition list for the toast to slide into place instead of
-     * appearing where it lands.
+     * The slide, and the property it rides on is deliberate.
+     *
+     * This assertion used to name `translate`, because the enter was a pair of
+     * Tailwind `translate-y-full` utilities and Tailwind v4 compiles those to
+     * the individual `translate` property rather than to `transform`. Adopting
+     * Base UI's stacking geometry collapsed the slide, the per-index peek offset
+     * and the scale into a single `transform`, because they have to compose in a
+     * fixed order and one declaration is the only way to guarantee that. So
+     * `transform` is now what must be in the transition list, and `translate`
+     * must be absent -- if a future edit reintroduces a `translate-*` utility
+     * here it would be applied on top of the stack offset rather than as part of
+     * it, and the toast would sit in the wrong place.
      */
-    expect(properties).toContain('translate');
-    expect(frames[0].translate).not.toBe('none');
+    expect(properties).toContain('transform');
+    expect(properties).not.toContain('translate');
     expect(frames[frames.length - 1].translate).toBe('none');
+
+    // Settled: index 0, no swipe offset, no shrink. The first painted frame is
+    // somewhere else entirely -- mid-slide, a toast-and-a-half below.
+    const settled = 'matrix(1, 0, 0, 1, 0, 0)';
+    expect(frames[0].transform).not.toBe(settled);
+    expect(frames[frames.length - 1].transform).toBe(settled);
   });
 
   test('exit slides out and fades before unmounting', async ({ page }) => {
@@ -374,12 +398,83 @@ test.describe('toast', () => {
 
     const properties = propertiesFor(await readTransitionLog(page), 'toast');
     expect(properties).toContain('opacity');
-    expect(properties).toContain('translate');
+    // `transform`, not `translate` -- see the note on the enter test above.
+    expect(properties).toContain('transform');
 
     // Unlike the enter, the ending style *is* painted: it is applied by a normal
     // render rather than being raced by a layout effect.
     const ending = samples(await readFrames(page), 'toast').filter((f) => f.ending);
     expect(ending.length, 'toast painted no ending frame').toBeGreaterThan(0);
+  });
+});
+
+test.describe('tabs indicator', () => {
+  const STORY = 'data-display-tabs--animated-indicator';
+
+  /*
+   * Exactly the kind of thing the visual suite is blind to: it disables
+   * animations, so it can only ever prove where the pill *ends up*. A pill that
+   * jumped there in one frame would produce an identical screenshot.
+   */
+  test('the highlight slides between tabs instead of jumping', async ({ page }) => {
+    await gotoStory(page, STORY);
+
+    // play() left the third tab active. Go back to the first, so the travel is
+    // the full width of the list rather than one step.
+    await startTransitionLog(page, { indicator: TABS_INDICATOR });
+    await startFrameRecorder(page, { indicator: TABS_INDICATOR });
+
+    await page.locator(TAB).first().click();
+    await page.waitForTimeout(SETTLE);
+
+    /*
+     * `translate`, not `transform`. Tailwind v4 compiles `translate-x-[...]` to
+     * the individual `translate` property, and naming `transform` in
+     * `transition-property` would leave the pill teleporting while every other
+     * assertion here still passed.
+     */
+    const properties = propertiesFor(await readTransitionLog(page), 'indicator');
+    expect(properties).toContain('translate');
+    expect(properties).toContain('width');
+
+    // More than a handful of distinct positions is what separates a slide from
+    // a jump: a jump paints exactly two.
+    const positions = new Set(samples(await readFrames(page), 'indicator').map((f) => f.translate));
+    expect(positions.size).toBeGreaterThan(3);
+  });
+
+  /*
+   * The other half of the feature, and the half that is easy to get wrong: the
+   * pill only reads as moving if the tab it lands on does not paint its own
+   * background underneath. `Tabs.List indicator` is what takes that off, via a
+   * descendant selector chosen to outrank `data-active:bg-background` on
+   * specificity rather than on Tailwind's class ordering.
+   */
+  test('the active tab paints no background of its own when the list has an indicator', async ({
+    page,
+  }) => {
+    await gotoStory(page, STORY);
+    const active = page.locator(`${TAB}[data-active]`);
+    await expect(active).toHaveCount(1);
+
+    expect(await active.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(
+      'rgba(0, 0, 0, 0)'
+    );
+
+    // ...and the pill is exactly over it.
+    const [tabBox, pillBox] = await Promise.all([
+      active.boundingBox(),
+      page.locator(TABS_INDICATOR).boundingBox(),
+    ]);
+    expect(pillBox).toEqual(tabBox);
+  });
+
+  test('a list without the indicator prop keeps the static pill', async ({ page }) => {
+    await gotoStory(page, 'data-display-tabs--default');
+    await expect(page.locator(TABS_INDICATOR)).toHaveCount(0);
+    expect(
+      await page.locator(`${TAB}[data-active]`).evaluate((el) => getComputedStyle(el).backgroundColor)
+    ).not.toBe('rgba(0, 0, 0, 0)');
   });
 });
 

@@ -1,4 +1,9 @@
-@custom-variant dark (&:is(.dark *));
+/*
+ * No dark mode in v3. `@custom-variant dark` was declared here and no `dark:`
+ * utility was ever written against it, which made a consumer flipping to dark
+ * get a silent no-op. Until dark is actually built, "not supported" is the
+ * honest behaviour -- remove the variable and it fails loudly instead.
+ */
 
 @theme {
   /* OM Colors */
@@ -78,6 +83,10 @@
   --color-destructive-foreground: var(--color-primary-foreground);
   --color-destructive-background: var(--color-primary-background);
 
+  --color-destructive: var(--color-primary-800);
+  --color-destructive-foreground: var(--color-primary-foreground);
+  --color-destructive-background: var(--color-primary-background);
+
   --color-warning-foreground: var(--color-orange-foreground);
   --color-warning-background: var(--color-orange-background);
 
@@ -95,12 +104,7 @@
   --color-foreground: hsl(222.2, 84%, 4.9%);
 
   --color-secondary: var(--color-gray-200);
-  --color-secondary-foreground: var(--color-gray-900);
-
-  --radius: 0.5rem;
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --color-secondary-foreground: var(--color-gray-800);
 
   /*
    * These name the families only -- they do not load them. Get the actual files
@@ -212,4 +216,4 @@
   }
 }
 
-@source "../components/**/*.{js,jsx,ts,tsx}";
+@source "../{components,internal,lib}/**/*.js";

@@ -42,7 +42,7 @@ type Story = StoryObj<typeof Tooltip.Root>;
 export const Default: Story = {
   render: (args) => (
     <Tooltip.Provider>
-      <Tooltip.Root {...args} open>
+      <Tooltip.Root {...args} defaultOpen>
         <Tooltip.Trigger render={<Button variant="outline" />}>Hover me</Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Positioner>
@@ -62,7 +62,7 @@ export const Sides: Story = {
     <Tooltip.Provider>
       <div className="grid grid-cols-2 gap-16 p-16">
         {(['top', 'right', 'bottom', 'left'] as const).map((side) => (
-          <Tooltip.Root key={side} open>
+          <Tooltip.Root key={side} defaultOpen>
             <Tooltip.Trigger render={<Button variant="outline" size="sm" />}>{side}</Tooltip.Trigger>
             <Tooltip.Portal>
               <Tooltip.Positioner side={side}>

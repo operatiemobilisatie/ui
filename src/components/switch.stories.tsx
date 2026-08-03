@@ -44,7 +44,7 @@ export const Default: Story = {
 };
 
 export const Checked: Story = {
-  args: { checked: true },
+  args: { defaultChecked: true },
   parameters: {
     docs: { description: { story: 'A switch in its on state.' } },
   },
@@ -58,7 +58,7 @@ export const Disabled: Story = {
 };
 
 export const DisabledChecked: Story = {
-  args: { disabled: true, checked: true },
+  args: { disabled: true, defaultChecked: true },
   parameters: {
     docs: { description: { story: 'A disabled switch that is on.' } },
   },

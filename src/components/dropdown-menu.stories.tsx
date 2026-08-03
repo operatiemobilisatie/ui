@@ -32,9 +32,39 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof DropdownMenu.Root>;
 
+/*
+ * Every story that wants a visible menu opens it by clicking, never by
+ * `defaultOpen`. That is not a stylistic preference -- `defaultOpen` made the
+ * whole Storybook unusable, in two compounding ways:
+ *
+ *   Base UI's Menu.Root defaults to `modal: true` (as Radix's DropdownMenu did),
+ *   and a modal menu renders a full-viewport `position: fixed; inset: 0`
+ *   backdrop, cut out only around its own trigger. Four always-open stories on
+ *   the autodocs page meant four of those stacked over the page, so nothing on
+ *   it could be clicked.
+ *
+ *   And the Positioner restores Radix's `positionMethod: "fixed"`, so the popups
+ *   are pinned to the viewport rather than to the page. Scrolling the docs page
+ *   left them hanging in front of whatever happened to be underneath.
+ *
+ * A play function has neither problem: Storybook does not run play functions in
+ * docs (`docs.autoplay` is false by default), so the docs page renders closed
+ * menus and stays interactive, while the canvas -- which is what the visual
+ * regression suite screenshots -- still gets an open one. STORY_RENDERED fires
+ * after play() resolves, so the capture is never of the pre-click frame.
+ */
+const openMenu =
+  (trigger: string, expected: string): NonNullable<Story['play']> =>
+  async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: trigger }));
+    // Menu content is portalled to <body>, so assert against the document.
+    await waitFor(() => expect(document.body).toHaveTextContent(expected));
+  };
+
 export const Default: Story = {
   render: (args) => (
-    <DropdownMenu.Root {...args} defaultOpen>
+    <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger render={<Button variant="outline" />}>Open menu</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Positioner>
@@ -57,10 +87,11 @@ export const Default: Story = {
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   ),
+  play: openMenu('Open menu', 'My account'),
   parameters: {
     docs: {
       description: {
-        story: 'A labelled menu with a disabled item, shown open via defaultOpen.',
+        story: 'A labelled menu with a disabled item.',
       },
     },
   },
@@ -68,7 +99,7 @@ export const Default: Story = {
 
 export const WithShortcuts: Story = {
   render: (args) => (
-    <DropdownMenu.Root {...args} defaultOpen>
+    <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger render={<Button variant="outline" />}>Open menu</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Positioner>
@@ -91,6 +122,7 @@ export const WithShortcuts: Story = {
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   ),
+  play: openMenu('Open menu', 'Duplicate'),
   parameters: {
     docs: { description: { story: 'DropdownMenu.Shortcut pushes a key hint to the trailing edge.' } },
   },
@@ -98,7 +130,7 @@ export const WithShortcuts: Story = {
 
 export const WithCheckboxItems: Story = {
   render: (args) => (
-    <DropdownMenu.Root {...args} defaultOpen>
+    <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger render={<Button variant="outline" />}>Columns</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Positioner>
@@ -107,14 +139,15 @@ export const WithCheckboxItems: Story = {
               <DropdownMenu.GroupLabel>Visible columns</DropdownMenu.GroupLabel>
             </DropdownMenu.Group>
             <DropdownMenu.Separator />
-            <DropdownMenu.CheckboxItem checked>Name</DropdownMenu.CheckboxItem>
-            <DropdownMenu.CheckboxItem checked>Region</DropdownMenu.CheckboxItem>
-            <DropdownMenu.CheckboxItem checked={false}>Created at</DropdownMenu.CheckboxItem>
+            <DropdownMenu.CheckboxItem defaultChecked>Name</DropdownMenu.CheckboxItem>
+            <DropdownMenu.CheckboxItem defaultChecked>Region</DropdownMenu.CheckboxItem>
+            <DropdownMenu.CheckboxItem defaultChecked={false}>Created at</DropdownMenu.CheckboxItem>
           </DropdownMenu.Popup>
         </DropdownMenu.Positioner>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   ),
+  play: openMenu('Columns', 'Visible columns'),
   parameters: {
     docs: { description: { story: 'Checkbox items show a tick in the leading gutter when checked.' } },
   },
@@ -122,7 +155,7 @@ export const WithCheckboxItems: Story = {
 
 export const WithRadioItems: Story = {
   render: (args) => (
-    <DropdownMenu.Root {...args} defaultOpen>
+    <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger render={<Button variant="outline" />}>Sort by</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Positioner>
@@ -141,6 +174,7 @@ export const WithRadioItems: Story = {
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   ),
+  play: openMenu('Sort by', 'Date added'),
   parameters: {
     docs: { description: { story: 'Radio items are mutually exclusive within a DropdownMenu.RadioGroup.' } },
   },
@@ -160,17 +194,11 @@ export const OpensOnClick: Story = {
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   ),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole('button', { name: 'Open menu' }));
-    // Menu content is portalled to <body>, so assert against the document.
-    await waitFor(() => expect(document.body).toHaveTextContent('Profile'));
-  },
+  play: openMenu('Open menu', 'Profile'),
   parameters: {
     docs: {
       description: {
-        story:
-          'Exercises the real trigger rather than defaultOpen. This is the story that would catch a broken open interaction.',
+        story: 'The plainest menu there is: two items, nothing else. Every story here now opens by clicking.',
       },
     },
   },

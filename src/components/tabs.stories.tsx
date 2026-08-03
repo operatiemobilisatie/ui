@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import * as Tabs from './tabs';
 
 const meta = {
@@ -65,6 +66,48 @@ export const SecondTabSelected: Story = {
     docs: {
       description: {
         story: 'defaultValue picks which panel opens first. The active trigger gets a white pill.',
+      },
+    },
+  },
+};
+
+export const AnimatedIndicator: Story = {
+  render: (args) => (
+    <Tabs.Root {...args} className="w-96">
+      {/* One prop. It adds the sliding pill and takes the static one off the
+          active tab, which otherwise draws over it and hides the movement. */}
+      <Tabs.List indicator>
+        <Tabs.Tab value="projects">Projects</Tabs.Tab>
+        <Tabs.Tab value="people">People</Tabs.Tab>
+        <Tabs.Tab value="reports">Reports</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="projects">
+        <p className="text-sm">Twelve projects are running across four regions.</p>
+      </Tabs.Panel>
+      <Tabs.Panel value="people">
+        <p className="text-sm">Two hundred and forty workers are currently on assignment.</p>
+      </Tabs.Panel>
+      <Tabs.Panel value="reports">
+        <p className="text-sm">The last quarterly report was published in March.</p>
+      </Tabs.Panel>
+    </Tabs.Root>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    /*
+     * Click the last tab so the screenshot is taken after the pill has
+     * travelled, not at its initial position. The suite waits for animations to
+     * settle before capturing, so this proves the pill lands correctly rather
+     * than catching it mid-flight.
+     */
+    await userEvent.click(canvas.getByRole('tab', { name: 'Reports' }));
+    await waitFor(() => expect(canvas.getByRole('tab', { name: 'Reports' })).toHaveAttribute('data-active'));
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'With `indicator`, the white pill is a single element that slides between tabs instead of appearing instantly on whichever one is active. Base UI measures the active tab and publishes `--active-tab-left` / `--active-tab-width` on the indicator, so the movement is a plain CSS transition. The play function clicks the third tab.',
       },
     },
   },

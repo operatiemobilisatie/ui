@@ -75,6 +75,52 @@ export const Default: Story = {
   },
 };
 
+/*
+ * The queue is what the Toaster is for, so one story has to actually fill it.
+ * With the viewport reduced to an anchor in the corner and the roots positioned
+ * off `--toast-index`, three toasts are a stack -- not three cards marching up
+ * the right-hand edge of the screen, which is what the old full-height flex
+ * column produced.
+ */
+function ShowThreeButton() {
+  const { add } = Toast.useToastManager();
+  return (
+    <Button
+      onClick={() => {
+        for (let i = 1; i <= 3; i += 1) {
+          add({ title: `Registration ${i} saved`, description: 'Volunteers were added to the roster.' });
+        }
+      }}
+    >
+      Show three toasts
+    </Button>
+  );
+}
+
+export const Stacked: Story = {
+  render: () => (
+    <Toast.Provider>
+      <div className="p-8">
+        <ShowThreeButton />
+        <Toaster />
+      </div>
+    </Toast.Provider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Show three toasts' }));
+    await waitFor(() => expect(document.body).toHaveTextContent('Registration 3 saved'));
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Toasts collapse behind one another instead of stacking as full-size cards, and fan out into a spaced list on hover or focus. `limit` on `Toast.Provider` decides how many are on screen at once and defaults to 3 -- a fourth would queue behind these rather than lengthen the stack.',
+      },
+    },
+  },
+};
+
 export const Destructive: Story = {
   render: () => (
     <Toast.Provider>

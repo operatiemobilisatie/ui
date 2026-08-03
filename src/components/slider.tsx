@@ -71,6 +71,23 @@ function Root<Value extends number | readonly number[]>({
   )
 }
 
+/*
+ * `Label` is the accessible-name hook for the whole component: it renders a
+ * label that Base UI auto-associates with every thumb's hidden range input
+ * (`aria-labelledby` points at the label's id). Without it, a slider built
+ * from this library ships with no accessible name at all.
+ */
+const Label = React.forwardRef<
+  React.ComponentRef<typeof SliderPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Label>
+>(({ className, ...props }, ref) => (
+  <SliderPrimitive.Label
+    ref={ref}
+    className={cn("mb-2 block text-sm font-semibold", className)}
+    {...props}
+  />
+))
+
 const Control = React.forwardRef<
   React.ComponentRef<typeof SliderPrimitive.Control>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Control>
@@ -155,10 +172,11 @@ const Value = React.forwardRef<
   />
 ))
 
+Label.displayName = "Slider.Label"
 Control.displayName = "Slider.Control"
 Track.displayName = "Slider.Track"
 Indicator.displayName = "Slider.Indicator"
 Thumb.displayName = "Slider.Thumb"
 Value.displayName = "Slider.Value"
 
-export { Root, Control, Track, Indicator, Thumb, Value }
+export { Root, Label, Control, Track, Indicator, Thumb, Value }

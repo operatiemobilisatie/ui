@@ -1,8 +1,7 @@
 import * as React from "react"
 
-import { useRender } from "@base-ui/react/use-render"
-
 import { cn } from "../lib/utils"
+import { Root } from "../internal/card-root"
 
 /*
  * Parts are namespaced, following Base UI:
@@ -11,24 +10,14 @@ import { cn } from "../lib/utils"
  *   <Card.Root render={<Link href="/story" />}>...</Card.Root>
  *
  * `asChild` is replaced by `render`.
+ *
+ * `Root` lives in `../internal/card-root`. It is the only part that calls a
+ * hook (`useRender`), so it needs "use client" -- and a module with that
+ * directive cannot be where `export * as Card` builds its namespace object, or
+ * the whole namespace would reach a server component as one opaque client
+ * reference. This file stays directive-free; see the note in
+ * `../internal/card-root` for the mechanism.
  */
-
-const Root = React.forwardRef<HTMLDivElement, useRender.ComponentProps<'div'>>(
-  ({ className, render, ...props }, ref) =>
-    useRender({
-      render,
-      ref,
-      defaultTagName: 'div',
-      props: {
-        className: cn(
-          "rounded-2xl border border-b-4 border-gray-200 bg-card text-black shadow-xs relative",
-          className
-        ),
-        ...props,
-      },
-    })
-)
-Root.displayName = "Card.Root"
 
 const Image = React.forwardRef<
   HTMLDivElement,
@@ -81,7 +70,7 @@ const Description = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-base group-[.image-fill]:text-white text-muted-foreground", className)}
+    className={cn("text-base group-[.image-fill]:text-white text-gray-500", className)}
     {...props}
   />
 ))

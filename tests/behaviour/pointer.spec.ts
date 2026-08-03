@@ -40,14 +40,25 @@ async function freshToast(page: Page) {
 
   /*
    * Wait for the enter *slide* to finish, not just for the element to exist.
-   * The toast animates up from `translate: 0 100%`, so a bounding box measured
-   * the instant it mounts points at empty space a whole toast-height below
-   * where the thing will be, and the drag below would press on nothing. Polling
-   * the settled value is a state wait, not a sleep.
+   * The toast animates up from `transform: translateY(150%)`, so a bounding box
+   * measured the instant it mounts points at empty space below where the thing
+   * will be, and the drag below would press on nothing.
+   *
+   * This used to poll `translate` for 'none', which stopped being a wait at all
+   * once the toast adopted Base UI's stacking geometry: the slide, the per-index
+   * peek offset and the scale now compose into one `transform`, so `translate`
+   * reads 'none' from the first frame and the poll passed instantly. Polling for
+   * no live animations is both a real barrier and indifferent to which property
+   * the geometry happens to use.
    */
   await expect
-    .poll(() => page.locator(TOAST).evaluate((el) => getComputedStyle(el).translate))
-    .toBe('none');
+    .poll(() => page.locator(TOAST).evaluate((el) => el.getAnimations().length))
+    .toBe(0);
+
+  // The settled state for a lone toast: index 0, no swipe offset, no shrink.
+  await expect
+    .poll(() => page.locator(TOAST).evaluate((el) => getComputedStyle(el).transform))
+    .toBe('matrix(1, 0, 0, 1, 0, 0)');
 }
 
 test.describe('toast swipe to dismiss', () => {
@@ -78,11 +89,23 @@ test.describe('toast swipe to dismiss', () => {
 
     // Left is not in the default direction set, so this must not dismiss...
     await drag(page, await centreOf(page, TOAST), -120, 0);
-    await page.waitForTimeout(400);
     await expect(page.locator(TOAST)).toHaveCount(1);
 
-    // ...and, more importantly, must not strand the toast part-way through the
-    // damped drag transform it applied inline while the pointer was down.
+    /*
+     * ...and the spring-back has to be allowed to finish before the transform is
+     * read. A fixed 400ms wait used to cover it, and stopped covering it when the
+     * transform transition went from 200ms to Base UI's 0.5s
+     * cubic-bezier(0.22, 1, 0.36, 1): the toast was still 0.015px from home and
+     * the assertion caught it mid-flight. `--toast-swipe-movement-x` is reset the
+     * moment the pointer lifts, so the variables below say "settled" well before
+     * the paint does -- which is exactly the gap this poll closes.
+     */
+    await expect
+      .poll(() => page.locator(TOAST).evaluate((el) => el.getAnimations().length))
+      .toBe(0);
+
+    // The point of the test: no residue from the damped drag transform applied
+    // inline while the pointer was down.
     const after = await page.locator(TOAST).evaluate((el) => ({
       transform: getComputedStyle(el).transform,
       movementX: getComputedStyle(el).getPropertyValue('--toast-swipe-movement-x').trim(),

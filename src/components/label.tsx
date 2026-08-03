@@ -14,8 +14,16 @@ import { cn } from "../lib/utils"
  * fewer, with the same styling contract.
  */
 
+/*
+ * `peer-disabled:` only matches a native `disabled` attribute on the sibling
+ * input -- which Checkbox, Switch and Radio never set, because Base UI marks
+ * those roots `nativeButton = false` and uses `aria-disabled` instead. The
+ * `peer-data-[disabled]:` companion below is what actually fires for those.
+ * The `aria-disabled:` classes cover the case where the label itself carries
+ * the state rather than a peer.
+ */
 const labelVariants = cva(
-  "font-semibold text-sm leading-none peer-disabled:cursor-not-allowed [&[for]]:cursor-pointer peer-disabled:opacity-70 aria-disabled:cursor-not-allowed aria-disabled:opacity-70"
+  "font-semibold text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 peer-data-[disabled]:cursor-not-allowed peer-data-[disabled]:opacity-70 aria-disabled:cursor-not-allowed aria-disabled:opacity-70 [&[for]]:cursor-pointer"
 )
 
 const Label = React.forwardRef<

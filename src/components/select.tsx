@@ -2,6 +2,7 @@
 
 import React, { useId, type Ref } from "react";
 import Select, { type GroupBase, type Props, type SelectInstance } from "react-select";
+import { cn } from "../lib/utils";
 import { badgeVariants } from "./badge";
 import type {} from "react-select/base";
 
@@ -16,8 +17,8 @@ const selectVariants = (size: Props["displaySize"], className: Props["className"
         case "sm":
             return {
                 control: ({ isFocused }: { isFocused: boolean }) =>
-                    `min-h-[34px]! py-1 px-3 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? "border-primary hover:border-primary ring-ring ring-2" : ""}`,
-                option: () => "py-2 px-5 hover:bg-gray-100",
+                    `min-h-[34px]! py-1 px-3 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? "border-primary hover:border-primary ring-ring ring-2" : ""}`,
+                option: ({ isFocused }: { isFocused: boolean }) => cn("py-2 px-5", isFocused && "bg-gray-100"),
                 indicatorSeparator: () => "bg-gray-300 mx-1 my-0.5",
                 indicatorsContainer: () => "-mr-1",
                 dropdownIndicator: () => "text-primary",
@@ -29,8 +30,8 @@ const selectVariants = (size: Props["displaySize"], className: Props["className"
         case "lg":
             return {
                 control: ({ isFocused }: { isFocused: boolean }) =>
-                    `min-h-11! py-2 px-4 rounded-2xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? "border-primary hover:border-primary ring-ring ring-2" : ""}`,
-                option: () => "py-2 px-5 hover:bg-gray-100",
+                    `min-h-11! py-2 px-4 rounded-2xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? "border-primary hover:border-primary ring-ring ring-2" : ""}`,
+                option: ({ isFocused }: { isFocused: boolean }) => cn("py-2 px-5", isFocused && "bg-gray-100"),
                 indicatorSeparator: () => "bg-gray-300 mx-1 my-0.5",
                 indicatorsContainer: () => "-mr-2",
                 dropdownIndicator: () => "text-primary",
@@ -42,8 +43,8 @@ const selectVariants = (size: Props["displaySize"], className: Props["className"
         default:
             return {
                 control: ({ isFocused }: { isFocused: boolean }) =>
-                    `min-h-10! py-1.5 px-3.5 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? "border-primary hover:border-primary ring-ring ring-2" : ""}`,
-                option: () => "py-2 px-5 hover:bg-gray-100",
+                    `min-h-10! py-1.5 px-3.5 rounded-xl flex w-full border border-input bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring aria-disabled:cursor-not-allowed focus:border-primary aria-disabled:opacity-50 hover:border-gray-300 ${className} ${isFocused ? "border-primary hover:border-primary ring-ring ring-2" : ""}`,
+                option: ({ isFocused }: { isFocused: boolean }) => cn("py-2 px-5", isFocused && "bg-gray-100"),
                 indicatorSeparator: () => "bg-gray-300 mx-1 my-0.5",
                 indicatorsContainer: () => "-mr-1",
                 dropdownIndicator: () => "text-primary",

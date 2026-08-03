@@ -85,7 +85,7 @@ export const Disabled: Story = {
   args: {
     disabled: true,
     placeholder: 'Disabled textarea',
-    value: 'This textarea is disabled',
+    defaultValue: 'This textarea is disabled',
   },
   parameters: {
     docs: {

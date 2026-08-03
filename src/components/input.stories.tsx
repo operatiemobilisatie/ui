@@ -86,7 +86,7 @@ export const Disabled: Story = {
     args: {
         disabled: true,
         placeholder: 'Disabled input',
-        value: 'This input is disabled',
+        defaultValue: 'This input is disabled',
     },
     parameters: {
         docs: {

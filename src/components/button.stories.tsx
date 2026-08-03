@@ -188,11 +188,13 @@ export const Icon: Story = {
   args: {
     size: 'icon',
     children: <PlusIcon />,
+    'aria-label': 'Add',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Icon-only button, always remains an exact same size circle.',
+        story:
+          'Icon-only button, always remains an exact same size circle. The icon is aria-hidden, so the accessible name has to come from an `aria-label` on the button itself.',
       },
     },
   },
@@ -202,6 +204,7 @@ export const IconSmall: Story = {
   args: {
     size: 'sm-icon',
     children: <PlusIcon />,
+    'aria-label': 'Add',
   },
   parameters: {
     docs: {
@@ -209,13 +212,14 @@ export const IconSmall: Story = {
         story: 'An icon-only button with a small size.',
       },
     },
-  },  
+  },
 };
 
 export const IconLarge: Story = {
   args: {
     size: 'lg-icon',
     children: <PlusIcon />,
+    'aria-label': 'Add',
   },
   parameters: {
     docs: {
@@ -223,5 +227,5 @@ export const IconLarge: Story = {
         story: 'An icon-only button with a large size.',
       },
     },
-  },  
+  },
 };

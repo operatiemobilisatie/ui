@@ -9,7 +9,7 @@ export interface TextareaProps
   }
 
 const textareaVariants = cva(
-  "peer flex w-full border border-input bg-background placeholder:text-muted-foreground duration-150 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed focus:border-primary disabled:opacity-50 hover:border-gray-300",
+  "peer flex w-full border border-input bg-background placeholder:text-gray-500 duration-150 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed focus:border-primary disabled:opacity-50 hover:border-gray-300",
   {
     variants: {
       size: {

@@ -1,3 +1,16 @@
+'use client'
+
+/*
+ * Button calls a hook (`useRender`), so it needs "use client": a module that
+ * calls a hook cannot be evaluated on the server. `useRender` traces through
+ * `useRenderElement` → `useMergedRefs`, and React treats the importing module
+ * as a client reference across an RSC boundary.
+ *
+ * Button is flat-exported (not `export * as Button`), so the directive is
+ * harmless here -- there is no namespace object to hollow out. Card's `Root`
+ * is the namespaced equivalent and lives in `src/internal/card-root.tsx`.
+ */
+
 import * as React from "react"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -12,7 +25,7 @@ const buttonVariants = cva(
         default: "bg-primary text-white border border-primary shimmer",
         secondary: "bg-gray-200 text-secondary-foreground shimmer-invert",
         outline: "border border-primary bg-background text-primary hover:bg-primary hover:text-white",
-        "outline-secondary": "border border-input bg-background hover:bg-input hover:text-accent-foreground",
+        "outline-secondary": "border border-input bg-background hover:bg-input hover:text-primary",
         green: "bg-green text-white border border-green shimmer",
         blue: "bg-blue text-white border border-blue shimmer",
         orange: "bg-orange text-white border border-orange shimmer",

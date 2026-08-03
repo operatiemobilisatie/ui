@@ -125,14 +125,29 @@ others follow from the same mechanism rather than from a test run.
 
 **Without it the components render completely unstyled.** It is not just a
 palette. That stylesheet carries the `@theme` tokens *and* an `@source`
-directive pointing at `dist/components/`, which is what makes your Tailwind
-build scan the library's compiled JSX and generate the utility classes the
-components ask for. Tailwind v4 only emits classes it can see used somewhere;
-without the `@source` it never sees them, so every `rounded-2xl`,
-`bg-primary` and `data-checked:*` in this package compiles to nothing.
+directive pointing at `dist/components/`, `dist/internal/` and `dist/lib/`,
+which is what makes your Tailwind build scan the library's compiled JSX and
+generate the utility classes the components ask for. Tailwind v4 only emits
+classes it can see used somewhere; without the `@source` it never sees them, so
+every `rounded-2xl`, `bg-primary` and `data-checked:*` in this package compiles
+to nothing.
+
+The `@source` glob is `../{components,internal,lib}/**/*.js` — the `internal/`
+directory matters: the Dialog and AlertDialog close buttons and Card's Root
+live there, and a glob that stops at `components/` would drop their
+positioning entirely. `lib/` is scanned for the same reason (it carries hooks
+whose class strings Tailwind needs to see).
 
 If styles are missing, check this import before anything else. It is the single
 most common setup mistake.
+
+### Dark mode is not supported
+
+v3 has no dark mode. There is no `dark:` variant anywhere in the library, and
+the `@custom-variant dark` that once made the option *look* available is gone.
+If you flip your app to dark, the components stay light — there is no error and
+no theme to opt into. Treat it as "not supported" rather than as a feature with
+a missing toggle.
 
 ## Fonts
 
@@ -279,15 +294,19 @@ codebase becomes a `render` — there is no compatibility shim.
 
 All 13 namespace exports render from a React Server Component. A module in this
 package carries `"use client"` only if it calls a React hook itself, which is
-five files: `components/progress`, `components/select`, `components/toaster`,
-`internal/dialog-popup` and `lib/hooks`. Everything else evaluates on the server,
-and the client boundary is drawn one level down, inside Base UI's own part files.
+seven files: `components/button` (it calls `useRender`), `components/progress`,
+`components/select`, `components/toaster`, `internal/card-root` (Card's `Root`,
+also via `useRender`), `internal/dialog-popup` and `lib/hooks`. Everything else
+evaluates on the server, and the client boundary is drawn one level down, inside
+Base UI's own part files.
 
 If you write your own wrapper around these components, the same rule applies to
 you: **a file that backs an `export * as` namespace must not call a hook.** Put
 the hook in a separate client module and re-export it. A namespace object built
 inside a `"use client"` module crosses the RSC boundary as one opaque reference —
-`Object.keys()` returns `[]` and every part reads back `undefined`.
+`Object.keys()` returns `[]` and every part reads back `undefined`. That is why
+Button and Card's `Root` live under `internal/` or carry the directive: both
+call `useRender`, and neither may be where a namespace object is built.
 
 ## Components
 
@@ -304,8 +323,8 @@ Namespaced components (`import { Accordion } from "@operatiemobilisatie/ui"`):
 | `DropdownMenu` | `Root` `Trigger` `Portal` `Positioner` `Popup` `Group` `GroupLabel` `Item` `CheckboxItem` `RadioGroup` `RadioItem` `Separator` `Shortcut` `SubmenuRoot` `SubmenuTrigger` |
 | `RadioCards` | `Root` `Item` · `radioCardVariants` |
 | `RadioGroup` | `Root` `Item` · `radioControlVariants` `radioIndicatorVariants` |
-| `Slider` | `Root` `Control` `Track` `Indicator` `Thumb` `Value` |
-| `Tabs` | `Root` `List` `Tab` `Panel` |
+| `Slider` | `Root` `Label` `Control` `Track` `Indicator` `Thumb` `Value` |
+| `Tabs` | `Root` `List` `Indicator` `Tab` `Panel` |
 | `Toast` | `Provider` `Portal` `Viewport` `Root` `Content` `Title` `Description` `Close` `Action` · `useToastManager` `createToastManager` · type `Variant` |
 | `Tooltip` | `Provider` `Root` `Trigger` `Portal` `Positioner` `Popup` |
 

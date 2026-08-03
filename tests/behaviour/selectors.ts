@@ -54,6 +54,14 @@ export const accordionTrigger = (index: number) => `${accordionItem(index)} > h3
 export const accordionPanel = (index: number) => `${accordionItem(index)} > [role="region"]`;
 export const accordionChevron = (index: number) => `${accordionTrigger(index)} > svg`;
 
+/*
+ * Tabs.Indicator is the only <span> Base UI renders inside the tablist -- every
+ * tab is a <button role="tab"> -- and it is the element Base UI publishes
+ * --active-tab-left/width on.
+ */
+export const TAB = '[role="tab"]';
+export const TABS_INDICATOR = '[role="tablist"] > span';
+
 export const SLIDER_CONTROL = '[data-base-ui-slider-control]';
 /* The Track is the Control's only child without a data-index; the Thumb has one. */
 export const SLIDER_TRACK = `${SLIDER_CONTROL} > div[data-orientation]:not([data-index])`;

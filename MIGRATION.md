@@ -564,9 +564,24 @@ number froze at the initial value and never followed the handle.
 | `TabsList` | `Tabs.List` |
 | `TabsTrigger` | `Tabs.Tab` |
 | `TabsContent` | `Tabs.Panel` |
+| — | `Tabs.Indicator` (new — the travelling highlight) |
 
 The active-state attribute is `data-active`, not `data-[state=active]` and not
 `data-selected`.
+
+By default the active tab paints its own white pill, exactly as in v2. Pass
+`indicator` to `Tabs.List` and the pill becomes a single element that *slides*
+between tabs instead:
+
+```diff
+-<Tabs.List>
++<Tabs.List indicator>
+```
+
+That one prop also takes the static background off the active tab — leaving both
+on would draw a second pill that snaps into place while the real one is still
+travelling. `Tabs.Indicator` is exported for hand composition, but then that is
+yours to handle.
 
 ---
 
@@ -644,7 +659,7 @@ toastManager.add({ title: "Upload finished" });
 | `ToastProps` | `React.ComponentProps<typeof Toast.Root>` |
 | `ToastActionElement` | removed — see `actionProps` below |
 | — | `Toast.Portal` (new) |
-| — | `Toast.Content` (new — the `grid gap-1` wrapper, plus a ResizeObserver that lets the viewport stack toasts) |
+| — | `Toast.Content` (new — the padded row inside the toast, plus a ResizeObserver that lets the viewport stack toasts) |
 | `useToast()` | `Toast.useToastManager()` |
 | `toast({…})` | `useToastManager().add({…})` |
 | `useToast().toasts` | `useToastManager().toasts` |
@@ -652,6 +667,33 @@ toastManager.add({ title: "Upload finished" });
 | — | `update(id, {…})` (new) |
 | — | `promise(p, { loading, success, error })` (new) |
 | `reducer` (from `lib/use-toast`) | removed |
+
+### Toasts stack rather than stacking up
+
+Several toasts collapse behind one another — each one back is 12px higher, 10%
+smaller and has its contents faded out — and fan into a spaced list on hover or
+focus. `limit` on `Toast.Provider` caps how many are on screen (default 3). The
+viewport is an anchor point in the bottom-right corner, not a full-height column
+down the edge of the screen.
+
+Nothing to do if you use `<Toaster/>`. If you compose the parts by hand, the
+nesting is load-bearing: `Toast.Content` is the padded row and has to contain
+everything that takes up height, because `Toast.Root` re-measures itself from
+Content's ResizeObserver and the stack offsets come from that measurement.
+
+```tsx
+<Toast.Root toast={toast}>
+  <Toast.Content>
+    <div className="grid min-w-0 flex-1 gap-1">
+      <Toast.Title />
+      <Toast.Description />
+    </div>
+    <Toast.Action />
+  </Toast.Content>
+  {/* absolutely positioned, adds no height, so it stays outside */}
+  <Toast.Close />
+</Toast.Root>
+```
 
 Per-toast options:
 
@@ -758,8 +800,11 @@ explicitly, and **you must add the `@import` or nothing is styled**:
 ```
 
 That import carries the `@theme` tokens *and* an `@source` directive scanning
-`dist/components/`, which is what generates the library's utility classes in
-your build.
+`dist/components/`, `dist/internal/` and `dist/lib/`, which is what generates the
+library's utility classes in your build. The `internal/` directory is the one
+that used to be missed: the Dialog and AlertDialog close buttons and Card's
+`Root` live there, and a glob stopping at `components/` silently dropped their
+positioning classes from a consumer's Tailwind build.
 
 ### There is no `tailwind.config.js` preset
 
@@ -790,6 +835,12 @@ All 13 namespace exports render from an RSC. A module in this package carries
 wrapper that re-exports parts as a namespace, keep hooks out of that file — a
 namespace object built inside a `"use client"` module crosses the RSC boundary
 as one opaque reference, with `Object.keys()` returning `[]`.
+
+Two parts call `useRender` and therefore live on the client side of that
+boundary: `Button` (flat-exported, so it simply carries the directive) and
+`Card.Root` (namespaced, so it moved to `src/internal/card-root.tsx`, the same
+pattern as `Dialog.Popup`). Importing either from a server component is fine —
+each crosses as its own client reference.
 
 ---
 

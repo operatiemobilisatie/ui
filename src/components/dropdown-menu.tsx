@@ -31,10 +31,10 @@ const RadioGroup = MenuPrimitive.RadioGroup
 const SubmenuRoot = MenuPrimitive.SubmenuRoot
 
 const itemVariants =
-  "relative flex cursor-default select-none items-center px-3 py-1.5 text-sm outline-hidden transition-colors data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
+  "relative flex cursor-default select-none items-center px-3 py-1.5 text-sm outline-hidden transition-colors data-highlighted:bg-primary-100 data-highlighted:text-primary data-disabled:pointer-events-none data-disabled:opacity-50"
 
 const indicatorItemVariants =
-  "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-hidden transition-colors data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
+  "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-hidden transition-colors data-highlighted:bg-primary-100 data-highlighted:text-primary data-disabled:pointer-events-none data-disabled:opacity-50"
 
 const Positioner = React.forwardRef<
   React.ComponentRef<typeof MenuPrimitive.Positioner>,
@@ -62,7 +62,7 @@ const Popup = React.forwardRef<
   <MenuPrimitive.Popup
     ref={ref}
     className={cn(
-      "min-w-32 overflow-hidden rounded-2xl border border-input bg-popover text-popover-foreground shadow-md outline-hidden transition-[opacity,scale] data-starting-style:opacity-0 data-starting-style:scale-95 data-ending-style:opacity-0 data-ending-style:scale-95",
+      "min-w-32 overflow-hidden rounded-2xl border border-input bg-background text-foreground shadow-md outline-hidden transition-[opacity,scale] data-starting-style:opacity-0 data-starting-style:scale-95 data-ending-style:opacity-0 data-ending-style:scale-95",
       className
     )}
     {...props}
@@ -78,7 +78,7 @@ const SubmenuTrigger = React.forwardRef<
   <MenuPrimitive.SubmenuTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden data-highlighted:bg-accent data-popup-open:bg-accent",
+      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden data-highlighted:bg-primary-100 data-popup-open:bg-primary-100",
       inset && "pl-8",
       className
     )}
@@ -157,7 +157,7 @@ const Separator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <MenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    className={cn("-mx-1 my-1 h-px bg-gray-200", className)}
     {...props}
   />
 ))

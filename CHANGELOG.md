@@ -4,6 +4,107 @@ All notable changes to `@operatiemobilisatie/ui` are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **`Tabs.Indicator`, and `indicator` on `Tabs.List`.** The active-tab highlight
+  can now be a single element that slides between tabs instead of appearing on
+  whichever one is active. `<Tabs.List indicator>` opts in and also takes the
+  static background off the active tab; leaving both on would draw a second pill
+  that snaps into place while the real one is still travelling.
+- **Toasts stack.** Several at once collapse behind one another — 12px of peek,
+  10% smaller per step back, contents faded — and fan out into a spaced list on
+  hover or focus, which is Base UI's own model. `limit` on `Toast.Provider` caps
+  how many are on screen and defaults to 3.
+- **`Select` story for the open menu**, and stories for a `Slider` with no value
+  label, with a unit, and with a label computed from the value.
+- **`Slider.Label`.** The missing accessible-name hook: Base UI auto-associates
+  the label with every thumb's hidden range input, so a slider built from this
+  library finally ships with a name.
+- **Every story unfrozen.** The checkbox, switch, tooltip, select, input and
+  textarea stories passed `checked` / `open` / `value` as bare controlled args
+  with no change handler, so the controls could not be clicked or typed into.
+  They now use `defaultChecked` / `defaultOpen` / `defaultValue`.
+
+### Fixed
+
+- **The `RadioButton` indicator was invisible.** It rendered `<div
+  className="radio-indicator">` and no rule for `.radio-indicator` existed
+  anywhere — not in the shipped stylesheet, not in Storybook, not in the package
+  at all — so every radio was an unstyled 0×0 element and `hideIndicator`
+  toggled nothing. It now draws a real dot that follows the input's checked and
+  disabled state. The element is a `<span>` rather than a `<div>`: `<label>`
+  takes phrasing content, and a `<div>` inside one is invalid HTML.
+- **The dropdown menu made Storybook unusable.** Four stories opened via
+  `defaultOpen`, and a Base UI menu is modal by default — so the autodocs page
+  carried four full-viewport `position: fixed` backdrops and nothing on it could
+  be clicked, while the popups, positioned `fixed` to match Radix, hung in front
+  of whatever was underneath as the page scrolled. Every story now opens by
+  clicking, which Storybook does not replay in docs.
+- **The toast viewport no longer occupies the full height of the screen**, and
+  toasts no longer touch each other. The `flex max-h-screen w-full
+  flex-col-reverse` viewport was a carry-over from the Radix template that laid
+  toasts out as flex items with no `gap` of any kind.
+- **Toast stories no longer fire on mount**, which had every story on the
+  Feedback/Toast docs page pushing its toast into the same corner at page load.
+
+### Changed
+
+- **`Toast.Content` is the padded row inside the toast**, not the `grid gap-1`
+  text stack it started as: it carries `data-behind` for the fade on stacked
+  toasts, and it has to contain everything that contributes height because
+  `Toast.Root` measures itself from Content's ResizeObserver. Affects hand
+  composition only — `<Toaster/>` is unchanged from the outside. See
+  [MIGRATION.md](./MIGRATION.md#toast).
+- **Toasts no longer fade in.** The enter is a slide only, as Base UI's is; a
+  translucent frontmost toast shows the cards behind it through its own
+  background. The exit still fades.
+- **`Tabs.Tab` uses `cursor-pointer`.**
+- **`Button` and `Card.Root` carry `"use client"`.** Both call `useRender`, so a
+  server component imported them as a client reference and they threw. Button is
+  flat-exported and just takes the directive; Card's `Root` moved to
+  `src/internal/card-root.tsx` so the namespace keeps its server-safe sibling
+  parts. Same pattern as `Dialog.Popup`.
+- **`RadioButton` is keyboard-operable again.** The `invisible` input was out of
+  the tab order entirely, so arrow-key navigation and Space/Enter selection were
+  dead; the `tabIndex={0}` on the label papered over it by making each option
+  its own tab stop. The input is now a focusable `sr-only`-style peer and the
+  focus ring moved to the indicator via `peer-focus-visible:`.
+- **`Progress` re-renders when `value` changes** (the effect was keyed on
+  `isInView` only, so the Storybook value control was dead), no longer collapses
+  `value={null}` — Base UI's real indeterminate signal — to 0, and animates once
+  per entry into view instead of resetting on every scroll-away (`useInView` now
+  passes `{ once: true }`).
+- **Select options highlight on keyboard.** react-select drives highlight from
+  `isFocused`, never pointer `:hover`, so arrowing through options highlighted
+  nothing; the option style now keys off `isFocused` and `cn()` resolves the
+  conflict with the base padding.
+- **Eleven Tailwind utilities stopped resolving.** They referenced `@theme`
+  tokens that did not exist (`--color-card`, `--color-muted`, `--color-accent`,
+  `--color-popover`, `--color-destructive`, `--color-muted-foreground`), so the
+  classes compiled to zero CSS — the dropdown popup had no background, Card had
+  no fill, active/inactive tabs rendered identically. All now use real tokens;
+  `--color-secondary-foreground` was fixed from the nonexistent `gray-900` to
+  `gray-800`, `--color-destructive` gained a real value, and the dead
+  `--radius*` block plus 31 unused colour tokens were deleted.
+- **Dark mode is not supported.** The `@custom-variant dark` that made the
+  option look available is gone; see the README note.
+- **`@source` now scans `dist/internal/` and `dist/lib/`** so a consumer's
+  Tailwind build actually compiles the Dialog close button, Card's Root, and the
+  hook class strings.
+- **`Accordion` trigger typo fixed** — `tacking-wide` → `tracking-wide`.
+- **`RadioCards` `size` prop works again** — the indicator control call was
+  missing `cn()`, so `h-4 w-4` and the size class landed together and CSS source
+  order, not the prop, decided the rendered size.
+- **`Label` dims disabled Base UI peers.** Checkbox, Switch and Radio set
+  `aria-disabled`, never a native `disabled`, so `peer-disabled:` never matched;
+  a `peer-data-[disabled]:` companion covers them.
+- Screenshot baselines moved for `RadioButton` (the indicator now renders),
+  `Select` (the stories reserve room for the open menu), `Toast` / `Toaster`
+  (the stacking), `Slider` (the label) and `Tabs` (the indicator). Every other
+  baseline is untouched.
+
 ## [3.0.0] — 2026-08-03
 
 Every component moves from Radix UI to [Base UI](https://base-ui.com/), and the
@@ -30,8 +131,9 @@ moved across the entire migration.
   "@operatiemobilisatie/ui"` now works and is tree-shakeable. Per-component
   subpaths are unchanged.
 - **Server-component support across the board.** All 13 namespace exports render
-  from an RSC. `"use client"` is carried only by the five modules that call a
-  hook themselves.
+  from an RSC. `"use client"` is carried only by the modules that call a hook
+  themselves — five at release, later seven when `Button` and `Card.Root`
+  (both `useRender` callers) were folded into the policy.
 - **`Toast.useToastManager()`**, with `add`, `close`, `update` and a `promise`
   helper, plus `Toast.createToastManager()` for pushing from outside React.
   `update` and `promise` have no v2 equivalent.
