@@ -1,11 +1,12 @@
 {
   "name": "@operatiemobilisatie/ui",
-  "version": "2.0.9",
+  "version": "3.0.0",
   "description": "A collection of React components for OM websites and applications.",
   "author": "@douwepausma",
   "license": "MIT",
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown && npm run attw",
+    "attw": "attw --pack --profile esm-only --exclude-entrypoints css fonts fonts.css",
     "dev": "tsdown --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --output-dir .storybook/static",
@@ -18,6 +19,8 @@
     "test:behaviour:docker": "docker run --rm --ipc=host -v \"$PWD\":/w -w /w -e HOME=/w/.dockerhome -u $(id -u):$(id -g) mcr.microsoft.com/playwright:v1.62.1-noble npm run test:behaviour"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@arethetypeswrong/core": "^0.18.5",
     "@playwright/test": "^1.62.1",
     "@storybook/addon-a11y": "^10.5.5",
     "@storybook/addon-docs": "^10.5.5",
@@ -27,6 +30,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19",
     "http-server": "^14.1.1",
+    "publint": "^0.3.22",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "storybook": "^10.5.5",

@@ -18,6 +18,22 @@ export default defineConfig({
   clean: true,
   dts: true,
 
+  /*
+   * publint runs here, against the packed tarball, and fails the build.
+   *
+   * attw deliberately does *not*: it runs as the `attw` npm script, which
+   * `build` chains after this. tsdown's `attw` option cannot exclude
+   * entrypoints, and three of ours have to be excluded -- attw resolves every
+   * export condition as JS/TS, so `./css`, `./fonts` and `./fonts.css`, which
+   * point at real stylesheets that load fine in both Vite and Next/Turbopack,
+   * come back as "No resolution". Ignoring the `no-resolution` rule wholesale
+   * would also hide a genuinely missing JS entrypoint, so the CLI's
+   * --exclude-entrypoints is the narrower gate:
+   *
+   *   attw --pack --profile esm-only --exclude-entrypoints css fonts fonts.css
+   */
+  publint: true,
+
   external: [
     /^react($|\/)/,
     /^react-dom($|\/)/,
