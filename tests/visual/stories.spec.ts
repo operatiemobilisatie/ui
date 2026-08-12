@@ -17,7 +17,7 @@ type Entry = { id: string; type: string; tags?: string[] };
 const entries: Record<string, Entry> = JSON.parse(readFileSync(INDEX, 'utf8')).entries;
 
 const stories = Object.values(entries)
-  .filter((e) => e.type === 'story' && !e.tags?.includes('!vr'))
+  .filter((e) => e.type === 'story' && !e.tags?.includes('no-vr'))
   .sort((a, b) => a.id.localeCompare(b.id));
 
 test.describe('storybook visual regression', () => {

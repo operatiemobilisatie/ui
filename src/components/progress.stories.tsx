@@ -78,7 +78,7 @@ export const Complete: Story = {
 export const Indeterminate: Story = {
   args: { value: null },
   render: Default.render,
-  tags: ['!vr'],
+  tags: ['no-vr'],
   parameters: {
     docs: {
       description: {

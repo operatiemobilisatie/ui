@@ -47,7 +47,7 @@ export const Default: Story = {
 export const WithImage: Story = {
   render: () => (
     <Card.Root className="w-[350px]">
-      <Card.Image 
+      <Card.Image
         image={
           <img 
             src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1000" 
@@ -127,4 +127,4 @@ export const FullImageCard: Story = {
       },
     },
   },
-}; 
+};

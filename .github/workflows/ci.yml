@@ -65,10 +65,14 @@ jobs:
             | sed -E 's/--.*\.png$//' | sort -u)
           CHANGED_SRC=$(git diff --name-only "$BASE"... -- 'src/**' \
             | xargs -r -n1 basename \
-            | sed -E 's/\.(tsx|ts|css)$//' | tr -d '-' | tr 'A-Z' 'a-z' | sort -u)
+            | sed -E 's/\.stories\.(tsx|ts)$//; s/\.(tsx|ts|css)$//' \
+            | tr -d '-' | tr 'A-Z' 'a-z' | sort -u)
+          CHANGED_SHARED=$(git diff --name-only "$BASE"... -- \
+            'src/css/**' 'src/internal/**' 'src/lib/**')
           [ -z "$CHANGED_PNG" ] && echo "No baseline changes." && exit 0
           echo "Baselines touched for: $CHANGED_PNG"
           echo "Source changed for:    $CHANGED_SRC"
+          [ -n "$CHANGED_SHARED" ] && echo "Shared source changed; component baselines may change." && exit 0
           FAIL=0
           for p in $CHANGED_PNG; do
             # story id prefixes are like "form-button" / "data-display-dialog"
