@@ -1,12 +1,14 @@
-node_modules
-dist
+node_modules/
+dist/
 
 *storybook.log
-.storybook/static
+.storybook/static/
 
-.dockerhome
-playwright-report
-playwright-report-behaviour
-test-results
+.dockerhome/
+playwright-report/
+playwright-report-behaviour/
+test-results/
+blob-report/
+playwright/.cache/
 core.*
 *.tgz
