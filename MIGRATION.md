@@ -1,18 +1,63 @@
 # Migrating from v2 to v3
 
-v3 replaces Radix UI with [Base UI](https://base-ui.com/) throughout. The
-rendering is pixel-identical — all 115 screenshot baselines were frozen from the
-v2 Radix output before a single component was touched, and not one of them
-changed — but the **API is different everywhere**. There is no compatibility
-shim.
+Version 3 replaces Radix UI with [Base UI](https://base-ui.com/). It also changes
+the package exports, composition model, multipart component names, toast API,
+and styling setup. There is no compatibility layer, so an existing version 2
+application must be updated before installing version 3.
 
-Read [the global changes](#global-changes) first: they account for most of the
+Read [the global API changes](#global-api-changes) first: they account for most of the
 edits in a typical codebase. Then work through the per-component tables. Rows
 are renames you can apply mechanically; the prose blocks are **behaviour**
 changes, where a mechanical rename compiles and then does the wrong thing.
 
-The five most expensive things to miss, all of which fail silently or at
-runtime rather than at the type level:
+## Quick upgrade checklist
+
+Use this list for a first pass, then check the detailed section for every
+component your application uses.
+
+- [ ] Replace `asChild` with `render={<Element />}` and move children onto the
+  component part.
+- [ ] Replace flat multipart exports with namespace members such as
+  `Dialog.Root`, `Dialog.Popup`, and `Accordion.Item`.
+- [ ] Change default imports of `Kicker`, `Logo`, `Spinner`, and `Select` to
+  named imports.
+- [ ] Compose `Portal` and `Backdrop` around each `Dialog.Popup` and
+  `AlertDialog.Popup`.
+- [ ] Replace `AlertDialogAction` and `AlertDialogCancel`; actions no longer
+  close automatically.
+- [ ] Make every accordion `value` and `defaultValue` a `string[]`; replace
+  `type="multiple"` with `multiple` and remove `collapsible`.
+- [ ] Wrap the application in `Toast.Provider`, mount `Toaster` inside it, and
+  replace `toast()` with `Toast.useToastManager().add()`.
+- [ ] Put each `DropdownMenu.GroupLabel` inside a `Group` or `RadioGroup`.
+- [ ] Split dropdown-menu and tooltip content into `Portal`, `Positioner`, and
+  `Popup`, moving placement props to `Positioner`.
+- [ ] Replace the single `<Slider />` with the new multipart slider structure.
+- [ ] Add `@import "@operatiemobilisatie/ui/css"` and choose whether to import
+  the bundled fonts.
+- [ ] Update custom selectors from Radix state attributes to Base UI data
+  attributes.
+- [ ] Remove `next` as a peer required only by this package and delete any
+  `@operatiemobilisatie/ui/tailwind.config` preset reference.
+
+### At a glance
+
+| Area | Version 2 | Version 3 |
+|---|---|---|
+| Composition | `asChild` | `render={<Element />}` |
+| Multipart exports | flat names such as `DialogContent` | namespaces such as `Dialog.Popup` |
+| Root import | default namespace object | named, tree-shakeable exports |
+| Dialog structure | content included portal and overlay | compose `Portal`, `Backdrop`, and `Popup` |
+| Accordion value | string in single mode | `string[]` in every mode |
+| Toast queue | module-level `toast()` | `Toast.Provider` and `useToastManager()` |
+| Popup placement | placement props on content | placement props on `Positioner` |
+| Styling | JavaScript entry imported CSS | explicit `@operatiemobilisatie/ui/css` import |
+| Fonts | supplied by the application | optional bundled Lato and Roboto Slab |
+| Peers | React, React DOM, Next.js | React and React DOM |
+
+## Important behavior changes
+
+These changes can compile successfully while still behaving incorrectly:
 
 1. **`AlertDialogAction` no longer closes the dialog.** → [Alert dialog](#alert-dialog)
 2. **Accordion `defaultValue` must be an array**, in single mode too. → [Accordion](#accordion)
@@ -22,7 +67,7 @@ runtime rather than at the type level:
 
 ---
 
-## Global changes
+## Global API changes
 
 ### `asChild` → `render`
 
@@ -45,8 +90,8 @@ Children move out of the rendered element and onto the part. `render` also
 accepts a function receiving the merged props, for the cases where you need to
 place them yourself.
 
-There is no `Slot` export, and there never was one in this package — but if you
-imported `@radix-ui/react-slot` alongside it, that is now on you.
+There is no `Slot` export. Replace any directly imported Radix `Slot` usage in
+your own wrappers separately.
 
 ### Parts are namespaced
 
@@ -66,9 +111,8 @@ Thirteen components are namespaces: `Accordion`, `Alert`, `AlertDialog`,
 
 ### The root import works now
 
-v2's `"."` export pointed at `./dist/src/index.js`, which did not exist, and the
-barrel was a default namespace object requiring `UI.Button.Button`. v3 exports
-named bindings from a working root entry:
+The version 2 root export was not usable as a normal named-export barrel.
+Version 3 provides named bindings from the root entry:
 
 ```diff
 -import UI from "@operatiemobilisatie/ui";       // broken
@@ -237,9 +281,7 @@ just without the dimmed page behind it.
 
 ### Escape still closes it
 
-Worth stating because it was expected not to: Escape closed the v2 alert dialog
-too. v2 only suppressed dismissal on outside press. Not a regression, and now
-covered by a characterisation test.
+Escape continues to close the alert dialog. An outside press does not.
 
 ---
 
@@ -261,9 +303,9 @@ you pass are the same, but if you targeted `data-[state=checked]` in your own
 CSS, that is now `data-checked`. Checkbox additionally gains
 `data-indeterminate`.
 
-`Progress` no longer pulls in `motion` and `react-countup` — the scroll-in
-animation and the counting label are a local IntersectionObserver + rAF hook.
-Same behaviour, two fewer dependencies.
+`Progress` keeps its scroll-in fill animation and counting label without the
+`motion` and `react-countup` dependencies. It also accepts `value={null}` for an
+indeterminate progress bar.
 
 ---
 
@@ -276,10 +318,9 @@ Same behaviour, two fewer dependencies.
 +<Button render={<Link href="/give" />}>Give</Button>
 ```
 
-The FontAwesome icons that stories and call sites passed as children are your
-own concern now — the package no longer depends on `@fortawesome/*`. Five icons
-ship inline (`CheckIcon`, `ChevronDownIcon`, `ChevronRightIcon`, `CircleIcon`,
-`CloseIcon`) for the ones the components themselves needed.
+The package no longer depends on Font Awesome. Continue to supply application
+icons as children, or use the exported inline `CheckIcon`, `ChevronDownIcon`,
+`ChevronRightIcon`, `CircleIcon`, and `CloseIcon` components.
 
 ---
 
@@ -298,8 +339,7 @@ ship inline (`CheckIcon`, `ChevronDownIcon`, `ChevronRightIcon`, `CircleIcon`,
 `Card.Root` composes with `render`, so a whole-card link is
 `<Card.Root render={<Link href="/story" />}>`.
 
-Fixed along the way: `CardImage` accepted a `ref` and dropped it on the floor.
-`Card.Image` applies it.
+`Card.Image` forwards its ref.
 
 ---
 
@@ -420,10 +460,8 @@ it looking active, not a nicety.
 
 ### Submenus open on hover
 
-They always did in v3's implementation, and the press does nothing: Base UI
-registers its click handler with `ignoreMouse` while hover-opening is on. A
-submenu that looks click-opened opened because the pointer came to rest (there
-is a 100 ms floor). Keyboard `→` still opens it.
+Submenus open after the pointer rests on the trigger; pressing the trigger does
+not toggle the submenu. The Right Arrow key opens it from the keyboard.
 
 ---
 
@@ -431,11 +469,9 @@ is a 100 ms floor). Keyboard `→` still opens it.
 
 Both are named exports now (`import { Kicker }`, `import { Logo }`).
 
-Their prop types were **required-but-defaulted**: `className`, `attributes` and
-`as` on `Kicker`, and `width` / `height` on `Logo`, all had defaults at runtime
-but were declared required, so `<Kicker>text</Kicker>` and `<Logo />` failed a
-consumer's typecheck — a hard `next build` failure. They are optional now.
-Nothing that compiled before stops compiling.
+`className`, `attributes`, and `as` on `Kicker`, plus `width` and `height` on
+`Logo`, are optional. Their runtime defaults therefore work without supplying
+those props.
 
 `Logo` is no longer an `async` component, so it works outside an RSC.
 
@@ -495,10 +531,8 @@ anyway.
 
 ## Select
 
-`Select` is a named export instead of a default. Everything else is unchanged —
-it is still `react-select` under the hood, with the same `displaySize` prop and
-the same option shape. Replacing it with a Base UI Combobox is deliberately out
-of scope for 3.0.
+`Select` is a named export instead of a default. It continues to use
+`react-select`, with the same `displaySize` prop and option shape.
 
 ---
 
@@ -540,11 +574,10 @@ If you pass `thumbAlignment` yourself, know what you are choosing. At the exact
 midpoint the two agree, which is why this had to be read off the geometry rather
 than off a screenshot.
 
-### `Slider.Value` fixes a real v2 bug
+### `Slider.Value` is live
 
-The v2 slider printed `props.defaultValue` in the label under the thumb, so the
-number froze at the initial value and never followed the handle.
-`Slider.Value` reads the live value out of context.
+The version 2 value label stayed at `defaultValue`. `Slider.Value` reads the
+current value from context and follows the handle.
 
 ### Two silent styling failures if you copied the v2 classes
 
@@ -658,6 +691,7 @@ toastManager.add({ title: "Upload finished" });
 | `ToastAction` | `Toast.Action` |
 | `ToastProps` | `React.ComponentProps<typeof Toast.Root>` |
 | `ToastActionElement` | removed — see `actionProps` below |
+| `Toaster` | `Toaster` (mount inside `Toast.Provider`) |
 | — | `Toast.Portal` (new) |
 | — | `Toast.Content` (new — the padded row inside the toast, plus a ResizeObserver that lets the viewport stack toasts) |
 | `useToast()` | `Toast.useToastManager()` |
@@ -836,26 +870,9 @@ wrapper that re-exports parts as a namespace, keep hooks out of that file — a
 namespace object built inside a `"use client"` module crosses the RSC boundary
 as one opaque reference, with `Object.keys()` returning `[]`.
 
-Two parts call `useRender` and therefore live on the client side of that
-boundary: `Button` (flat-exported, so it simply carries the directive) and
-`Card.Root` (namespaced, so it moved to `src/internal/card-root.tsx`, the same
-pattern as `Dialog.Popup`). Importing either from a server component is fine —
-each crosses as its own client reference.
+Interactive parts establish their own client boundaries. Importing `Button`,
+`Card.Root`, `Dialog.Popup`, or any namespace from a server component is
+supported; the consuming server component does not need a `"use client"`
+directive unless it uses client-side React features itself.
 
 ---
-
-## Upgrade checklist
-
-- [ ] Replace every `asChild` with `render={<X/>}`, moving children onto the part.
-- [ ] Switch flat part imports to the 13 namespaces.
-- [ ] Convert the four default imports (`Kicker`, `Logo`, `Spinner`, `Select`) to named.
-- [ ] Compose `Portal` + `Backdrop` around every `Dialog.Popup` / `AlertDialog.Popup`.
-- [ ] **Re-check every `AlertDialogAction`** — it no longer closes the dialog.
-- [ ] Make every accordion `value` / `defaultValue` an array; drop `type` and `collapsible`.
-- [ ] Wrap the app in `<Toast.Provider>` and move `toast()` calls to `useToastManager().add()`.
-- [ ] Wrap standalone `DropdownMenu.GroupLabel` in a `Group`.
-- [ ] Split `DropdownMenuContent` / `TooltipContent` into `Positioner` + `Popup`, moving `side` / `align` / `sideOffset` up.
-- [ ] Expand `<Slider/>` into its five parts.
-- [ ] Add `@import "@operatiemobilisatie/ui/css";` if it is not already there, and decide about `/fonts`.
-- [ ] Rewrite any `data-[state=…]` / `focus:` variants you wrote against this library's DOM.
-- [ ] Drop `next` from your mental model of this package's peers; delete any `tailwind.config` preset reference.

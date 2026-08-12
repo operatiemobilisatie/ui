@@ -19,7 +19,7 @@ import { cn } from "../lib/utils"
  * is no Positioner in the dialog family -- a modal is not anchored to anything --
  * so the popup keeps positioning itself with the same `fixed` + 50%/-50% classes
  * it always had, and none of the `positionMethod` antialiasing trouble from the
- * tooltip/menu phase applies.
+ * tooltip and menu positioning does not apply.
  *
  * Portal and Backdrop are separate parts here rather than being baked into the
  * popup the way `DialogContent` used to bake them in, matching how Base UI

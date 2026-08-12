@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 import { gotoStory } from './helpers';
 
 /*
- * Regression coverage for the v3 audit's a11y and interaction fixes. Each test
+ * Regression coverage for version 3 accessibility and interaction behavior. Each test
  * exercises a story the way a consumer would, and asserts on live DOM state
  * rather than on screenshots -- the visual suite cannot see any of these
  * (focus rings, keyboard-selected highlights, and aria state are all

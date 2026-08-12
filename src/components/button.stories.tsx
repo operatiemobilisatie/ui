@@ -42,7 +42,7 @@ const meta = {
     render: {
       control: false,
       description:
-        'A React element to render instead of the default <button>, e.g. render={<a href="/give" />}. Replaces the v2 asChild prop.',
+        'A React element to render instead of the default <button>, for example render={<a href="/give" />}.',
     },
   },
   args: {  },

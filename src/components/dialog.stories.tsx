@@ -16,7 +16,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A window overlaid on either the primary window or another dialog window, rendering the content underneath inert. Radix\'s Overlay and Content are Base UI\'s Backdrop and Popup, and the Portal is now composed explicitly rather than hidden inside the content.',
+          'A modal window that makes the page underneath inert. Compose its Portal, Backdrop, and Popup explicitly.',
       },
     },
   },

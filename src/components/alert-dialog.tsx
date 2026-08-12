@@ -12,8 +12,8 @@ import { cn } from "../lib/utils"
 
 /*
  * Same rename as the dialog -- `Overlay` -> `Backdrop`, `Content` -> `Popup` --
- * on top of Base UI's alert-dialog, which is the dialog with `role="alertdialog"`
- * and no dismissal on outside press or Escape.
+ * on top of Base UI's alert-dialog, which uses `role="alertdialog"` and does not
+ * dismiss on an outside press. Escape closes it, matching the version 2 behavior.
  *
  * `Action` and `Cancel` are gone. Base UI's alert-dialog re-exports `Close` and
  * nothing else, so the two roles are now spelled out at the call site:

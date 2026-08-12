@@ -9,7 +9,7 @@ import { defineConfig, devices } from '@playwright/test';
  *     invocation of `playwright test`, including the ones in CI.
  *   - Animations are ENABLED here. That is the whole point of the suite: the
  *     screenshot config sets `animations: 'disabled'` on toHaveScreenshot, so it
- *     is structurally blind to every transition Phase 5 introduced.
+ *     is structurally blind to component transitions.
  *   - There are no snapshots at all, so none of the snapshot plumbing
  *     (snapshotPathTemplate, threshold, maxDiffPixels) applies and no baseline
  *     PNG can be touched from here.

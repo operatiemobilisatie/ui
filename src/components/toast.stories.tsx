@@ -182,7 +182,7 @@ export const WithAction: Story = {
     docs: {
       description: {
         story:
-          'Toast.Action adds a single button. Radix required an `altText` here for the screen-reader announcement; Base UI drops it and announces the title and description through the viewport live region instead. Composed by hand the button takes children directly, as below; driven from the queue it comes from `actionProps` in the add() options.',
+          'Toast.Action adds a button. In hand-composed toasts it takes children directly; queue-managed toasts receive it through `actionProps` in the add() options.',
       },
     },
   },

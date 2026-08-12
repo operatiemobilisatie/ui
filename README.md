@@ -8,11 +8,11 @@ applications, built on [Base UI](https://base-ui.com/) and
 Browse the components in Storybook:
 <https://operatiemobilisatie.github.io/ui/>.
 
-## What v3 is
+## Version 3
 
-v3 is a full rewrite of the component internals from Radix UI onto Base UI. The
-API changed with it — parts are namespaced and composition is a `render` prop
-instead of `asChild`. **Upgrading from v2 is not a drop-in.** See
+Version 3 moves the component internals from Radix UI to Base UI. Component
+parts are namespaced and composition uses a `render` prop instead of `asChild`.
+**Upgrading from version 2 requires code changes.** See
 [MIGRATION.md](./MIGRATION.md) for the export-by-export mapping, and
 [CHANGELOG.md](./CHANGELOG.md) for the release notes.
 
@@ -26,16 +26,12 @@ The headline is what a consumer installs:
 | Peer dependencies | `react`, `react-dom`, **`next`** | `react`, `react-dom` |
 | Webfonts | not shipped — wire up your own | Lato + Roboto Slab, bundled |
 
-The five that remain are `@base-ui/react`, `class-variance-authority`, `clsx`,
-`tailwind-merge` and `react-select`. `motion`, `react-countup`, `classnames`,
-`tailwindcss-animate` and `@tailwindcss/typography` are gone too — the scroll and
-count-up behaviour on `Progress` is now a ~40-line local hook, and the five icons
-the library used from FontAwesome are inline SVGs.
+The five runtime dependencies are `@base-ui/react`,
+`class-variance-authority`, `clsx`, `tailwind-merge`, and `react-select`.
 
 **`next` is no longer a peer dependency, and nothing in the package imports it.**
-The library works the same in Vite, Next App Router, Remix / React Router and
-Astro. The JS entry has no side-effect CSS import, so it does not require a
-CSS-capable bundler.
+The library works with Vite, Next.js App Router, Remix / React Router, Astro,
+and other React frameworks. The JavaScript entry has no side-effect CSS import.
 
 ## Install
 
@@ -44,6 +40,9 @@ npm i @operatiemobilisatie/ui
 ```
 
 Peers are `react` and `react-dom` only, `^18 || ^19`.
+
+Upgrading an existing version 2 app? Start with the
+[migration checklist](./MIGRATION.md#quick-upgrade-checklist).
 
 ## Setup
 
@@ -92,12 +91,12 @@ export default { plugins: { "@tailwindcss/postcss": {} } };
 ```css
 @import "tailwindcss";
 @import "@operatiemobilisatie/ui/css";
+@import "@operatiemobilisatie/ui/fonts"; /* optional */
 ```
 
-`app/layout.tsx` — a server component; neither import needs a client boundary:
+`app/layout.tsx` remains a server component:
 
 ```tsx
-import "@operatiemobilisatie/ui/fonts";
 import "./globals.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -111,11 +110,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ### Other frameworks
 
-Remix / React Router v7, Astro and TanStack Start all use `@tailwindcss/vite`,
-so their setup is the Vite one above: the plugin, plus the two or three
-`@import` lines in a stylesheet the app already loads. Vite and Next App Router
-are the two that were smoke-tested end to end against a packed tarball; the
-others follow from the same mechanism rather than from a test run.
+Remix / React Router v7, Astro, and TanStack Start can use the Vite setup above:
+enable `@tailwindcss/vite` and add the CSS imports to an application stylesheet.
 
 ### The line that makes styling work
 
@@ -133,10 +129,10 @@ every `rounded-2xl`, `bg-primary` and `data-checked:*` in this package compiles
 to nothing.
 
 The `@source` glob is `../{components,internal,lib}/**/*.js` — the `internal/`
-directory matters: the Dialog and AlertDialog close buttons and Card's Root
-live there, and a glob that stops at `components/` would drop their
-positioning entirely. `lib/` is scanned for the same reason (it carries hooks
-whose class strings Tailwind needs to see).
+directory matters: the Dialog close button and Card's Root live there, and a
+glob that stops at `components/` would drop their positioning entirely. `lib/`
+is scanned for exported helpers such as the AG Grid theme, which also contains
+utility class names.
 
 If styles are missing, check this import before anything else. It is the single
 most common setup mistake.
@@ -234,9 +230,6 @@ reliably. Declaring your own `--nf-*` variables and mapping them at `:root`
 sidesteps the tie: the mapping is a later `:root` rule, so it wins regardless of
 where the library's stylesheet lands.
 
-Setting `variable: "--font-lato"` directly may well work in your app — it was not
-tested, so it is not documented here as if it were.
-
 ## Using the components
 
 Import from the root barrel, which is tree-shakeable:
@@ -287,26 +280,16 @@ element:
 
 Props are merged onto the element you pass, so it needs no props of its own.
 `render` also accepts a function `(props, state) => ReactElement` for the cases
-where you want to place the merged props yourself. Every `asChild` in a v2
-codebase becomes a `render` — there is no compatibility shim.
+where you want to place the merged props yourself. Every `asChild` in a version
+2 codebase becomes `render`; there is no compatibility shim.
 
 ### Server components
 
-All 13 namespace exports render from a React Server Component. A module in this
-package carries `"use client"` only if it calls a React hook itself, which is
-seven files: `components/button` (it calls `useRender`), `components/progress`,
-`components/select`, `components/toaster`, `internal/card-root` (Card's `Root`,
-also via `useRender`), `internal/dialog-popup` and `lib/hooks`. Everything else
-evaluates on the server, and the client boundary is drawn one level down, inside
-Base UI's own part files.
-
-If you write your own wrapper around these components, the same rule applies to
-you: **a file that backs an `export * as` namespace must not call a hook.** Put
-the hook in a separate client module and re-export it. A namespace object built
-inside a `"use client"` module crosses the RSC boundary as one opaque reference —
-`Object.keys()` returns `[]` and every part reads back `undefined`. That is why
-Button and Card's `Root` live under `internal/` or carry the directive: both
-call `useRender`, and neither may be where a namespace object is built.
+All namespace exports can be imported and rendered from a React Server
+Component. Interactive parts establish their own client boundaries, so importing
+the library does not require adding `"use client"` to the consuming server
+component. Your own components still need `"use client"` when they use state,
+effects, event handlers, or client-only hooks.
 
 ## Components
 

@@ -612,7 +612,7 @@ test.describe('accordion', () => {
 
 test.describe('no unexpected keyframe animations', () => {
   /*
-   * A guard on the Phase 4/5 claim that the dead `tailwindcss-animate` classes
+   * A guard against reintroducing the dead `tailwindcss-animate` classes
    * were deleted rather than resurrected. If a `@keyframes`-based animation ever
    * reappears on a popup, this catches it -- getAnimations() reports CSS
    * animations by name and transitions by property.

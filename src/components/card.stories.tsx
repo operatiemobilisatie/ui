@@ -93,7 +93,7 @@ export const AsLink: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'A card rendered as an anchor via the render prop, making the whole card clickable. This replaces the v2 asChild API.',
+        story: 'A card rendered as an anchor through the render prop, making the whole card clickable.',
       },
     },
   },

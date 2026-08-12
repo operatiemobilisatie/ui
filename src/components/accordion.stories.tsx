@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'An expandable accordion component that can contain multiple items with headers and content. Radix\'s type="single" | "multiple" is Base UI\'s `multiple` boolean, `value` and `defaultValue` are arrays in both modes, and Content is now Panel.',
+          'An expandable collection of items. Set `multiple` to allow more than one open panel; `value` and `defaultValue` are arrays in both modes.',
       },
     },
   },

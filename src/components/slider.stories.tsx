@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A flexible Slider component that supports multiple sizes. Radix's Root split into Root + Control, Range became Indicator, and the value label under the thumb is now Slider.Value, which follows the handle instead of being frozen at the initial value.",
+          'A multipart slider with an accessible label, interactive control, track, indicator, thumb, and optional live value.',
       },
     },
   },

@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A menu of actions opened by a button. The content is portalled to the end of the document, so it is never clipped by an overflow-hidden ancestor. Radix\'s single Content is now Portal > Positioner > Popup: placement props live on the Positioner, styling on the Popup.',
+          'A menu of actions opened by a button. Compose Portal, Positioner, and Popup; placement props belong to Positioner and visual props belong to Popup.',
       },
     },
   },
@@ -205,15 +205,9 @@ export const OpensOnClick: Story = {
 };
 
 /*
- * The only story that renders a submenu. SubmenuRoot/SubmenuTrigger were
- * migrated in Phase 5.5 and nothing exercised them afterwards, so both the
- * screenshot suite and the behaviour suite were blind to them.
- *
- * Honest limitation of the baseline this story produces: every other PNG in the
- * suite was captured from the *Radix* rendering before a component was touched,
- * so a diff there means "the migration moved a pixel". This one is captured from
- * the Base UI rendering and has no Radix reference at all. It locks in the
- * current rendering from here on; it does not verify parity with v2.
+ * Submenus need their own regression coverage because the parent menu stories
+ * do not exercise submenu positioning or interaction. The screenshot protects
+ * rendering while behavior tests cover keyboard and pointer controls.
  */
 export const WithSubmenu: Story = {
   render: () => (
@@ -264,7 +258,7 @@ export const WithSubmenu: Story = {
     docs: {
       description: {
         story:
-          'A submenu, opened from the keyboard so both popups are on screen. Radix\'s Sub/SubTrigger became SubmenuRoot/SubmenuTrigger, and the submenu reuses the same Popup part as its parent.',
+          'A submenu opened from the keyboard so both popups are visible. Submenus use SubmenuRoot, SubmenuTrigger, Positioner, and the regular Popup part.',
       },
     },
   },
