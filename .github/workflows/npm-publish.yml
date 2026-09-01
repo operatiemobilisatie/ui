@@ -28,6 +28,11 @@ jobs:
           registry-url: https://npm.pkg.github.com
       - run: npm ci
       - run: npm run typecheck
+      # publint and attw both inspect `dist/`, which is gitignored, so the
+      # build has to happen before them on a fresh checkout. `prepublishOnly`
+      # rebuilds during `npm publish` as a backstop; that is cheap and means a
+      # publish can never ship an unbuilt tree.
+      - run: npm run build
       - run: npx publint
       - run: npm publish --tag "${{ inputs.tag }}"
         env:
