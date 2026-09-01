@@ -4,6 +4,14 @@ All notable changes to `@operatiemobilisatie/ui` are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-beta.0] — 2026-09-01
+
+The first prerelease of version 3, published under the `beta` dist-tag so that
+`latest` keeps resolving to 2.0.9. Install it explicitly with
+`npm i @operatiemobilisatie/ui@beta`. The contents are the 3.0.0 entry below;
+read [MIGRATION.md](./MIGRATION.md) before upgrading a version 2 app, and report
+anything that breaks so it can be fixed before 3.0.0 is tagged stable.
+
 ## [3.0.0] — 2026-08-12
 
 Version 3 replaces Radix UI with [Base UI](https://base-ui.com/) and introduces

@@ -36,8 +36,12 @@ and other React frameworks. The JavaScript entry has no side-effect CSS import.
 ## Install
 
 ```bash
-npm i @operatiemobilisatie/ui
+# v3 beta
+npm i @operatiemobilisatie/ui@beta
 ```
+
+Version 3 is currently a prerelease behind the `beta` dist-tag; a plain
+`npm i @operatiemobilisatie/ui` still installs the 2.x line.
 
 Peers are `react` and `react-dom` only, `^18 || ^19`.
 
