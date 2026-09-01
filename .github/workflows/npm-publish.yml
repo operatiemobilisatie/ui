@@ -34,6 +34,12 @@ jobs:
       # publish can never ship an unbuilt tree.
       - run: npm run build
       - run: npx publint
+      # NPM_TOKEN, not GITHUB_TOKEN. GITHUB_TOKEN may only write to a package
+      # that is linked to this repository, and @operatiemobilisatie/ui predates
+      # this workflow -- it was created org-level via a PAT, so it has no
+      # linkage and GITHUB_TOKEN gets `permission_denied: write_package`.
+      # Linking it (org > Packages > ui > Manage Actions access) would let us
+      # drop the PAT; until then this is the token that works.
       - run: npm publish --tag "${{ inputs.tag }}"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
