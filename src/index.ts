@@ -60,6 +60,7 @@ export * from './components/input';
 export * from './components/kicker';
 export * from './components/label';
 export * from './components/logo';
+export * as Navigation from './components/navigation';
 export * from './components/progress';
 export * from './components/radio-button';
 export * as RadioCards from './components/radio-cards';
