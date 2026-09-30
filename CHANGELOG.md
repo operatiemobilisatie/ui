@@ -4,6 +4,16 @@ All notable changes to `@operatiemobilisatie/ui` are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-beta.1] — 2026-09-30
+
+### Added
+
+- `Navigation`, a responsive app shell: a collapsible sidebar column on desktop
+  that becomes an overlay with a bottom bar below the `lg` breakpoint. Exposes
+  `Root`, `Sidebar`, `Content`, `BottomBar`, `Menu`, `MenuItem`, `EdgeToggle`,
+  `Toggle` and the `useNavigation` hook. Items accept a `render` element, e.g.
+  `<Link href="/cases" />`, and the desktop state can persist via a cookie.
+
 ## [3.0.0-beta.0] — 2026-09-01
 
 The first prerelease of version 3, published under the `beta` dist-tag so that
