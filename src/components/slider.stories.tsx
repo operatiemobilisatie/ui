@@ -141,3 +141,30 @@ export const WithComputedLabel: Story = {
     },
   },
 };
+
+export const Range: Story = {
+  render: (args) => (
+    <Slider.Root defaultValue={[20, 80]} className={args.className} min={args.min} max={args.max} disabled={args.disabled}>
+      <Slider.Control>
+        <Slider.Track>
+          <Slider.Indicator />
+        </Slider.Track>
+        {[0, 1].map((index) => (
+          <Slider.Thumb key={index} index={index}>
+            {args.showValue && (
+              <Slider.Value index={index}>{(formatted) => `${formatted}${args.valueSuffix}`}</Slider.Value>
+            )}
+          </Slider.Thumb>
+        ))}
+      </Slider.Control>
+    </Slider.Root>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Two values, a start and an end. Pass an array of two to `defaultValue` (or `value`) and render one `Slider.Thumb` per value; the indicator paints between them. `index` on each `Slider.Thumb` is required for server rendering, and `index` on `Slider.Value` scopes the label to that thumb -- without it, each label prints both values joined with an en dash. Set `minStepsBetweenValues` on `Slider.Root` to stop the handles meeting.',
+      },
+    },
+  },
+};

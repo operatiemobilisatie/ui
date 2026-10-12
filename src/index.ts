@@ -43,6 +43,10 @@
  * So: adding a hook to any component file means adding the directive, and if
  * that file backs an `export * as`, the hook belongs in a separate client
  * module instead -- which is what `internal/dialog-popup` is.
+ *
+ * The same goes for a part that builds a function prop for a Base UI part, since
+ * a function cannot cross from the server into a client component. That is why
+ * `internal/slider-value` carries the directive without calling a hook.
  */
 
 export * as Accordion from './components/accordion';

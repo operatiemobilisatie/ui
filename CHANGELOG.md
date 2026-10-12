@@ -4,6 +4,15 @@ All notable changes to `@operatiemobilisatie/ui` are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `index` on `Slider.Value`, for range sliders. A Value with `index` shows only
+  that thumb's value, so each thumb of a two-value slider can carry its own
+  label. Without it, every label prints all values joined with an en dash.
+- A `Range` story for the slider showing a start and end value.
+
 ## [3.0.0] — 2026-08-12
 
 Version 3 replaces Radix UI with [Base UI](https://base-ui.com/) and introduces

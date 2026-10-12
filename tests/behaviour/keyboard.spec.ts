@@ -401,4 +401,34 @@ test.describe('slider keyboard', () => {
     await page.keyboard.press('End');
     await expect(value).toHaveText('100');
   });
+
+  test('range: each Slider.Value follows its own thumb, and the thumbs cannot cross', async ({ page }) => {
+    /*
+     * Without `index` on Slider.Value, Base UI prints every value joined with an
+     * en dash, so both labels would read "20 – 80". Home and End on a range
+     * thumb stop at the neighbouring thumb rather than at min/max.
+     */
+    await gotoStory(page, 'form-slider--range');
+
+    const inputs = page.locator(SLIDER_INPUT);
+    const values = page.locator('output');
+    await expect(inputs).toHaveCount(2);
+    await expect(values).toHaveText(['20', '80']);
+
+    await page.keyboard.press('Tab');
+    await expect(inputs.nth(0)).toBeFocused();
+    await page.keyboard.press('Shift+ArrowRight');
+    await expect(values).toHaveText(['30', '80']);
+
+    await page.keyboard.press('End');
+    await expect(values).toHaveText(['80', '80']);
+
+    await page.keyboard.press('Tab');
+    await expect(inputs.nth(1)).toBeFocused();
+    await page.keyboard.press('Home');
+    await expect(inputs.nth(1)).toHaveValue('80');
+
+    await page.keyboard.press('End');
+    await expect(values).toHaveText(['80', '100']);
+  });
 });

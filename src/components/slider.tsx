@@ -3,11 +3,14 @@
  * `export * as Slider` builds its namespace object in this module, and a namespace
  * object built inside a "use client" module reaches a server component as one
  * opaque client reference with no keys. Nothing below calls a hook, so nothing
- * below needs the boundary -- the Base UI parts each carry their own.
+ * below needs the boundary -- the Base UI parts each carry their own. `Value`
+ * is the exception that proves it: it builds a render function for Base UI, so
+ * it lives in ../internal/slider-value with its own directive.
  */
 import * as React from "react"
 import { Slider as SliderPrimitive, type SliderRootProps } from "@base-ui/react/slider"
 
+import { Value } from "../internal/slider-value"
 import { cn } from "../lib/utils"
 
 /*
@@ -35,6 +38,21 @@ import { cn } from "../lib/utils"
  * The last one fixes a real bug. The old component printed `props.defaultValue`
  * under the thumb, so the number was frozen at whatever the slider started with
  * and never followed the handle. Value reads the current value out of context.
+ *
+ * A range is not a separate component. Pass two values and render two thumbs;
+ * Base UI keeps them ordered, and the Indicator paints between them instead of
+ * from the start edge:
+ *
+ *   <Slider.Root defaultValue={[20, 80]}>
+ *     <Slider.Control>
+ *       <Slider.Track><Slider.Indicator /></Slider.Track>
+ *       <Slider.Thumb index={0}><Slider.Value index={0} /></Slider.Thumb>
+ *       <Slider.Thumb index={1}><Slider.Value index={1} /></Slider.Thumb>
+ *     </Slider.Control>
+ *   </Slider.Root>
+ *
+ * `index` on Thumb is Base UI's and is required for SSR with more than one
+ * thumb. `index` on Value is ours: without it each label prints both values.
  */
 
 /*
@@ -152,31 +170,10 @@ const Thumb = React.forwardRef<
   />
 ))
 
-/*
- * Styled for the position it is designed to occupy -- inside `Thumb`, hanging
- * below it -- which is where the old hard-coded label sat. `self-center` and the
- * `translate-y-5` only mean anything against the thumb's flex box; put a Value
- * anywhere else and it wants its own className.
- *
- * Renders an <output>, but it is a flex item here, so it is blockified and
- * boxes exactly like the <div> it replaces.
- */
-const Value = React.forwardRef<
-  React.ComponentRef<typeof SliderPrimitive.Value>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Value>
->(({ className, ...props }, ref) => (
-  <SliderPrimitive.Value
-    ref={ref}
-    className={cn("text-center translate-y-5 text-sm font-semibold self-center w-min", className)}
-    {...props}
-  />
-))
-
 Label.displayName = "Slider.Label"
 Control.displayName = "Slider.Control"
 Track.displayName = "Slider.Track"
 Indicator.displayName = "Slider.Indicator"
 Thumb.displayName = "Slider.Thumb"
-Value.displayName = "Slider.Value"
 
 export { Root, Label, Control, Track, Indicator, Thumb, Value }
