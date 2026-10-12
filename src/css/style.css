@@ -96,7 +96,7 @@
   /* Utility Colors */
   --color-border: var(--color-gray-200);
   --color-input: hsl(210, 1%, 93%);
-  --color-ring: hsl(var(--ring));
+  --color-ring: var(--ring);
   --color-background: hsl(0, 0%, 100%);
   --color-foreground: hsl(222.2, 84%, 4.9%);
 
