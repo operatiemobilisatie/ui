@@ -70,7 +70,7 @@ const Description = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-base group-[.image-fill]:text-white text-gray-500", className)}
+    className={cn("text-base group-[.image-fill]:text-white text-gray-800", className)}
     {...props}
   />
 ))
