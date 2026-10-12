@@ -80,18 +80,18 @@
   --color-orange-background: var(--color-orange-200);
 
   /* Status Colors */
-  --color-destructive: var(hsl(357, 69%, 49%));
-  --color-destructive-foreground: var(hsl(357, 69%, 49%));
-  --color-destructive-background: var(hsl(357, 69%, 86%));
+  --color-destructive: hsl(357, 69%, 49%);
+  --color-destructive-foreground: hsl(357, 69%, 49%);
+  --color-destructive-background: hsl(357, 69%, 86%);
 
-  --color-warning-foreground: var(hsl(37, 100%, 47%));
-  --color-warning-background: var(hsl(37, 100%, 89%));
+  --color-warning-foreground: hsl(37, 100%, 47%);
+  --color-warning-background: hsl(37, 100%, 89%);
 
-  --color-info-foreground: var(hsl(200, 77%, 46%));
-  --color-info-background: var(hsl(200, 77%, 88%));
+  --color-info-foreground: hsl(200, 77%, 46%);
+  --color-info-background: hsl(200, 77%, 88%);
 
-  --color-success-foreground: var(hsl(98, 49%, 51%));
-  --color-success-background: var(hsl(98, 49%, 87%));
+  --color-success-foreground: hsl(98, 49%, 51%);
+  --color-success-background: hsl(98, 49%, 87%);
 
   /* Utility Colors */
   --color-border: var(--color-gray-200);
