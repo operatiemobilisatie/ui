@@ -83,6 +83,7 @@
   --color-destructive: hsl(357, 69%, 49%);
   --color-destructive-foreground: hsl(357, 69%, 49%);
   --color-destructive-background: hsl(357, 69%, 86%);
+  --color-destructive-background-hover: hsl(357, 69%, 80%);
 
   --color-warning-foreground: hsl(37, 100%, 47%);
   --color-warning-background: hsl(37, 100%, 89%);
