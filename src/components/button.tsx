@@ -32,7 +32,7 @@ const buttonVariants = cva(
         aqua: "bg-aqua text-white border border-aqua shimmer",
         ghost: "hover:bg-primary-100 hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
-        destructive: "bg-destructive-background text-destructive-foreground border-destructive-background hover:border-destructive-background-hover hover:border-destructive-background-hover",
+        destructive: "bg-destructive-background text-destructive-foreground border-destructive-background hover:border-destructive-background-hover hover:bg-destructive-background-hover",
       },
       size: {
         default: "h-10 px-5 text-base",
