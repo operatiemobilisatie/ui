@@ -23,9 +23,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-white border border-primary shimmer",
-        secondary: "bg-gray-200 text-secondary-foreground shimmer-invert",
-        outline: "border border-primary bg-background text-primary hover:bg-primary hover:text-white",
-        "outline-secondary": "border border-input bg-background hover:bg-input hover:text-primary",
+        secondary: "bg-gray-200 text-foreground shimmer-invert",
+        outline: "border border-primary text-primary hover:bg-primary hover:text-white",
+        "outline-secondary": "border border-gray-background hover:bg-gray-background",
         green: "bg-green text-white border border-green shimmer",
         blue: "bg-blue text-white border border-blue shimmer",
         orange: "bg-orange text-white border border-orange shimmer",
