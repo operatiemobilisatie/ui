@@ -32,7 +32,11 @@ type NavigationContextValue = {
   /** Toggles whichever of the two states applies at the current viewport width. */
   toggle: () => void
   sidebarId: string
-  layoutRef: React.RefObject<HTMLDivElement | null>
+  /**
+   * State rather than a ref: a child's layout effects run before an ancestor's ref is attached,
+   * so a ref would still be null when BottomBar first measures itself.
+   */
+  layout: HTMLDivElement | null
 }
 
 const NavigationContext = React.createContext<NavigationContextValue | null>(null)
@@ -153,7 +157,7 @@ export const Root = ({
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const isMobile = useIsMobile()
   const sidebarId = React.useId()
-  const layoutRef = React.useRef<HTMLDivElement>(null)
+  const [layout, setLayout] = React.useState<HTMLDivElement | null>(null)
 
   const toggle = React.useCallback(() => {
     if (window.matchMedia(MOBILE_QUERY).matches) {
@@ -189,14 +193,14 @@ export const Root = ({
   }, [isMobile, mobileOpen])
 
   const value = React.useMemo(
-    () => ({ open, setOpen, mobileOpen, setMobileOpen, isMobile, toggle, sidebarId, layoutRef }),
-    [open, mobileOpen, isMobile, toggle, sidebarId],
+    () => ({ open, setOpen, mobileOpen, setMobileOpen, isMobile, toggle, sidebarId, layout }),
+    [open, mobileOpen, isMobile, toggle, sidebarId, layout],
   )
 
   return (
     <NavigationContext.Provider value={value}>
       <div
-        ref={layoutRef}
+        ref={setLayout}
         data-state={open ? 'expanded' : 'collapsed'}
         data-mobile={mobileOpen ? 'open' : 'closed'}
         style={
@@ -305,7 +309,7 @@ export const BottomBar = ({
   className?: string
   closeOnNavigate?: boolean
 }) => {
-  const { layoutRef, isMobile } = useNavigation()
+  const { layout, isMobile } = useNavigation()
   const barRef = React.useRef<HTMLDivElement>(null)
   const onClick = useCloseOnNavigate(closeOnNavigate)
 
@@ -313,7 +317,6 @@ export const BottomBar = ({
   // display:none element doesn't produce a resize observation.
   useIsomorphicLayoutEffect(() => {
     const bar = barRef.current
-    const layout = layoutRef.current
     if (!bar || !layout) return
 
     const observer = new ResizeObserver(() => {
@@ -325,7 +328,7 @@ export const BottomBar = ({
       observer.disconnect()
       layout.style.setProperty('--nav-bottom-bar-height', '0px')
     }
-  }, [layoutRef, isMobile])
+  }, [layout, isMobile])
 
   return (
     <div

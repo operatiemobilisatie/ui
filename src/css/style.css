@@ -80,26 +80,23 @@
   --color-orange-background: var(--color-orange-200);
 
   /* Status Colors */
-  --color-destructive-foreground: var(--color-primary-foreground);
-  --color-destructive-background: var(--color-primary-background);
+  --color-destructive: hsl(357, 69%, 49%);
+  --color-destructive-foreground: hsl(357, 69%, 49%);
+  --color-destructive-background: hsl(357, 69%, 86%);
 
-  --color-destructive: var(--color-primary-800);
-  --color-destructive-foreground: var(--color-primary-foreground);
-  --color-destructive-background: var(--color-primary-background);
+  --color-warning-foreground: hsl(37, 100%, 47%);
+  --color-warning-background: hsl(37, 100%, 89%);
 
-  --color-warning-foreground: var(--color-orange-foreground);
-  --color-warning-background: var(--color-orange-background);
+  --color-info-foreground: hsl(200, 77%, 46%);
+  --color-info-background: hsl(200, 77%, 88%);
 
-  --color-info-foreground: var(--color-blue-foreground);
-  --color-info-background: var(--color-blue-background);
-
-  --color-success-foreground: var(--color-green-foreground);
-  --color-success-background: var(--color-green-background);
+  --color-success-foreground: hsl(98, 49%, 51%);
+  --color-success-background: hsl(98, 49%, 87%);
 
   /* Utility Colors */
   --color-border: var(--color-gray-200);
   --color-input: hsl(210, 1%, 93%);
-  --color-ring: hsl(var(--ring));
+  --color-ring: var(--ring);
   --color-background: hsl(0, 0%, 100%);
   --color-foreground: hsl(222.2, 84%, 4.9%);
 
@@ -120,7 +117,7 @@
   --font-lato: 'Lato', ui-sans-serif, system-ui, sans-serif;
   --font-roboto-slab: 'Roboto Slab', ui-serif, Georgia, serif;
 
-  --ring: 357, 69%, 80%;
+  --ring: var(--color-primary-300);
 
   /*
    * The `accordion-down` / `accordion-up` keyframes and their `--animate-*`
