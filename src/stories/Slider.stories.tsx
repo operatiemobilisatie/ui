@@ -49,3 +49,16 @@ export const Default: Story = {
         },
     },
 };
+
+export const Range: Story = {
+    render: (args) => (
+        <Slider defaultValue={[0, 80]} className={args.className} min={args.min} max={args.max} disabled={args.disabled} />
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Pass two values to get a start and an end thumb. Each thumb shows its own value. Use `minStepsBetweenThumbs` to keep them apart.',
+            },
+        },
+    },
+};
