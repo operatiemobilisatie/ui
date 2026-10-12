@@ -251,6 +251,42 @@ test.describe('dialog', () => {
   });
 });
 
+test.describe('dialog bound to the URL hash', () => {
+  const STORY = 'data-display-dialog--linked-to-hash';
+
+  test('loading the page with #id opens it, closing clears the hash', async ({ page }) => {
+    await gotoStory(page, STORY, '#share');
+    await expect(page.locator(DIALOG_POPUP)).toHaveCount(1);
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator(DIALOG_POPUP)).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => location.hash)).toBe('');
+  });
+
+  test('opening pushes #id and Back closes it', async ({ page }) => {
+    await gotoStory(page, STORY);
+
+    await page.getByRole('button', { name: 'Share' }).click();
+    await expect(page.locator(DIALOG_POPUP)).toHaveCount(1);
+    await expect.poll(() => page.evaluate(() => location.hash)).toBe('#share');
+
+    await page.goBack();
+    await expect(page.locator(DIALOG_POPUP)).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => location.hash)).toBe('');
+  });
+
+  test('a plain <a href="#id"> opens it', async ({ page }) => {
+    await gotoStory(page, STORY);
+
+    await page.getByRole('link', { name: 'Open via link' }).click();
+    await expect(page.locator(DIALOG_POPUP)).toHaveCount(1);
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator(DIALOG_POPUP)).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => location.hash)).toBe('');
+  });
+});
+
 test.describe('alert dialog', () => {
   /*
    * The point of an alert dialog is that a stray click cannot dismiss it. Base

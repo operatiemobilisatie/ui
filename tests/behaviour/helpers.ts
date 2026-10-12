@@ -28,7 +28,7 @@ import type { Page } from '@playwright/test';
  *                       component schedules during that same frame.
  */
 
-export async function gotoStory(page: Page, id: string): Promise<void> {
+export async function gotoStory(page: Page, id: string, hash = ''): Promise<void> {
   /*
    * Not a formality. `reducedMotion` is not a declared test option in Playwright
    * 1.62 -- it appears only in doc comments -- so it cannot be pinned in the
@@ -36,7 +36,7 @@ export async function gotoStory(page: Page, id: string): Promise<void> {
    * running. Setting it here makes the requirement explicit and enforced.
    */
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.goto(`/iframe.html?id=${id}&viewMode=story`, { waitUntil: 'load' });
+  await page.goto(`/iframe.html?id=${id}&viewMode=story${hash}`, { waitUntil: 'load' });
 
   // Same two barriers the visual suite uses, for the same reasons: the flag is
   // set on STORY_RENDERED (after play() resolves), and state:'attached' is

@@ -192,3 +192,43 @@ export const Opened: Story = {
     },
   },
 };
+
+/*
+ * No play function: the behaviour suite loads this story with `#share` already
+ * in the URL, and a play function clicking the link under an open modal would
+ * fight it. The hash binding is covered in tests/behaviour/keyboard.spec.ts.
+ * `no-vr` because closed, this story is just a button and a link.
+ */
+export const LinkedToHash: Story = {
+  tags: ['no-vr'],
+  render: () => (
+    <Dialog.Root id="share">
+      <div className="flex items-center gap-4">
+        <Dialog.Trigger render={<Button variant="outline" />}>Share</Dialog.Trigger>
+        <a href="#share" className="text-sm underline">
+          Open via link
+        </a>
+      </div>
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Popup className="sm:max-w-md">
+          <Dialog.Header>
+            <Dialog.Title>Share link</Dialog.Title>
+            <Dialog.Description>Anyone who has this link will be able to view this.</Dialog.Description>
+          </Dialog.Header>
+          <Dialog.Footer>
+            <Dialog.Close render={<Button variant="outline-secondary" />}>Close</Dialog.Close>
+          </Dialog.Footer>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Give `Dialog.Root` an `id` to bind it to the URL hash: `#share` opens it, opening it pushes `#share`, and closing it (or pressing Back) clears it again.',
+      },
+    },
+  },
+};

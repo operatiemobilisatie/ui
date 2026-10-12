@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { Popup } from "../internal/dialog-popup"
+import { Root } from "../internal/dialog-root"
 
 import { cn } from "../lib/utils"
 
@@ -11,9 +12,10 @@ import { cn } from "../lib/utils"
  * single opaque client reference -- `Object.keys(UI.Dialog)` comes back empty
  * and every part is `undefined`. Everything below is either a re-export of a
  * Base UI part (each of which carries its own directive) or a plain styled
- * wrapper with no hooks, so this module evaluates fine on the server. The one
- * part that does call a hook, `Popup`, lives in ../internal/dialog-popup and
- * crosses the boundary on its own.
+ * wrapper with no hooks, so this module evaluates fine on the server. The two
+ * parts that do call hooks -- `Root` (URL hash binding) and `Popup` -- live in
+ * ../internal/dialog-root and ../internal/dialog-popup and cross the boundary
+ * on their own.
  *
  * Radix's `Overlay` is Base UI's `Backdrop` and its `Content` is `Popup`. There
  * is no Positioner in the dialog family -- a modal is not anchored to anything --
@@ -27,7 +29,6 @@ import { cn } from "../lib/utils"
  * part of this library's dialog design rather than a Base UI concern.
  */
 
-const Root = DialogPrimitive.Root
 const Trigger = DialogPrimitive.Trigger
 const Portal = DialogPrimitive.Portal
 const Close = DialogPrimitive.Close
