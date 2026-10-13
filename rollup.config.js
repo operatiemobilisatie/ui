@@ -37,7 +37,7 @@ export default [
         ],
     },
     {
-      input: "dist/index.d.ts",
+      input: "dist/src/index.d.ts",
       output: [
         {
           file: "dist/index.d.ts",
