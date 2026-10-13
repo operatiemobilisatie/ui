@@ -849,7 +849,7 @@ it has been resolving to nothing; delete it.
 
 ### Fonts now ship
 
-Lato 400/700 and Roboto Slab 500 are bundled as self-hosted woff2. v2 declared
+Lato 400/700/900 and Roboto Slab 500 are bundled as self-hosted woff2. v2 declared
 `--font-lato` and `--font-roboto-slab` but shipped no files — and in fact
 declared them as `--font-lato: var(--font-lato)`, a self-reference that resolved
 to nothing unless you happened to define it. If you were loading these families

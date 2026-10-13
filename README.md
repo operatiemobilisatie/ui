@@ -151,10 +151,10 @@ a missing toggle.
 
 ## Fonts
 
-The package ships Lato (400, 700) and Roboto Slab (500) as self-hosted woff2,
+The package ships Lato (400, 700, 900) and Roboto Slab (500) as self-hosted woff2,
 split into `latin` and `latin-ext` subsets with `unicode-range` intact, so a
-plain-ASCII page never downloads the `latin-ext` files. 79.5 KB total across all
-six files. Licences (SIL OFL 1.1 and Apache 2.0) ship alongside them.
+plain-ASCII page never downloads the `latin-ext` files. 107.6 KB total across all
+eight files, though browsers only fetch the weights a page actually renders. Licences (SIL OFL 1.1 and Apache 2.0) ship alongside them.
 
 Pull them in either way:
 
@@ -183,14 +183,19 @@ Raw files are exposed too, for `next/font/local` or `<link rel="preload">`:
 @operatiemobilisatie/ui/fonts/lato-latin-ext-400.woff2
 @operatiemobilisatie/ui/fonts/lato-latin-700.woff2
 @operatiemobilisatie/ui/fonts/lato-latin-ext-700.woff2
+@operatiemobilisatie/ui/fonts/lato-latin-900.woff2
+@operatiemobilisatie/ui/fonts/lato-latin-ext-900.woff2
 @operatiemobilisatie/ui/fonts/roboto-slab-latin-500.woff2
 @operatiemobilisatie/ui/fonts/roboto-slab-latin-ext-500.woff2
 ```
 
-Only 400/700 of Lato and 500 of Roboto Slab are bundled, because that is all the
-components use. Lato has no 500 or 600 cut at all, so `font-medium` resolves to
-400 and `font-semibold` to 700 exactly as it always has. If you need other
-weights, load them yourself and override `--font-lato` / `--font-roboto-slab`.
+Only Lato 400/700/900 and Roboto Slab 500 are bundled. The components use
+400/700 and 500; 900 is there for `font-black`. Lato has no 500 or 600 cut at
+all, so `font-medium` resolves to 400 and `font-semibold` to 700 exactly as it
+always has. No italic faces are bundled, so `italic` text is slanted
+synthetically by the browser rather than using Lato's true italics. If you need
+other weights or real italics, load them yourself and override `--font-lato` /
+`--font-roboto-slab`.
 
 ### Opting out in favour of `next/font`
 
@@ -204,7 +209,7 @@ import "./globals.css";
 
 const lato = Lato({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "700", "900"],
   variable: "--nf-lato",
 });
 

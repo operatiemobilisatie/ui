@@ -36,7 +36,7 @@ a new composition API. This is a breaking release. Follow the
 - The root package export now provides tree-shakeable named exports.
 - Runtime dependencies are reduced from 29 to 5. Radix UI, Font Awesome,
   `motion`, `react-countup`, and the `next` peer dependency are removed.
-- Lato 400/700 and Roboto Slab 500 are included as self-hosted webfonts.
+- Lato 400/700/900 and Roboto Slab 500 are included as self-hosted webfonts.
 - All component namespaces can be imported from React Server Components. Parts
   that require client-side behavior establish their own client boundary.
 - Storybook covers every component, with visual and behavior regression suites.
