@@ -1,6 +1,6 @@
 {
   "name": "@operatiemobilisatie/ui",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A collection of React components for OM websites and applications.",
   "author": "@douwepausma",
   "license": "MIT",
@@ -80,16 +80,32 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/src/index.js"
+      "default": "./dist/index.js"
+    },
+    "./lib/*": {
+      "types": "./dist/src/lib/*.d.ts",
+      "default": "./dist/lib/*.js"
     },
     "./*": {
-      "types": "./dist/components/*.d.ts",
+      "types": "./dist/src/components/*.d.ts",
       "default": "./dist/components/*.js"
     },
-    "./lib/*": "./dist/lib/*.js",
     "./css": "./dist/css/style.css"
   },
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "dist/index.d.ts": [
+        "dist/index.d.ts"
+      ],
+      "lib/*": [
+        "dist/src/lib/*.d.ts"
+      ],
+      "*": [
+        "dist/src/components/*.d.ts"
+      ]
+    }
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/operatiemobilisatie"
   },
